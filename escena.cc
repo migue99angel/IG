@@ -61,14 +61,7 @@ void Escena::dibujar()
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Limpiar la pantalla
 	change_observer();
     ejes.draw();
-    
-    // COMPLETAR
-    //   Dibujar los diferentes elementos de la escena
-    // Habrá que tener en esta primera práctica una variable que indique qué objeto se ha de visualizar
-    // y hacer 
-    // cubo.draw()
-    // o
-    // tetraedro.draw()
+
     /*glPushMatrix();
     glScalef(5,5,5);
     glTranslatef(-5,0,0);
@@ -79,22 +72,24 @@ void Escena::dibujar()
     glTranslatef(10,0,0);
     bet->draw(modo,visual);
     glPopMatrix();*/
-   cubo->draw(modo,visual);
-   /*
+   cubo->draw(modo);
+   
     switch(toDraw)
     {
        
        case 1:
-         tetraedro->draw(modo,visual);
+         glPolygonMode(GL_FRONT_AND_BACK,visual);
+         tetraedro->draw(modo);
          break;
        case 2:
-         cubo->draw(modo,visual);
+         glPolygonMode(GL_FRONT_AND_BACK,visual);
+         cubo->draw(modo);
          break; 
        default:
          glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
          ejes.draw();
          break;    
-    }*/
+    }
     
 }
 
@@ -132,7 +127,6 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          // ESTAMOS EN MODO SELECCION DE DIBUJADO
          modoMenu=SELDIBUJADO;
          break ;
-         // COMPLETAR con los diferentes opciones de teclado
        case 'T' :
          if(modoMenu == SELOBJETO){
             toDraw = 1;
@@ -141,29 +135,26 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
        case 'C' : 
          if(modoMenu == SELOBJETO){
             toDraw = 2;
-         }
-         else if (modoMenu == SELDIBUJADO){
-            modo = 3;
          }  
          break;
        case 'P' : 
          if(modoMenu == SELVISUALIZACION){
-            visual = GL_POINT;
+            glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
          }  
          break;
        case 'L' : 
          if(modoMenu == SELVISUALIZACION){
-            visual = GL_LINE;
+            glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
          }  
          break;
        case 'S' : 
          if(modoMenu == SELVISUALIZACION){
-            visual = GL_FILL;
+            glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
          }  
          break;
-       case 'A' : 
-         if(modoMenu == SELVISUALIZACION){
-            visual = 'a';
+       case '3' : 
+         if(modoMenu == SELDIBUJADO){
+            modo = 3;
          }  
          break;  
        case '1' : 

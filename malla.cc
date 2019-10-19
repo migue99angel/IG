@@ -36,6 +36,38 @@ void Malla3D::draw_ModoInmediato()
 //Visualización en modo Chess
 void Malla3D::draw_Chess()
 {
+   
+   if(ajedrez == false){
+      fimpar.clear();
+      fpar.clear();
+       
+      for(int i=0;i<=f.size();i+=2){
+         fimpar.push_back(f[i]);
+         fpar.push_back(f[i+1]);
+      }
+    
+      cimpar.resize(color.size());
+      cpar.resize(color.size());
+      
+      for(unsigned i = 0; i < cimpar.size() ; i++){
+         cpar[i]=Tupla3f(0.0,255.0,0.0);
+         cimpar[i]=Tupla3f(0.0,0.0,255.0);
+      }
+      ajedrez=true;
+   }
+
+      glEnableClientState(GL_VERTEX_ARRAY);
+      glEnableClientState(GL_COLOR_ARRAY);
+      glShadeModel(GL_FLAT);
+      glVertexPointer(3,GL_FLOAT,0,v.data());
+      glColorPointer(3,GL_FLOAT,0,cpar.data());
+      glDrawElements(GL_TRIANGLES, fpar.size()*3, GL_UNSIGNED_INT ,fpar.data());
+      glColorPointer(3,GL_FLOAT,0,cimpar.data());
+      glDrawElements(GL_TRIANGLES, fimpar.size()*3, GL_UNSIGNED_INT ,fimpar.data());
+
+      glDisableClientState(GL_COLOR_ARRAY);
+      glDisableClientState( GL_VERTEX_ARRAY );
+
 
 }
 // -----------------------------------------------------------------------------
@@ -64,7 +96,10 @@ void Malla3D::draw_ModoDiferido()
    glVertexPointer( 3, GL_FLOAT, 0, 0 ); //especifica formato y offset (=0)
    glBindBuffer( GL_ARRAY_BUFFER, 0 ); //desactivar VBO de vértices.
    glEnableClientState( GL_VERTEX_ARRAY ); //habilitar tabla de vértices
-
+   //Activo el uso del vector de colores
+   glEnableClientState(GL_COLOR_ARRAY);
+   //Elijo el comienzo de dicho vector 
+   glColorPointer(3,GL_FLOAT,0,color.data());
    //visualizar triángulos con glDrawElements (puntero a tabla == 0)
    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, id_vbo_tri ); //activar VBO de triángulos
    glDrawElements( GL_TRIANGLES, 3* f.size(), GL_UNSIGNED_INT, 0 ) ;
@@ -77,21 +112,15 @@ void Malla3D::draw_ModoDiferido()
 // Función de visualización de la malla,
 // puede llamar a  draw_ModoInmediato o bien a draw_ModoDiferido
 
-void Malla3D::draw(int modo, GLenum visual)
+void Malla3D::draw(int modo)
 {
-  glPolygonMode(GL_FRONT_AND_BACK,visual);
-   switch (visual)
-   {
-      case GL_POINT: glPolygonMode(GL_FRONT_AND_BACK,GL_POINT); break;
-      case GL_LINE: glPolygonMode(GL_FRONT_AND_BACK,GL_LINE); break;
-      case GL_FILL: glPolygonMode(GL_FRONT_AND_BACK,GL_FILL); break;
-   }
 
    switch (modo)
    {
-      case 1: draw_ModoInmediato();
-      case 2: draw_ModoDiferido();
-      case 3: draw_Chess();
+      case 1: draw_ModoInmediato(); break;
+      case 2: draw_ModoDiferido(); break;
+      case 3: draw_Chess(); break;
+      
    }
       
 

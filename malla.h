@@ -36,15 +36,16 @@ class Malla3D
    // está función llama a 'draw_ModoInmediato' (modo inmediato)
    // o bien a 'draw_ModoDiferido' (modo diferido, VBOs)
    //varibale modo determina si se va a visualizar en modo inmediato o diferido, GLenum es el modo de visualizacion
-   void draw(int modo, GLenum visual);
+   void draw(int modo);
 
    protected:
 
    void calcular_normales() ; // calcula tabla de normales de vértices (práctica 3)
 
    std::vector<Tupla3f> v ;   // tabla de coordenadas de vértices (una tupla por vértice, con tres floats)
-   std::vector<Tupla3f> color/*,cimpar,cpar */;  // tabla de colores
-   std::vector<Tupla3i> f/*, fimpar, fpar*/ ; // una terna de 3 enteros por cada cara o triángulo
+   std::vector<Tupla3f> color,cimpar,cpar;  // tabla de colores
+   std::vector<Tupla3i> f, fimpar, fpar ; // una terna de 3 enteros por cada cara o triángulo
+   bool ajedrez = false;
    const int MAX=100;
    GLuint id_vbo_ver=0,id_vbo_tri=0;
    // completar: tabla de colores, tabla de normales de vértices
