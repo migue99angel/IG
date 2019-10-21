@@ -72,17 +72,15 @@ void Escena::dibujar()
     glTranslatef(10,0,0);
     bet->draw(modo,visual);
     glPopMatrix();*/
-   cubo->draw(modo);
+   //cubo->draw(modo);
    
     switch(toDraw)
     {
        
        case 1:
-         glPolygonMode(GL_FRONT_AND_BACK,visual);
          tetraedro->draw(modo);
          break;
        case 2:
-         glPolygonMode(GL_FRONT_AND_BACK,visual);
          cubo->draw(modo);
          break; 
        default:
