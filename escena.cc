@@ -23,8 +23,9 @@ Escena::Escena()
     cubo = new Cubo;
     /*tetraedro = new Tetraedro;
     ant = new ObjPLY("plys/ant.ply");
-    bet = new ObjPLY("plys/beethoven.ply");
-    cilindro = new Cilindro;*/
+    bet = new ObjPLY("plys/beethoven.ply");*/
+    //cilindro = new Cilindro(5,30,50,10);
+    peon = new ObjRevolucion("plys/peon.ply",50);
     
 }
 
@@ -73,7 +74,12 @@ void Escena::dibujar()
     bet->draw(modo,visual);
     glPopMatrix();*/
    //cubo->draw(modo);
-   
+   //cilindro->draw(modo);
+   glPushMatrix();
+    glScalef(50,50,50);
+   peon->draw(modo);
+   glPopMatrix();
+   /*
     switch(toDraw)
     {
        
@@ -87,7 +93,7 @@ void Escena::dibujar()
          glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
          ejes.draw();
          break;    
-    }
+    }*/
     
 }
 

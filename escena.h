@@ -44,6 +44,7 @@ class Escena
    Cilindro * cilindro=nullptr;
    ObjPLY * ant=nullptr;
    ObjPLY * bet=nullptr;
+   ObjRevolucion * peon=nullptr;
    int toDraw, modo=1;
    GLenum visual = GL_FILL;
 

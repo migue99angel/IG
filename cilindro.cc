@@ -5,7 +5,7 @@
 Cilindro::Cilindro(){
     Tupla3f x1(0,0,0), x2(1,0,0),x3(2,0,0),x4(3,0,0),x5(4,0,0),x6(5,0,0),x7(6,0,0),x8(7,0,0), x9(8,0,0),x10(9,0,0),
             x11(10,0,0), x12(11,0,0),x13(12,0,0),x14(13,0,0),x15(14,0,0),x16(15,0,0),x17(16,0,0),x18(17,0,0), x19(18,0,0),x20(19,0,0);
-
+            v.resize(20);
             v.push_back(x1);
             v.push_back(x2);
             v.push_back(x3);
@@ -27,5 +27,8 @@ Cilindro::Cilindro(){
             v.push_back(x19);
             v.push_back(x20);
 
+}
+
+Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf, const float altura, const float radio){
 
 }
