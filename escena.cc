@@ -24,7 +24,7 @@ Escena::Escena()
     /*tetraedro = new Tetraedro;
     ant = new ObjPLY("plys/ant.ply");
     bet = new ObjPLY("plys/beethoven.ply");*/
-    //cilindro = new Cilindro(5,30,50,10);
+    cilindro = new Cilindro();
     peon = new ObjRevolucion("plys/peon.ply",50);
     
 }
@@ -76,7 +76,7 @@ void Escena::dibujar()
    //cubo->draw(modo);
    //cilindro->draw(modo);
    glPushMatrix();
-    glScalef(50,50,50);
+   glScalef(50,50,50);
    peon->draw(modo);
    glPopMatrix();
    /*

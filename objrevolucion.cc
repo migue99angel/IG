@@ -23,7 +23,7 @@ ObjRevolucion::ObjRevolucion() {
 ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bool tapa_sup, bool tapa_inf) {
    std::vector<Tupla3f> perfil;
    ply::read_vertices(archivo,perfil);
-   crearMalla(perfil,num_instancias);
+   crearMalla(perfil,num_instancias, tapa_sup,  tapa_inf);
 }
 
 // *****************************************************************************
@@ -31,20 +31,20 @@ ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bo
 
  
 ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> archivo, int num_instancias, bool tapa_sup, bool tapa_inf) {
-    crearMalla(archivo,num_instancias);
+    crearMalla(archivo,num_instancias, tapa_sup, tapa_inf);
 }
 //El tamaño de perfil_original se corresponde con el M del pseudocódigo
 //y num_instancias_perfil es el valor de N
 //Se debe añadir un bool para las tapas
-void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias) {
+void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapa_sup, bool tapa_inf) {
    v.clear();
    //Aquí creo las instancias de los perfiles
    for(int i=0;i<num_instancias;++i){
       for(int j=0;j<perfil_original.size();++j){
          Tupla3f v_aux;
-         v_aux(0) = cos((2*M_PI*i)/num_instancias)*perfil_original[j][0];
+         v_aux(0) = sin((2*M_PI*i)/num_instancias)*perfil_original[j][0];
          v_aux(1) = perfil_original[j][1];
-         v_aux(2) = sin((2*M_PI*i)/num_instancias)*perfil_original[j][0];
+         v_aux(2) = cos((2*M_PI*i)/num_instancias)*perfil_original[j][0];
          v.push_back(v_aux);
       }
    }
@@ -59,6 +59,23 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
          Tupla3i tr(a,b,b+1),tr2(a,b+1,a+1);
          f.push_back(tr);
          f.push_back(tr2);
+      }
+   }
+
+   if(tapa_inf){
+      v[num_instancias*perfil_original.size()]= Tupla3f(0,perfil_original[0](1),0);
+      for(int i=0;i<=num_instancias;++i){
+         Tupla3i cara_inf(perfil_original.size()*(i+1),perfil_original.size()*i,num_instancias*perfil_original.size());
+         f.push_back(cara_inf);
+      }
+   }
+
+
+   if(tapa_sup){
+      v[num_instancias*perfil_original.size()+1]=Tupla3f(0,perfil_original[perfil_original.size()-1](1),0);
+      for(int i=0;i<num_instancias;++i){
+         Tupla3i cara_sup(num_instancias*perfil_original.size()+1,perfil_original.size()*(i+1)-1,perfil_original.size()*(((i+1)%num_instancias)+1)-1);
+         f.push_back(cara_sup);
       }
    }
 }
