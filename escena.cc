@@ -24,7 +24,7 @@ Escena::Escena()
     /*tetraedro = new Tetraedro;
     ant = new ObjPLY("plys/ant.ply");
     bet = new ObjPLY("plys/beethoven.ply");*/
-    cilindro = new Cilindro();
+    cilindro = new Cilindro(50,50,15,10);
     peon = new ObjRevolucion("plys/peon.ply",50,true,true);
     
 }
@@ -79,8 +79,9 @@ void Escena::dibujar()
    //cilindro->draw(modo);
    glPushMatrix();
    glTranslatef(20,0,0);
-   glScalef(50,50,50);
-   peon->draw(modo);
+   glScalef(5,5,5);
+      //peon->draw(modo);
+      cilindro->draw(modo);
    glPopMatrix();
    /*
     switch(toDraw)
@@ -159,19 +160,19 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
          }  
          break;
-       case '3' : 
-         if(modoMenu == SELDIBUJADO){
-            modo = 3;
-         }  
-         break;  
        case '1' : 
          if(modoMenu == SELDIBUJADO){
             modo = 1;
          }  
-         break;
+         break;  
        case '2' : 
          if(modoMenu == SELDIBUJADO){
             modo = 2;
+         }  
+         break;
+       case '3' : 
+         if(modoMenu == SELDIBUJADO){
+            modo = 3;
          }  
          break;
 

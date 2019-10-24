@@ -4,6 +4,7 @@
 #include <math.h> //Para usar M_PI
 
 
+
 // *****************************************************************************
 //
 // Clase ObjRevolucion (práctica 2)
@@ -97,20 +98,17 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
    
 
 }
-//Esta función inicializar el vector de colores 
-void ObjRevolucion::aniadirColor(Tupla3f cl){
-   color.clear();
-   this->color.resize(v.size());
-   for(int i=0;i<v.size();++i)
-      color.push_back(cl);
-}
+
+
 //Función que comprueba que el polo sur coincide con el centro de la tapa inferior
 bool ObjRevolucion::existeTapaInf(std::vector<Tupla3f> perfil_original, int num_instancias)
 {
    return (v[num_instancias*perfil_original.size()] == Tupla3f(0,perfil_original[0](1),0));
 }
+
 //Función que comprueba que el polo norte coincide con el centro de la tapa superior
 bool ObjRevolucion::existeTapaSup(std::vector<Tupla3f> perfil_original, int num_instancias)
 {
    return (v[num_instancias*perfil_original.size()+1] == Tupla3f(0,perfil_original[perfil_original.size()-1](1),0));
 }
+

@@ -30,10 +30,10 @@ class ObjRevolucion : public Malla3D
    ObjRevolucion(const std::string & archivo, int num_instancias, bool tapa_sup=true, bool tapa_inf=true) ;
    ObjRevolucion(std::vector<Tupla3f> archivo, int num_instancias, bool tapa_sup=true, bool tapa_inf=true) ;
 private:
-    void crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapa_sup, bool tapa_inf);
-    void aniadirColor(Tupla3f cl);
     bool existeTapaInf(std::vector<Tupla3f> perfil_original, int num_instancias);
     bool existeTapaSup(std::vector<Tupla3f> perfil_original, int num_instancias);
+protected:
+    void crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapa_sup, bool tapa_inf);
 } ;
 
 

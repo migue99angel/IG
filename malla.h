@@ -39,7 +39,7 @@ class Malla3D
    void draw(int modo);
 
    protected:
-
+   void aniadirColor(Tupla3f cl);
    void calcular_normales() ; // calcula tabla de normales de vértices (práctica 3)
 
    std::vector<Tupla3f> v ;   // tabla de coordenadas de vértices (una tupla por vértice, con tres floats)
