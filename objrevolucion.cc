@@ -14,29 +14,32 @@
 // *****************************************************************************
 // objeto de revolución obtenido a partir de un perfil (en un PLY)
 
-ObjRevolucion::ObjRevolucion() {
-
-}
+ObjRevolucion::ObjRevolucion(){}
 //Para completar este constructor es necesario usar la funcion read_vertices
 //de la clase ply_reader, obtener el perfil original y luego llamar a crearMalla
 
-ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bool tapa_sup, bool tapa_inf) {
+ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bool tapa_sup, bool tapa_inf)
+{
    std::vector<Tupla3f> perfil;
    ply::read_vertices(archivo,perfil);
    crearMalla(perfil,num_instancias, tapa_sup,  tapa_inf);
+   aniadirColor(Tupla3f(0,0,1.0));
 }
 
 // *****************************************************************************
 // objeto de revolución obtenido a partir de un perfil (en un vector de puntos)
 
  
-ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> archivo, int num_instancias, bool tapa_sup, bool tapa_inf) {
+ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> archivo, int num_instancias, bool tapa_sup, bool tapa_inf)
+{
     crearMalla(archivo,num_instancias, tapa_sup, tapa_inf);
+    aniadirColor(Tupla3f(0,0,1.0));
 }
 //El tamaño de perfil_original se corresponde con el M del pseudocódigo
 //y num_instancias_perfil es el valor de N
 //Se debe añadir un bool para las tapas
-void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapa_sup, bool tapa_inf) {
+void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapa_sup, bool tapa_inf)
+{
    v.clear();
    //Aquí creo las instancias de los perfiles
    for(int i=0;i<num_instancias;++i){
@@ -53,7 +56,8 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
    int a,b;
    //Aquí creo los triangulos
    for(int i=0;i<num_instancias;i++){
-      for(int j=0;j<perfil_original.size()-1;j++){
+      for(int j=0;j<perfil_original.size()-1;j++)
+      {
          a=perfil_original.size()*i+j;
          b=perfil_original.size()*((i+1)%num_instancias)+j;
          Tupla3i tr(a,b,b+1),tr2(a,b+1,a+1);
@@ -62,20 +66,51 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
       }
    }
 
-   if(tapa_inf){
-      v[num_instancias*perfil_original.size()]= Tupla3f(0,perfil_original[0](1),0);
-      for(int i=0;i<=num_instancias;++i){
-         Tupla3i cara_inf(perfil_original.size()*((i+1)%num_instancias),perfil_original.size()*i,num_instancias*perfil_original.size());
-         f.push_back(cara_inf);
+   if(tapa_inf)
+   {
+      //Si no existe la tapa inferior, y queremos dibujarla, se genera
+      if(!existeTapaInf(perfil_original,num_instancias))
+      {
+         v[num_instancias*perfil_original.size()]= Tupla3f(0,perfil_original[0](1),0);
+         for(int i=0;i<=num_instancias;++i)
+         {
+            Tupla3i cara_inf(perfil_original.size()*((i+1)%num_instancias),perfil_original.size()*i,num_instancias*perfil_original.size());
+            f.push_back(cara_inf);
+         }
       }
    }
 
 
-   if(tapa_sup){
-      v[num_instancias*perfil_original.size()+1]=Tupla3f(0,perfil_original[perfil_original.size()-1](1),0);
-      for(int i=0;i<num_instancias;++i){
-         Tupla3i cara_sup(num_instancias*perfil_original.size()+1,perfil_original.size()*(i+1)-1,perfil_original.size()*(((i+1)%num_instancias)+1)-1);
-         f.push_back(cara_sup);
+   if(tapa_sup)
+   {
+      //Si no existe la tapa superior, y queremos dibujarla, se genera
+      if(!existeTapaSup(perfil_original,num_instancias))
+      {
+         v[num_instancias*perfil_original.size()+1]=Tupla3f(0,perfil_original[perfil_original.size()-1](1),0);
+         for(int i=0;i<num_instancias;++i)
+         {
+            Tupla3i cara_sup(num_instancias*perfil_original.size()+1,perfil_original.size()*(i+1)-1,perfil_original.size()*(((i+1)%num_instancias)+1)-1);
+            f.push_back(cara_sup);
+         }
       }
    }
+   
+
+}
+//Esta función inicializar el vector de colores 
+void ObjRevolucion::aniadirColor(Tupla3f cl){
+   color.clear();
+   this->color.resize(v.size());
+   for(int i=0;i<v.size();++i)
+      color.push_back(cl);
+}
+//Función que comprueba que el polo sur coincide con el centro de la tapa inferior
+bool ObjRevolucion::existeTapaInf(std::vector<Tupla3f> perfil_original, int num_instancias)
+{
+   return (v[num_instancias*perfil_original.size()] == Tupla3f(0,perfil_original[0](1),0));
+}
+//Función que comprueba que el polo norte coincide con el centro de la tapa superior
+bool ObjRevolucion::existeTapaSup(std::vector<Tupla3f> perfil_original, int num_instancias)
+{
+   return (v[num_instancias*perfil_original.size()+1] == Tupla3f(0,perfil_original[perfil_original.size()-1](1),0));
 }

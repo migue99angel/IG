@@ -25,7 +25,7 @@ Escena::Escena()
     ant = new ObjPLY("plys/ant.ply");
     bet = new ObjPLY("plys/beethoven.ply");*/
     cilindro = new Cilindro();
-    peon = new ObjRevolucion("plys/peon.ply",50);
+    peon = new ObjRevolucion("plys/peon.ply",50,true,true);
     
 }
 
@@ -73,9 +73,12 @@ void Escena::dibujar()
     glTranslatef(10,0,0);
     bet->draw(modo,visual);
     glPopMatrix();*/
+
    //cubo->draw(modo);
+
    //cilindro->draw(modo);
    glPushMatrix();
+   glTranslatef(20,0,0);
    glScalef(50,50,50);
    peon->draw(modo);
    glPopMatrix();

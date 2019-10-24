@@ -43,9 +43,9 @@ Cubo::Cubo(float lado)
    f.push_back(ver12);
      
     // inicializar la tabla de colores
-    Tupla3f a1(0,255,0), b1(0,255,0),c1(0,255,0), 
-            d1(0,255,0), e1(0,255,0), f1(0,255,0), 
-            g1(0,255,0),h1(0,255,0);
+    Tupla3f a1(0,1.0,0), b1(0,1.0,0),c1(0,1.0,0), 
+            d1(0,1.0,0), e1(0,1.0,0), f1(0,1.0,0), 
+            g1(0,1.0,0),h1(0,1.0,0);
 
     color.push_back(a1);
     color.push_back(b1);
