@@ -1,7 +1,8 @@
 #include "aux.h"
 #include "objrevolucion.h"
 #include "ply_reader.h"
-#include <math.h> //Para usar M_PI
+#include <math.h> //Para usar M_P
+#include <stack>
 
 
 
@@ -41,6 +42,9 @@ ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> archivo, int num_instancias, b
 //Se debe añadir un bool para las tapas
 void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapa_sup, bool tapa_inf)
 {
+   if(perfil_original[0](1) > perfil_original[perfil_original.size()-1](1))
+     perfil_original=generarOrdenInverso(perfil_original);
+
    v.clear();
    //Aquí creo las instancias de los perfiles
    for(int i=0;i<num_instancias;++i){
@@ -111,4 +115,22 @@ bool ObjRevolucion::existeTapaSup(std::vector<Tupla3f> perfil_original, int num_
 {
    return (v[num_instancias*perfil_original.size()+1] == Tupla3f(0,perfil_original[perfil_original.size()-1](1),0));
 }
+//Función que genera la inversa del perfil con ayuda de una pila auxiliar
+std::vector<Tupla3f> ObjRevolucion::generarOrdenInverso(std::vector<Tupla3f> perfil_original)
+{
+   std::stack<Tupla3f> pila;
 
+    for(int i=0; i < perfil_original.size(); i++){
+        pila.push(perfil_original[i]);
+    }
+
+    perfil_original.clear();
+
+    while(!pila.empty()){
+       perfil_original.push_back(pila.top());
+       pila.pop();
+    }
+
+    return perfil_original;
+
+}

@@ -26,7 +26,7 @@
 class Cono : public ObjRevolucion
 {
    public:
-   Cono(int num_vert_perf=10,int num_instancias_perf=20,float r=20,float h=20);
+   Cono(int num_vert_perf=10,int num_instancias_perf=20,float r=20,float h=40);
    private:
    float altura, radio;
 

@@ -32,6 +32,7 @@ class ObjRevolucion : public Malla3D
 private:
     bool existeTapaInf(std::vector<Tupla3f> perfil_original, int num_instancias);
     bool existeTapaSup(std::vector<Tupla3f> perfil_original, int num_instancias);
+    std::vector<Tupla3f> generarOrdenInverso(std::vector<Tupla3f> perfil_original);
 protected:
     void crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapa_sup, bool tapa_inf);
 } ;

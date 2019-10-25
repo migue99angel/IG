@@ -20,11 +20,11 @@ Escena::Escena()
     ejes.changeAxisSize( 5000 );
 
     // crear los objetos de la escena....
+    cilindro = new Cilindro(10,10,15,10);
     cubo = new Cubo;
-    /*tetraedro = new Tetraedro;
+    tetraedro = new Tetraedro;
     ant = new ObjPLY("plys/ant.ply");
-    bet = new ObjPLY("plys/beethoven.ply");*/
-    cilindro = new Cilindro(50,50,15,10);
+    bet = new ObjPLY("plys/beethoven.ply"); 
     cono = new Cono();
     peon = new ObjRevolucion("plys/peon.ply",50,true,true);
     
@@ -78,14 +78,15 @@ void Escena::dibujar()
    //cubo->draw(modo);
 
    //cilindro->draw(modo);
-   glPushMatrix();
-   glTranslatef(20,0,0);
+   /*glPushMatrix();
+   glTranslatef(0,45,0);
    glScalef(5,5,5);
+   glRotatef(180,0,0,1);
       //peon->draw(modo);
       //cilindro->draw(modo);
       cono->draw(modo);
-   glPopMatrix();
-   /*
+   glPopMatrix();*/
+
     switch(toDraw)
     {
        
@@ -95,11 +96,37 @@ void Escena::dibujar()
        case 2:
          cubo->draw(modo);
          break; 
+       case 3:
+          glPushMatrix();
+            glTranslatef(20,45,0);
+            glScalef(5,5,5);
+            glRotatef(180,0,0,1);
+            cono->draw(modo);
+          glPopMatrix();
+          glPushMatrix();
+            glScalef(2.5,2.5,2.5);
+            glTranslatef(-20,0,0);
+            cilindro->draw(modo);
+          glPopMatrix();
+
+         break;
+       case 4:
+          glPushMatrix();
+            glScalef(5,5,5);
+            cilindro->draw(modo);
+          glPopMatrix();
+         break;
+       case 5:
+          glPushMatrix();
+            glScalef(50,50,50);
+            peon->draw(modo);
+          glPopMatrix();
+         break;
        default:
          glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
          ejes.draw();
          break;    
-    }*/
+    }
     
 }
 
@@ -147,10 +174,23 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             toDraw = 2;
          }  
          break;
+       case 'E' : 
+         if(modoMenu == SELOBJETO){
+            toDraw = 3;
+         }  
+         break;
+       case 'W' : 
+         if(modoMenu == SELOBJETO){
+            toDraw = 4;
+         }  
+         break;
        case 'P' : 
          if(modoMenu == SELVISUALIZACION){
             glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
          }  
+         else if (modoMenu == SELOBJETO){
+            toDraw = 5;
+         }
          break;
        case 'L' : 
          if(modoMenu == SELVISUALIZACION){
