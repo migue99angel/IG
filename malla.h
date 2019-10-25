@@ -37,9 +37,9 @@ class Malla3D
    // o bien a 'draw_ModoDiferido' (modo diferido, VBOs)
    //varibale modo determina si se va a visualizar en modo inmediato o diferido, GLenum es el modo de visualizacion
    void draw(int modo);
-
-   protected:
    void aniadirColor(Tupla3f cl);
+   protected:
+   
    void calcular_normales() ; // calcula tabla de normales de vértices (práctica 3)
 
    std::vector<Tupla3f> v ;   // tabla de coordenadas de vértices (una tupla por vértice, con tres floats)

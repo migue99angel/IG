@@ -113,6 +113,7 @@ void Escena::dibujar()
        case 4:
           glPushMatrix();
             glScalef(5,5,5);
+            cilindro->aniadirColor(Tupla3f(0,0,1.0));
             cilindro->draw(modo);
           glPopMatrix();
          break;

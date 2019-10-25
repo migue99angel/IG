@@ -127,9 +127,11 @@ void Malla3D::draw(int modo)
 }
 
 //Esta función inicializar el vector de colores 
-void Malla3D::aniadirColor(Tupla3f cl){
+void Malla3D::aniadirColor(Tupla3f cl)
+{
    color.clear();
-   this->color.resize(v.size());
    for(int i=0;i<v.size();++i)
       color.push_back(cl);
+   //Añado de nuevo el color para darle color a la tapa de abajo
+   color.push_back(cl);   
 }

@@ -27,7 +27,7 @@ class Cilindro : public ObjRevolucion
 {
    public:
    Cilindro();
-   Cilindro(const int num_vert_perfil, const int num_instancias_perf, const float altura, const float radio) ;
+   Cilindro(const int num_vert_perfil, const int num_instancias_perf, const float altura, const float radio,Tupla3f c=Tupla3f(0,0,1.0)) ;
 
 } ;
 

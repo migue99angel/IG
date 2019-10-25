@@ -2,7 +2,7 @@
 #include "cono.h"
 
 
-Cono::Cono(int num_vert_perf,int num_instancias_perf,float r,float h){
+Cono::Cono(int num_vert_perf,int num_instancias_perf,float r,float h,Tupla3f c){
     std::vector<Tupla3f> perfil;
     this->altura=h;
     this->radio=r;
@@ -21,5 +21,6 @@ Cono::Cono(int num_vert_perf,int num_instancias_perf,float r,float h){
          perfil.push_back(Tupla3f(x,y,0));
     }
     this->crearMalla(perfil,num_instancias_perf,true,true);
+    this->aniadirColor(c);
 }
 

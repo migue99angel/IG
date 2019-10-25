@@ -4,7 +4,7 @@
 
 Cilindro::Cilindro(){}
 
-Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf, const float altura, const float radio){
+Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf, const float altura, const float radio,Tupla3f c){
     std::vector<Tupla3f> perfil;
     float altura_original=altura, aux=altura/num_vert_perfil;
 
@@ -17,5 +17,5 @@ Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf, con
 
   
     this->crearMalla(perfil,num_instancias_perf,true,true);
-    this->color.resize(v.size());
+    this->aniadirColor(Tupla3f(c));
 }
