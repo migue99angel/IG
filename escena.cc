@@ -20,7 +20,7 @@ Escena::Escena()
     ejes.changeAxisSize( 5000 );
 
     // crear los objetos de la escena....
-    cilindro = new Cilindro(10,10,15,10);
+    cilindro = new Cilindro();
     cubo = new Cubo;
     tetraedro = new Tetraedro;
     ant = new ObjPLY("plys/ant.ply");
@@ -64,29 +64,6 @@ void Escena::dibujar()
 	change_observer();
     ejes.draw();
 
-    /*glPushMatrix();
-    glScalef(5,5,5);
-    glTranslatef(-5,0,0);
-    ant->draw(modo,visual);
-    glPopMatrix();
-    glPushMatrix();
-    glScalef(5,5,5);
-    glTranslatef(10,0,0);
-    bet->draw(modo,visual);
-    glPopMatrix();*/
-
-   //cubo->draw(modo);
-
-   //cilindro->draw(modo);
-   /*glPushMatrix();
-   glTranslatef(0,45,0);
-   glScalef(5,5,5);
-   glRotatef(180,0,0,1);
-      //peon->draw(modo);
-      //cilindro->draw(modo);
-      cono->draw(modo);
-   glPopMatrix();*/
-
     switch(toDraw)
     {
        
@@ -121,6 +98,12 @@ void Escena::dibujar()
           glPushMatrix();
             glScalef(50,50,50);
             peon->draw(modo);
+          glPopMatrix();
+         break;
+       case 6:
+          glPushMatrix();
+             glScalef(25,25,25);
+            bet->draw(modo);
           glPopMatrix();
          break;
        default:
@@ -216,6 +199,11 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
        case '3' : 
          if(modoMenu == SELDIBUJADO){
             modo = 3;
+         }  
+         break;
+       case '6' : 
+         if(modoMenu == SELOBJETO){
+            toDraw = 6;
          }  
          break;
 
