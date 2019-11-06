@@ -10,6 +10,7 @@
 #include "tetraedro.h"
 #include "cilindro.h"
 #include "cono.h"
+#include "esfera.h"
 
 typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO} menu;
 class Escena
@@ -44,12 +45,12 @@ class Escena
    Tetraedro * tetraedro= nullptr ; // es importante inicializarlo a 'nullptr'
    Cilindro * cilindro=nullptr;
    Cono * cono=nullptr;
+   Esfera * esfera=nullptr;
    ObjPLY * ant=nullptr;
    ObjPLY * bet=nullptr;
    ObjRevolucion * peon=nullptr;
    int toDraw, modo=1;
    GLenum visual = GL_FILL;
-
    
    public:
 

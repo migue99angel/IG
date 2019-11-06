@@ -18,7 +18,6 @@ Escena::Escena()
     Observer_angle_y  = 0.0 ;
 
     ejes.changeAxisSize( 5000 );
-
     // crear los objetos de la escena....
     cilindro = new Cilindro();
     cubo = new Cubo;
@@ -27,7 +26,7 @@ Escena::Escena()
     bet = new ObjPLY("plys/beethoven.ply"); 
     cono = new Cono();
     peon = new ObjRevolucion("plys/peon.ply",50,true,true);
-    
+    esfera = new Esfera();
 }
 
 //**************************************************************************
@@ -75,9 +74,7 @@ void Escena::dibujar()
          break; 
        case 3:
           glPushMatrix();
-            glTranslatef(20,45,0);
-            glScalef(5,5,5);
-            glRotatef(180,0,0,1);
+            glTranslatef(25,0,0);
             cono->draw(modo);
           glPopMatrix();
           glPushMatrix();
@@ -90,8 +87,7 @@ void Escena::dibujar()
        case 4:
           glPushMatrix();
             glScalef(5,5,5);
-            cilindro->aniadirColor(Tupla3f(0,0,1.0));
-            cilindro->draw(modo);
+            esfera->draw(modo);
           glPopMatrix();
          break;
        case 5:
@@ -103,6 +99,7 @@ void Escena::dibujar()
        case 6:
           glPushMatrix();
              glScalef(25,25,25);
+            bet->aniadirColor(Tupla3f(1,0,0)); 
             bet->draw(modo);
           glPopMatrix();
          break;

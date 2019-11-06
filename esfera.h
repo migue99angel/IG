@@ -2,13 +2,13 @@
 //
 // Informática Gráfica (Grado Informática)
 //
-// Archivo: Cono.h
+// Archivo: esfera.h
 
 //
 // #############################################################################
 
-#ifndef CONO_H_INCLUDED
-#define CONO_H_INCLUDED
+#ifndef ESFERA_H_INCLUDED
+#define ESFERA_H_INCLUDED
 
 #include "aux.h"
 #include "objrevolucion.h"
@@ -20,15 +20,15 @@
 // *****************************************************************************
 
 // *****************************************************************************
-// Cono con centro en el origen y lado unidad por defecto
+// esfera con centro en el origen y lado unidad por defecto
 // (tiene 9 vertices y 6 caras)
 
-class Cono : public ObjRevolucion
+class Esfera : public ObjRevolucion
 {
    public:
-   Cono(int num_vert_perf=20,int num_instancias_perf=20,float r=20,float h=40,Tupla3f c=Tupla3f(1.0,0,0));
+   Esfera(int num_vert_perf=20,int num_instancias_perf=20,float r=20,Tupla3f c=Tupla3f(1.0,0,0));
    private:
-   float altura, radio;
+   float radio;
 
 } ;
 

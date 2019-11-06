@@ -54,7 +54,25 @@ Cubo::Cubo(float lado)
     color.push_back(e1);
     color.push_back(f1);
     color.push_back(g1);
-    color.push_back(h1);        
+    color.push_back(h1);  
+
+    colorLinea.push_back(Tupla3f(1.0,0,0));   
+    colorLinea.push_back(Tupla3f(1.0,0,0));   
+    colorLinea.push_back(Tupla3f(1.0,0,0));   
+    colorLinea.push_back(Tupla3f(1.0,0,0));   
+    colorLinea.push_back(Tupla3f(1.0,0,0));   
+    colorLinea.push_back(Tupla3f(1.0,0,0));   
+    colorLinea.push_back(Tupla3f(1.0,0,0));   
+    colorLinea.push_back(Tupla3f(1.0,0,0));
+
+    colorPuntos.push_back(Tupla3f(0,0,1.0));
+    colorPuntos.push_back(Tupla3f(0,0,1.0));
+    colorPuntos.push_back(Tupla3f(0,0,1.0));
+    colorPuntos.push_back(Tupla3f(0,0,1.0));
+    colorPuntos.push_back(Tupla3f(0,0,1.0));
+    colorPuntos.push_back(Tupla3f(0,0,1.0));
+    colorPuntos.push_back(Tupla3f(0,0,1.0));
+    colorPuntos.push_back(Tupla3f(0,0,1.0));        
 
 }
 

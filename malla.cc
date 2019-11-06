@@ -20,7 +20,7 @@ void Malla3D::draw_ModoInmediato()
   //Activo el uso del vector de colores
   glEnableClientState(GL_COLOR_ARRAY);
   //Elijo el comienzo de dicho vector 
-  glColorPointer(3,GL_FLOAT,0,color.data());
+   glColorPointer(3,GL_FLOAT,0,color.data());
 
   //Sirve para que no se vea difuminado
   glShadeModel(GL_FLAT);
@@ -31,37 +31,40 @@ void Malla3D::draw_ModoInmediato()
   //Deshabilitar el array de vértices
   glDisableClientState(GL_COLOR_ARRAY);
   glDisableClientState(GL_VERTEX_ARRAY);
+
+
 }
 
 //Visualización en modo Chess
 void Malla3D::draw_Chess()
 {
-   
-   if(ajedrez == false){
-      fimpar.clear();
-      fpar.clear();
-       
-      for(int i=0;i<=f.size();i+=2){
+      //fimpar.clear();
+      //fpar.clear();
+      if(f.size()%2 == 1)
+         f.pop_back(); 
+
+      for(int i=0;i<f.size();i+=2){
          fimpar.push_back(f[i]);
          fpar.push_back(f[i+1]);
       }
+ 
     
       cimpar.resize(color.size());
       cpar.resize(color.size());
       
-      for(unsigned i = 0; i < cimpar.size() ; i++){
+      for(unsigned i = 0; i < cpar.size() ; i++){
          cpar[i]=Tupla3f(0.0,255.0,0.0);
          cimpar[i]=Tupla3f(0.0,0.0,255.0);
       }
-      ajedrez=true;
-   }
 
       glEnableClientState(GL_VERTEX_ARRAY);
       glEnableClientState(GL_COLOR_ARRAY);
       glShadeModel(GL_FLAT);
       glVertexPointer(3,GL_FLOAT,0,v.data());
+
       glColorPointer(3,GL_FLOAT,0,cpar.data());
       glDrawElements(GL_TRIANGLES, fpar.size()*3, GL_UNSIGNED_INT ,fpar.data());
+
       glColorPointer(3,GL_FLOAT,0,cimpar.data());
       glDrawElements(GL_TRIANGLES, fimpar.size()*3, GL_UNSIGNED_INT ,fimpar.data());
 
@@ -130,6 +133,7 @@ void Malla3D::draw(int modo)
 void Malla3D::aniadirColor(Tupla3f cl)
 {
    color.clear();
+   this->color.resize(color.size());
    for(int i=0;i<v.size();++i)
       color.push_back(cl);
    //Añado de nuevo el color para darle color a la tapa de abajo
