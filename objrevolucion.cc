@@ -77,7 +77,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
       if(!existeTapaInf(perfil_original,num_instancias))
       {
          v[num_instancias*perfil_original.size()] = Tupla3f(0,perfil_original[0](1),0);
-         for(int i=0;i<=num_instancias;++i)
+         for(int i=0;i<num_instancias;++i)
          {
             Tupla3i cara_inf(perfil_original.size()*((i+1)%num_instancias),perfil_original.size()*i,num_instancias*perfil_original.size());
             f.push_back(cara_inf);
