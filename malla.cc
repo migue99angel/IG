@@ -6,7 +6,7 @@
 // Clase Malla3D
 //
 // *****************************************************************************
-
+Malla3D::Malla3D(){}
 // Visualización en modo inmediato con 'glDrawElements'
 
 void Malla3D::draw_ModoInmediato()
@@ -34,7 +34,7 @@ void Malla3D::draw_ModoInmediato()
 
 
 }
-
+// -----------------------------------------------------------------------------
 //Visualización en modo Chess
 void Malla3D::draw_Chess()
 {
@@ -113,7 +113,7 @@ void Malla3D::draw_ModoDiferido()
 }
 // -----------------------------------------------------------------------------
 // Función de visualización de la malla,
-// puede llamar a  draw_ModoInmediato o bien a draw_ModoDiferido
+// puede llamar a  draw_ModoInmediato, a draw_ModoDiferido o bien a draw_Chess
 
 void Malla3D::draw(int modo)
 {
@@ -128,7 +128,7 @@ void Malla3D::draw(int modo)
       
 
 }
-
+// -----------------------------------------------------------------------------
 //Esta función inicializar el vector de colores 
 void Malla3D::aniadirColor(Tupla3f cl)
 {
@@ -138,4 +138,43 @@ void Malla3D::aniadirColor(Tupla3f cl)
       color.push_back(cl);
    //Añado de nuevo el color para darle color a la tapa de abajo
    color.push_back(cl);   
+}
+// -----------------------------------------------------------------------------
+//Función para el cálculo de las normales de las caras
+void Malla3D::calcular_normales(){
+   //Nos aseguramos de que las tablas de normales están vacías al principio
+   nc.clear();
+   nv.clear();
+   //Obtenemos las normales de las caras
+   for(int i = 0; i < f.size(); ++i){
+      //Cogemos los vertices de cada cara
+      Tupla3f p = v[f[i](0)];
+      Tupla3f q = v[f[i](1)];
+      Tupla3f r = v[f[i](2)];
+
+      //Se calculan los vectores a y b correspondientes a dos aristas mediante
+      //la diferencia de dos puntos
+
+      Tupla3f a = q - p;
+      Tupla3f b = r - p;
+
+      //Obtenemos el vector perpendicular a la cara mediante el producto vectorial de a y b
+      Tupla3f mc = a.cross(b);
+
+      //Ahora normalizamos el vector mc para obtener el vector perpendicular normalizado y lo introducimos a la tabla
+      nc.push_back(mc.normalized());
+   }
+
+   //Ahora obtenemos las normales de los vértices, que se define como la sumatoria de las normales de todas las caras adyacentes
+   for(int i=0;i<f.size();++i){
+      nv[f[i](0)] = (nv[f[i](0)] + nc[i]).normalized();
+      nv[f[i](1)] = (nv[f[i](1)] + nc[i]).normalized();
+      nv[f[i](2)] = (nv[f[i](2)] + nc[i]).normalized();
+   }
+}
+
+void Malla3D::setMaterial(Material m)
+{
+   this->mat = m;
+   mat.aplicar();
 }

@@ -11,6 +11,7 @@
 #include "cilindro.h"
 #include "cono.h"
 #include "esfera.h"
+#include "luzposicional.h"
 
 typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO} menu;
 class Escena
@@ -49,6 +50,7 @@ class Escena
    ObjPLY * ant=nullptr;
    ObjPLY * bet=nullptr;
    ObjRevolucion * peon=nullptr;
+   LuzPosicional * luz1 = nullptr;
    int toDraw, modo=1;
    GLenum visual = GL_FILL;
    

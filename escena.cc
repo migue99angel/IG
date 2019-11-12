@@ -5,6 +5,7 @@
 #include "malla.h" // objetos: Cubo y otros....
 #include "objrevolucion.h"
 
+
 //**************************************************************************
 // constructor de la escena (no puede usar ordenes de OpenGL)
 //**************************************************************************
@@ -18,6 +19,13 @@ Escena::Escena()
     Observer_angle_y  = 0.0 ;
 
     ejes.changeAxisSize( 5000 );
+    //Componentes del material
+    Tupla4f ambiente(0.0215,0.1745,0.0215, 0.6);
+    Tupla4f especular(0.07568, 	0.61424, 0.07568, 0.6);
+    Tupla4f difuso(	0.633, 0.727811, 0.633, 0.6);
+    //Componentes luz
+    Tupla3f pos(0.0,0.0,0.0);
+    Tupla4f luz(1.0,1.0,1.0,1.0);
     // crear los objetos de la escena....
     cilindro = new Cilindro();
     cubo = new Cubo;
@@ -27,6 +35,9 @@ Escena::Escena()
     cono = new Cono();
     peon = new ObjRevolucion("plys/peon.ply",50,true,true);
     esfera = new Esfera();
+    luz1 = new LuzPosicional(pos,GL_LIGHT0,luz,luz,luz);
+    Material  material_ejemplo=Material(ambiente,especular,difuso,128.0);
+    peon->setMaterial(material_ejemplo);
 }
 
 //**************************************************************************
@@ -91,6 +102,10 @@ void Escena::dibujar()
           glPopMatrix();
          break;
        case 5:
+       glEnable(GL_NORMALIZE);
+          glEnable(GL_LIGHTING);
+           glShadeModel(GL_SMOOTH);
+          luz1->activar();
           glPushMatrix();
             glScalef(50,50,50);
             peon->draw(modo);
