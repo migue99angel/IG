@@ -24,8 +24,10 @@ Escena::Escena()
     Tupla4f especular(0.07568, 	0.61424, 0.07568, 0.6);
     Tupla4f difuso(	0.633, 0.727811, 0.633, 0.6);
     //Componentes luz
-    Tupla3f pos(0.0,0.0,0.0);
-    Tupla4f luz(1.0,1.0,1.0,1.0);
+    Tupla3f pos(500,100,500);
+    Tupla4f luz(1.0,0.0,0.0,0.6);
+    Tupla4f luz2(0.0,1.0,0.0,0.6);
+    Tupla4f luz3(0.0,0.0,1.0,0.6);
     // crear los objetos de la escena....
     cilindro = new Cilindro();
     cubo = new Cubo;
@@ -35,9 +37,13 @@ Escena::Escena()
     cono = new Cono();
     peon = new ObjRevolucion("plys/peon.ply",50,true,true);
     esfera = new Esfera();
-    luz1 = new LuzPosicional(pos,GL_LIGHT0,luz,luz,luz);
-    Material  material_ejemplo=Material(ambiente,especular,difuso,128.0);
+    luz1 = new LuzPosicional(pos,GL_LIGHT0,luz,luz2,luz3);
+    Material  material_ejemplo=Material(ambiente,especular,difuso,100.0);
     peon->setMaterial(material_ejemplo);
+    cubo->setMaterial(material_ejemplo);
+    cilindro->setMaterial(material_ejemplo);
+    esfera->setMaterial(material_ejemplo);
+    cono->setMaterial(material_ejemplo);
 }
 
 //**************************************************************************
@@ -51,7 +57,7 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 	glClearColor( 1.0, 1.0, 1.0, 1.0 );// se indica cual sera el color para limpiar la ventana	(r,v,a,al)
 
 	glEnable( GL_DEPTH_TEST );	// se habilita el z-bufer
-   glEnable (GL_CULL_FACE);   //No se dibujan las caras traseras
+  glEnable (GL_CULL_FACE);   //No se dibujan las caras traseras
 	Width  = UI_window_width/10;
 	Height = UI_window_height/10;
 
@@ -74,13 +80,24 @@ void Escena::dibujar()
 	change_observer();
     ejes.draw();
 
+    if(Iluminacion){
+      glEnable(GL_LIGHTING);
+      glEnable(GL_NORMALIZE);
+      glShadeModel(GL_SMOOTH);
+      
+    }
+    else{
+      if(glIsEnabled(GL_LIGHTING))
+        glDisable(GL_LIGHTING);
+    }
+
     switch(toDraw)
-    {
-       
+    { 
        case 1:
          tetraedro->draw(modo);
          break;
        case 2:
+       luz1->activar();
          cubo->draw(modo);
          break; 
        case 3:
@@ -102,13 +119,10 @@ void Escena::dibujar()
           glPopMatrix();
          break;
        case 5:
-       glEnable(GL_NORMALIZE);
-          glEnable(GL_LIGHTING);
-           glShadeModel(GL_SMOOTH);
-          luz1->activar();
           glPushMatrix();
             glScalef(50,50,50);
             peon->draw(modo);
+            luz1->activar();
           glPopMatrix();
          break;
        case 6:
@@ -183,6 +197,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
        case 'P' : 
          if(modoMenu == SELVISUALIZACION){
             glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
+            Iluminacion = false;
          }  
          else if (modoMenu == SELOBJETO){
             toDraw = 5;
@@ -191,11 +206,13 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
        case 'L' : 
          if(modoMenu == SELVISUALIZACION){
             glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+            Iluminacion = false;
          }  
          break;
        case 'S' : 
          if(modoMenu == SELVISUALIZACION){
             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+            Iluminacion = false;
          }  
          break;
        case '1' : 
@@ -211,11 +228,17 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
        case '3' : 
          if(modoMenu == SELDIBUJADO){
             modo = 3;
+            Iluminacion = false;
          }  
          break;
        case '6' : 
          if(modoMenu == SELOBJETO){
             toDraw = 6;
+         }  
+         break;
+        case 'I' : 
+         if(modoMenu == SELVISUALIZACION){
+            Iluminacion = true;
          }  
          break;
 

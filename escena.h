@@ -53,6 +53,7 @@ class Escena
    LuzPosicional * luz1 = nullptr;
    int toDraw, modo=1;
    GLenum visual = GL_FILL;
+   bool Iluminacion = false;
    
    public:
 

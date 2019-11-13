@@ -117,6 +117,9 @@ void Malla3D::draw_ModoDiferido()
 
 void Malla3D::draw(int modo)
 {
+   //if(nv.empty()){
+      //calcular_normales();
+   //}
 
    switch (modo)
    {
@@ -159,12 +162,13 @@ void Malla3D::calcular_normales(){
       Tupla3f b = r - p;
 
       //Obtenemos el vector perpendicular a la cara mediante el producto vectorial de a y b
-      Tupla3f mc = a.cross(b);
+      Tupla3f mc = b.cross(a);
+      Tupla3f normalizado = mc.normalized();
 
       //Ahora normalizamos el vector mc para obtener el vector perpendicular normalizado y lo introducimos a la tabla
-      nc.push_back(mc.normalized());
+      nc.push_back(normalizado);
    }
-
+   nv = std::vector<Tupla3f>(v.size(), {0, 0, 0});
    //Ahora obtenemos las normales de los vértices, que se define como la sumatoria de las normales de todas las caras adyacentes
    for(int i=0;i<f.size();++i){
       nv[f[i](0)] = (nv[f[i](0)] + nc[i]).normalized();
