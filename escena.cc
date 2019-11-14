@@ -24,26 +24,27 @@ Escena::Escena()
     Tupla4f especular(0.07568, 	0.61424, 0.07568, 0.6);
     Tupla4f difuso(	0.633, 0.727811, 0.633, 0.6);
     //Componentes luz
-    Tupla3f pos(500,100,500);
-    Tupla4f luz(1.0,0.0,0.0,0.6);
-    Tupla4f luz2(0.0,1.0,0.0,0.6);
-    Tupla4f luz3(0.0,0.0,1.0,0.6);
+    Tupla3f pos(500,-500,500);
+    Tupla4f luz(0.0,0.0,0.0,0.0);
+    Tupla4f luz2(1.0,1.0,1.0,1.0);
+    Tupla4f luz3(1.0,1.0,1.0,1.0);
     // crear los objetos de la escena....
+    //cono = new Cono();
     cilindro = new Cilindro();
     cubo = new Cubo;
     tetraedro = new Tetraedro;
     ant = new ObjPLY("plys/ant.ply");
-    bet = new ObjPLY("plys/beethoven.ply"); 
-    cono = new Cono();
-    peon = new ObjRevolucion("plys/peon.ply",50,true,true);
+    //bet = new ObjPLY("plys/beethoven.ply");
+    peon = new ObjRevolucion("plys/peon.ply",50,true);
     esfera = new Esfera();
     luz1 = new LuzPosicional(pos,GL_LIGHT0,luz,luz2,luz3);
     Material  material_ejemplo=Material(ambiente,especular,difuso,100.0);
-    peon->setMaterial(material_ejemplo);
+  
     cubo->setMaterial(material_ejemplo);
+    peon->setMaterial(material_ejemplo);
     cilindro->setMaterial(material_ejemplo);
     esfera->setMaterial(material_ejemplo);
-    cono->setMaterial(material_ejemplo);
+    //cono->setMaterial(material_ejemplo);
 }
 
 //**************************************************************************
@@ -95,41 +96,45 @@ void Escena::dibujar()
     { 
        case 1:
          tetraedro->draw(modo);
+         luz1->activar();
          break;
        case 2:
-       luz1->activar();
+         luz1->activar();
          cubo->draw(modo);
          break; 
        case 3:
           glPushMatrix();
-            glTranslatef(25,0,0);
-            cono->draw(modo);
-          glPopMatrix();
-          glPushMatrix();
             glScalef(2.5,2.5,2.5);
-            glTranslatef(-20,0,0);
+            glTranslatef(-20,0,-20);
+            luz1->activar();
             cilindro->draw(modo);
           glPopMatrix();
 
          break;
        case 4:
+          /*glPushMatrix();
+            luz1->activar();
+          glPopMatrix();*/
           glPushMatrix();
-            glScalef(5,5,5);
+            luz1->activar();
+            glTranslatef(50,0,0);
             esfera->draw(modo);
           glPopMatrix();
          break;
        case 5:
+          luz1->activar();
           glPushMatrix();
             glScalef(50,50,50);
+            glTranslatef(2,0,0);
             peon->draw(modo);
-            luz1->activar();
           glPopMatrix();
          break;
        case 6:
           glPushMatrix();
-             glScalef(25,25,25);
-            bet->aniadirColor(Tupla3f(1,0,0)); 
-            bet->draw(modo);
+             //glScalef(50,50,50);
+             luz1->activar();
+            cilindro->aniadirColor(Tupla3f(1,0,0)); 
+            cilindro->draw(modo);
           glPopMatrix();
          break;
        default:

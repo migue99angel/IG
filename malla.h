@@ -44,7 +44,8 @@ class Malla3D
    void setMaterial(Material m);
    protected:
    
-   void calcular_normales() ; // calcula tabla de normales de vértices (práctica 3)
+   void calcular_normales() ; // calcula tabla de normales de las caras (práctica 3)
+   void calcular_normales_vertices() ; // calcula tabla de normales de las caras (práctica 3)
 
    std::vector<Tupla3f> v ;   // tabla de coordenadas de vértices (una tupla por vértice, con tres floats)
    std::vector<Tupla3f> color,cimpar,cpar,colorLinea,colorPuntos;  // tabla de colores

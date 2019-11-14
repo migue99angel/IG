@@ -10,6 +10,7 @@ Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf, con
     perfil.push_back(Tupla3f(radio,0,0));
 
   
-    this->crearMalla(perfil,num_instancias_perf,true,true);
+    this->crearMalla(perfil,num_instancias_perf,true);
     this->aniadirColor(Tupla3f(c));
+    calcular_normales();
 }

@@ -17,10 +17,16 @@ void Malla3D::draw_ModoInmediato()
   //indicar el formato y la dirección de memoria del array de vértices
   //(son tuplas de 3 valores float, sin espacio entre ellas)
   glVertexPointer(3, GL_FLOAT, 0,v.data() );
+
+
   //Activo el uso del vector de colores
   glEnableClientState(GL_COLOR_ARRAY);
   //Elijo el comienzo de dicho vector 
-   glColorPointer(3,GL_FLOAT,0,color.data());
+  glColorPointer(3,GL_FLOAT,0,color.data());
+
+  glEnableClientState(GL_NORMAL_ARRAY);
+  glNormalPointer(GL_FLOAT, 0, nv.data());
+
 
   //Sirve para que no se vea difuminado
   glShadeModel(GL_FLAT);
@@ -117,9 +123,6 @@ void Malla3D::draw_ModoDiferido()
 
 void Malla3D::draw(int modo)
 {
-   //if(nv.empty()){
-      //calcular_normales();
-   //}
 
    switch (modo)
    {
@@ -149,7 +152,7 @@ void Malla3D::calcular_normales(){
    nc.clear();
    nv.clear();
    //Obtenemos las normales de las caras
-   for(int i = 0; i < f.size(); ++i){
+   for(int i = 0; i < f.size(); i++){
       //Cogemos los vertices de cada cara
       Tupla3f p = v[f[i](0)];
       Tupla3f q = v[f[i](1)];
@@ -158,22 +161,31 @@ void Malla3D::calcular_normales(){
       //Se calculan los vectores a y b correspondientes a dos aristas mediante
       //la diferencia de dos puntos
 
-      Tupla3f a = q - p;
-      Tupla3f b = r - p;
+      Tupla3f a = q-p;
+      Tupla3f b = r-p;
+
 
       //Obtenemos el vector perpendicular a la cara mediante el producto vectorial de a y b
       Tupla3f mc = b.cross(a);
+
       Tupla3f normalizado = mc.normalized();
 
       //Ahora normalizamos el vector mc para obtener el vector perpendicular normalizado y lo introducimos a la tabla
-      nc.push_back(normalizado);
+      nc.push_back(mc);
    }
+   calcular_normales_vertices();
+}
+
+void Malla3D::calcular_normales_vertices(){
+   //Inicializo el vector al tamaño del vector de vértices, y todas las componentes a 0
+   
    nv = std::vector<Tupla3f>(v.size(), {0, 0, 0});
    //Ahora obtenemos las normales de los vértices, que se define como la sumatoria de las normales de todas las caras adyacentes
-   for(int i=0;i<f.size();++i){
-      nv[f[i](0)] = (nv[f[i](0)] + nc[i]).normalized();
-      nv[f[i](1)] = (nv[f[i](1)] + nc[i]).normalized();
-      nv[f[i](2)] = (nv[f[i](2)] + nc[i]).normalized();
+   for(int i=0;i<f.size();i++){
+      nv[f[i][0]] = (nv[f[i][0]] + nc[i]).normalized();
+      nv[f[i][1]] = (nv[f[i][1]] + nc[i]).normalized();
+      nv[f[i][2]] = (nv[f[i][2]] + nc[i]).normalized();
+      
    }
 }
 

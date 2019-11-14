@@ -19,6 +19,6 @@ Esfera::Esfera(int num_vert_perf,int num_instancias_perf,float r,Tupla3f c)
 
         }
     
-    this->crearMalla(perfil,num_instancias_perf,false,false);
+    this->crearMalla(perfil,num_instancias_perf,false);
     this->aniadirColor(c);
 }
