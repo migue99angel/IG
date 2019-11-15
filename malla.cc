@@ -11,6 +11,7 @@ Malla3D::Malla3D(){}
 
 void Malla3D::draw_ModoInmediato()
 {
+
   // visualizar la malla usando glDrawElements,
   //Habilito el uso de un array de vértices
   glEnableClientState( GL_VERTEX_ARRAY );
@@ -29,7 +30,7 @@ void Malla3D::draw_ModoInmediato()
 
 
   //Sirve para que no se vea difuminado
-  glShadeModel(GL_FLAT);
+  //glShadeModel(GL_FLAT);
   //visualizar, indicando: tipo de primitiva y número de índices,
   //tipo de los índices y dirección de la tabla de índices
   glDrawElements(GL_TRIANGLES, f.size()*3, GL_UNSIGNED_INT ,f.data());
@@ -123,7 +124,7 @@ void Malla3D::draw_ModoDiferido()
 
 void Malla3D::draw(int modo)
 {
-
+   mat->aplicar();
    switch (modo)
    {
       case 1: draw_ModoInmediato(); break;
@@ -191,6 +192,5 @@ void Malla3D::calcular_normales_vertices(){
 
 void Malla3D::setMaterial(Material m)
 {
-   this->mat = m;
-   mat.aplicar();
+   mat = new Material(m);
 }

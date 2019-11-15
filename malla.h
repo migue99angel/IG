@@ -52,7 +52,7 @@ class Malla3D
    std::vector<Tupla3i> f, fimpar, fpar ; // una terna de 3 enteros por cada cara o triángulo
    std::vector<Tupla3f> nv; //tabla de normales de vértices
    std::vector<Tupla3f> nc; //tabla de normales de caras;
-   Material mat;
+   Material * mat = nullptr;
    bool ajedrez = false;
    const int MAX=100;
    GLuint id_vbo_ver=0,id_vbo_tri=0;

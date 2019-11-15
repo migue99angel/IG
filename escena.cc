@@ -20,14 +20,29 @@ Escena::Escena()
 
     ejes.changeAxisSize( 5000 );
     //Componentes del material
-    Tupla4f ambiente(0.0215,0.1745,0.0215, 0.6);
-    Tupla4f especular(0.07568, 	0.61424, 0.07568, 0.6);
-    Tupla4f difuso(	0.633, 0.727811, 0.633, 0.6);
+    Tupla4f ambiente_esmerald(0.0215,0.1745,0.0215, 1.0);
+    Tupla4f especular_esmerald(0.07568, 	0.61424, 0.07568, 1.0);
+    Tupla4f difuso_esmerald(	0.633, 0.727811, 0.633, 1.0);
+
+    Tupla4f ambiente_obsidian(0.05375,	0.05,0.06625, 1.0);
+    Tupla4f especular_obsidian(0.332741, 0.328634, 0.346435, 1.0);
+    Tupla4f difuso_obsidian(	0.18275, 0.17, 0.22525, 1.0);
+
+    
+    Tupla4f ambiente_pearl(0.25,0.20725,0.20725, 1.0);
+    Tupla4f especular_pearl(0.296648,0.296648, 0.296648, 1.0);
+    Tupla4f difuso_pearl(	1, 0.829,0.829, 1.0);
+
+    Tupla4f ambiente_gold(	0.19125,	0.0735,	0.0225, 1.0);
+    Tupla4f especular_gold(0.256777,0.137622,	0.086014, 1.0);
+    Tupla4f difuso_gold(0.7038	,0.27048,	0.0828, 1.0);
+
     //Componentes luz
-    Tupla3f pos(500,-500,500);
-    Tupla4f luz(0.0,0.0,0.0,0.0);
+    Tupla3f pos(0,0,0);
+    Tupla4f luz(1.0,1.0,1.0,1.0);
     Tupla4f luz2(1.0,1.0,1.0,1.0);
     Tupla4f luz3(1.0,1.0,1.0,1.0);
+
     // crear los objetos de la escena....
     //cono = new Cono();
     cilindro = new Cilindro();
@@ -36,14 +51,19 @@ Escena::Escena()
     ant = new ObjPLY("plys/ant.ply");
     //bet = new ObjPLY("plys/beethoven.ply");
     peon = new ObjRevolucion("plys/peon.ply",50,true);
+    peon2 = new ObjRevolucion("plys/peon.ply",50,true);
     esfera = new Esfera();
     luz1 = new LuzPosicional(pos,GL_LIGHT0,luz,luz2,luz3);
-    Material  material_ejemplo=Material(ambiente,especular,difuso,100.0);
-  
-    cubo->setMaterial(material_ejemplo);
-    peon->setMaterial(material_ejemplo);
-    cilindro->setMaterial(material_ejemplo);
-    esfera->setMaterial(material_ejemplo);
+    Material  esmerald = Material(ambiente_esmerald,especular_esmerald,difuso_esmerald, 128.0*0.6);
+    Material obsidian = Material(ambiente_obsidian,especular_obsidian,difuso_obsidian,128*0.3);
+    Material pearl = Material(ambiente_pearl,especular_pearl,difuso_pearl,0.088*128);
+    Material gold = Material(ambiente_gold,especular_gold,difuso_gold,0.1*128);
+    cubo->setMaterial(esmerald);
+    peon->setMaterial(esmerald);
+    cilindro->setMaterial(gold);
+    esfera->setMaterial(esmerald);
+    peon2->setMaterial(pearl);
+    ant->setMaterial(esmerald);
     //cono->setMaterial(material_ejemplo);
 }
 
@@ -109,16 +129,47 @@ void Escena::dibujar()
             luz1->activar();
             cilindro->draw(modo);
           glPopMatrix();
+          glPushMatrix();
+            glScalef(50,50,50);
+            glTranslatef(-2,0,0);
+            peon2->draw(modo);
+          glPopMatrix();
+          glPushMatrix();
+          glScalef(50,50,50);
+            glTranslatef(2,0,0);
+            peon->draw(modo);
+          glPopMatrix();
+          glPushMatrix();
+            glTranslatef(0,70,20);
+            esfera->draw(modo);
+          glPopMatrix();
 
          break;
        case 4:
-          /*glPushMatrix();
-            luz1->activar();
-          glPopMatrix();*/
           glPushMatrix();
             luz1->activar();
-            glTranslatef(50,0,0);
+            glTranslatef(50,0,50);
+            glScalef(50,50,50);
+            peon->draw(modo);
+          glPopMatrix();
+          glPushMatrix();
+            luz1->activar();
+            glTranslatef(50,50,100);
             esfera->draw(modo);
+          glPopMatrix();
+          glPushMatrix();
+             glScalef(1,5,1);
+             glTranslatef(-50,0,0);
+             luz1->activar();
+            cilindro->aniadirColor(Tupla3f(1,0,0)); 
+            cilindro->draw(modo);
+          glPopMatrix();
+          glPushMatrix();
+            glScalef(2,2,2);
+            glTranslatef(-50,0,0);
+            luz1->activar();
+            ant->aniadirColor(Tupla3f(1,0,0)); 
+            ant->draw(modo);
           glPopMatrix();
          break;
        case 5:
@@ -128,6 +179,12 @@ void Escena::dibujar()
             glTranslatef(2,0,0);
             peon->draw(modo);
           glPopMatrix();
+          glPushMatrix();
+            glScalef(50,50,50);
+            glTranslatef(-2,0,0);
+            peon2->draw(modo);
+          glPopMatrix();
+          
          break;
        case 6:
           glPushMatrix();

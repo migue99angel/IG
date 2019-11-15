@@ -50,6 +50,7 @@ class Escena
    ObjPLY * ant=nullptr;
    ObjPLY * bet=nullptr;
    ObjRevolucion * peon=nullptr;
+   ObjRevolucion * peon2=nullptr;
    LuzPosicional * luz1 = nullptr;
    int toDraw, modo=1;
    GLenum visual = GL_FILL;
