@@ -41,7 +41,7 @@ Escena::Escena()
     Tupla3f pos(0,0,0);
     Tupla4f luz(1.0,1.0,1.0,1.0);
     Tupla4f luz2(1.0,1.0,1.0,1.0);
-    Tupla4f luz3(1.0,1.0,1.0,1.0);
+    Tupla4f luz3(0.0,0.0,0.0,1.0);
 
     // crear los objetos de la escena....
     //cono = new Cono();
@@ -61,7 +61,7 @@ Escena::Escena()
     cubo->setMaterial(esmerald);
     peon->setMaterial(esmerald);
     cilindro->setMaterial(gold);
-    esfera->setMaterial(esmerald);
+    esfera->setMaterial(gold);
     peon2->setMaterial(pearl);
     ant->setMaterial(esmerald);
     //cono->setMaterial(material_ejemplo);
@@ -99,12 +99,16 @@ void Escena::dibujar()
 {
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Limpiar la pantalla
 	change_observer();
+  if(glIsEnabled(GL_LIGHTING))
+    glDisable(GL_LIGHTING);
+
     ejes.draw();
 
     if(Iluminacion){
       glEnable(GL_LIGHTING);
       glEnable(GL_NORMALIZE);
       glShadeModel(GL_SMOOTH);
+      luz1->activar();
       
     }
     else{
@@ -115,61 +119,54 @@ void Escena::dibujar()
     switch(toDraw)
     { 
        case 1:
-         tetraedro->draw(modo);
-         luz1->activar();
+         tetraedro->draw(modo,puntos,lineas,solido);
          break;
        case 2:
-         luz1->activar();
-         cubo->draw(modo);
+         cubo->draw(modo,puntos,lineas,solido);
          break; 
        case 3:
           glPushMatrix();
             glScalef(2.5,2.5,2.5);
             glTranslatef(-20,0,-20);
-            luz1->activar();
-            cilindro->draw(modo);
+            cilindro->draw(modo,puntos,lineas,solido);
           glPopMatrix();
           glPushMatrix();
             glScalef(50,50,50);
             glTranslatef(-2,0,0);
-            peon2->draw(modo);
+            peon2->draw(modo,puntos,lineas,solido);
           glPopMatrix();
           glPushMatrix();
           glScalef(50,50,50);
             glTranslatef(2,0,0);
-            peon->draw(modo);
+            peon->draw(modo,puntos, lineas, solido);
           glPopMatrix();
           glPushMatrix();
-            glTranslatef(0,70,20);
-            esfera->draw(modo);
+            glTranslatef(0,-100,20);
+            esfera->draw(modo,puntos,lineas,solido);
           glPopMatrix();
 
          break;
        case 4:
           glPushMatrix();
-            luz1->activar();
             glTranslatef(50,0,50);
             glScalef(50,50,50);
-            peon->draw(modo);
+            peon->draw(modo,puntos,lineas,solido);
           glPopMatrix();
           glPushMatrix();
-            luz1->activar();
             glTranslatef(50,50,100);
-            esfera->draw(modo);
+            esfera->draw(modo,puntos,lineas,solido);
           glPopMatrix();
           glPushMatrix();
              glScalef(1,5,1);
              glTranslatef(-50,0,0);
-             luz1->activar();
             cilindro->aniadirColor(Tupla3f(1,0,0)); 
-            cilindro->draw(modo);
+            cilindro->draw(modo,puntos,lineas,solido);
           glPopMatrix();
           glPushMatrix();
             glScalef(2,2,2);
             glTranslatef(-50,0,0);
-            luz1->activar();
             ant->aniadirColor(Tupla3f(1,0,0)); 
-            ant->draw(modo);
+            ant->draw(modo,puntos,lineas,solido);
           glPopMatrix();
          break;
        case 5:
@@ -177,21 +174,19 @@ void Escena::dibujar()
           glPushMatrix();
             glScalef(50,50,50);
             glTranslatef(2,0,0);
-            peon->draw(modo);
+            peon->draw(modo,puntos,lineas,solido);
           glPopMatrix();
           glPushMatrix();
             glScalef(50,50,50);
             glTranslatef(-2,0,0);
-            peon2->draw(modo);
+            peon2->draw(modo,puntos,lineas,solido);
           glPopMatrix();
           
          break;
        case 6:
           glPushMatrix();
-             //glScalef(50,50,50);
-             luz1->activar();
             cilindro->aniadirColor(Tupla3f(1,0,0)); 
-            cilindro->draw(modo);
+            cilindro->draw(modo,puntos,lineas,solido);
           glPopMatrix();
          break;
        default:
@@ -258,7 +253,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
        case 'P' : 
          if(modoMenu == SELVISUALIZACION){
-            glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
+            puntos=!puntos;
             Iluminacion = false;
          }  
          else if (modoMenu == SELOBJETO){
@@ -267,13 +262,13 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
        case 'L' : 
          if(modoMenu == SELVISUALIZACION){
-            glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+            lineas = !lineas;
             Iluminacion = false;
          }  
          break;
        case 'S' : 
          if(modoMenu == SELVISUALIZACION){
-            glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+           solido = !solido;
             Iluminacion = false;
          }  
          break;
@@ -287,10 +282,14 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             modo = 2;
          }  
          break;
-       case '3' : 
-         if(modoMenu == SELDIBUJADO){
+       case 'A' : 
+         if(modoMenu == SELVISUALIZACION){
+          Iluminacion = false;
+          ajedrez = !ajedrez;
+          if(ajedrez)  
             modo = 3;
-            Iluminacion = false;
+          else 
+            modo = 1;
          }  
          break;
        case '6' : 

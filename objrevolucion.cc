@@ -88,9 +88,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
          perfil_original.erase(perfil_original.begin());
       }
       else{
-         tapaSup(0) = 0.0;
-         tapaSup(1) = perfil_original[0](1);
-         tapaSup(2) = 0.0;
+         tapaSup = {0.0,perfil_original[0](1),0.0};
       }
    
       if(existeTapaInf(perfil_original,num_instancias))
@@ -99,9 +97,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
          perfil_original.pop_back();
       }
       else{
-         tapaInf(0) = 0.0;
-         tapaInf(1) = perfil_original[perfil_original.size()-1](1);
-         tapaInf(2) = 0.0;
+         tapaInf = {0.0,perfil_original[perfil_original.size()-1](1),0.0};
       }
 
         // Introducimos los vértices

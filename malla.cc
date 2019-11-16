@@ -9,7 +9,7 @@
 Malla3D::Malla3D(){}
 // Visualización en modo inmediato con 'glDrawElements'
 
-void Malla3D::draw_ModoInmediato()
+void Malla3D::draw_ModoInmediato(char L)
 {
 
   // visualizar la malla usando glDrawElements,
@@ -23,7 +23,18 @@ void Malla3D::draw_ModoInmediato()
   //Activo el uso del vector de colores
   glEnableClientState(GL_COLOR_ARRAY);
   //Elijo el comienzo de dicho vector 
-  glColorPointer(3,GL_FLOAT,0,color.data());
+  switch (L)
+  {
+   case 'P':
+     glColorPointer(3,GL_FLOAT,0,colorPuntos.data());
+     break;
+   case 'L':
+     glColorPointer(3,GL_FLOAT,0,colorLinea.data());
+     break;
+  default:
+      glColorPointer(3,GL_FLOAT,0,color.data());
+     break;
+  }
 
   glEnableClientState(GL_NORMAL_ARRAY);
   glNormalPointer(GL_FLOAT, 0, nv.data());
@@ -45,8 +56,7 @@ void Malla3D::draw_ModoInmediato()
 //Visualización en modo Chess
 void Malla3D::draw_Chess()
 {
-      //fimpar.clear();
-      //fpar.clear();
+
       if(f.size()%2 == 1)
          f.pop_back(); 
 
@@ -94,7 +104,7 @@ GLuint Malla3D::CrearVBO( GLuint tipo_vbo,GLuint tamanio_bytes, GLvoid * puntero
 }
 // -----------------------------------------------------------------------------
 
-void Malla3D::draw_ModoDiferido()
+void Malla3D::draw_ModoDiferido(char L)
 {
    if(id_vbo_ver==0 && id_vbo_tri==0){
       id_vbo_ver=CrearVBO(GL_ARRAY_BUFFER,v.size()*3*sizeof(float),v.data());
@@ -106,10 +116,22 @@ void Malla3D::draw_ModoDiferido()
    glVertexPointer( 3, GL_FLOAT, 0, 0 ); //especifica formato y offset (=0)
    glBindBuffer( GL_ARRAY_BUFFER, 0 ); //desactivar VBO de vértices.
    glEnableClientState( GL_VERTEX_ARRAY ); //habilitar tabla de vértices
-   //Activo el uso del vector de colores
-   glEnableClientState(GL_COLOR_ARRAY);
-   //Elijo el comienzo de dicho vector 
-   glColorPointer(3,GL_FLOAT,0,color.data());
+   
+  switch (L)
+  {
+   case 'P':
+     glColorPointer(3,GL_FLOAT,0,colorPuntos.data());
+     break;
+   case 'L':
+     glColorPointer(3,GL_FLOAT,0,colorLinea.data());
+     break;
+  default:
+      glColorPointer(3,GL_FLOAT,0,color.data());
+     break;
+  }
+
+   glEnableClientState(GL_NORMAL_ARRAY);
+   glNormalPointer(GL_FLOAT, 0, nv.data());
    //visualizar triángulos con glDrawElements (puntero a tabla == 0)
    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, id_vbo_tri ); //activar VBO de triángulos
    glDrawElements( GL_TRIANGLES, 3* f.size(), GL_UNSIGNED_INT, 0 ) ;
@@ -122,29 +144,63 @@ void Malla3D::draw_ModoDiferido()
 // Función de visualización de la malla,
 // puede llamar a  draw_ModoInmediato, a draw_ModoDiferido o bien a draw_Chess
 
-void Malla3D::draw(int modo)
+void Malla3D::draw(int modo,bool puntos,bool lineas,bool solido)
 {
+   if(nv.empty())
+      calcular_normales();
+      
    mat->aplicar();
-   switch (modo)
-   {
-      case 1: draw_ModoInmediato(); break;
-      case 2: draw_ModoDiferido(); break;
-      case 3: draw_Chess(); break;
-      
+   if(puntos){
+      glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
+      switch (modo)
+      {
+         case 1: draw_ModoInmediato('P'); break;
+         case 2: draw_ModoDiferido('P'); break;
+         case 3: draw_Chess(); break;
+         
+      }
    }
-      
+   if(lineas){
+      glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+      switch (modo)
+      {
+         case 1: draw_ModoInmediato('L'); break;
+         case 2: draw_ModoDiferido('L'); break;
+         case 3: draw_Chess(); break;
+         
+      }
+   }
+   if(solido){
+      glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+      switch (modo)
+      {
+         case 1: draw_ModoInmediato('F'); break;
+         case 2: draw_ModoDiferido('F'); break;
+         case 3: draw_Chess(); break;
+         
+      }
+   }   
 
 }
 // -----------------------------------------------------------------------------
 //Esta función inicializar el vector de colores 
 void Malla3D::aniadirColor(Tupla3f cl)
 {
+   Tupla3f aux1=Tupla3f(0.5,0.5,0);
+   Tupla3f aux2=Tupla3f(0,0.5,1);
+   colorLinea.clear();
+   colorPuntos.clear();
    color.clear();
-   this->color.resize(color.size());
-   for(int i=0;i<v.size();++i)
+
+   for(int i=0;i<v.size();++i){
       color.push_back(cl);
+      colorLinea.push_back(aux1);
+      colorPuntos.push_back(aux2);
+   }
    //Añado de nuevo el color para darle color a la tapa de abajo
-   color.push_back(cl);   
+   color.push_back(cl); 
+   colorLinea.push_back(aux1);
+   colorPuntos.push_back(aux2);  
 }
 // -----------------------------------------------------------------------------
 //Función para el cálculo de las normales de las caras
@@ -167,7 +223,7 @@ void Malla3D::calcular_normales(){
 
 
       //Obtenemos el vector perpendicular a la cara mediante el producto vectorial de a y b
-      Tupla3f mc = b.cross(a);
+      Tupla3f mc = a.cross(b);
 
       Tupla3f normalizado = mc.normalized();
 

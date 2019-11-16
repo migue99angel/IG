@@ -13,6 +13,6 @@ Cono::Cono(int num_vert_perf,int num_instancias_perf,float r,float h,Tupla3f c){
 
     this->crearMalla(perfil,num_instancias_perf,true);
     this->aniadirColor(c);
-    calcular_normales();
+
 }
 

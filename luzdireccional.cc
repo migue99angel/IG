@@ -10,6 +10,5 @@ LuzDireccional::LuzDireccional(Tupla2f direccion,GLenum idLuzOpenGL,Tupla4f colo
     this->colorDifuso = colorDifuso;
     this->colorEspecular = colorEspecular;
 
-    this->activar();
 }
 

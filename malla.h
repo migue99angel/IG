@@ -25,10 +25,10 @@ class Malla3D
    Malla3D();
 
    // dibuja el objeto en modo inmediato
-   void draw_ModoInmediato();
+   void draw_ModoInmediato(char L);
 
    // dibuja el objeto en modo diferido (usando VBOs)
-   void draw_ModoDiferido();
+   void draw_ModoDiferido(char L);
 
    //dibuja el objeto en modo ajedrez
    void draw_Chess();
@@ -38,7 +38,7 @@ class Malla3D
    // está función llama a 'draw_ModoInmediato' (modo inmediato)
    // o bien a 'draw_ModoDiferido' (modo diferido, VBOs)
    //varibale modo determina si se va a visualizar en modo inmediato o diferido, GLenum es el modo de visualizacion
-   void draw(int modo);
+   void draw(int modo,bool puntos,bool lineas,bool solido);
    void aniadirColor(Tupla3f cl);
    //Añade un material
    void setMaterial(Material m);

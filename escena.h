@@ -55,7 +55,8 @@ class Escena
    int toDraw, modo=1;
    GLenum visual = GL_FILL;
    bool Iluminacion = false;
-   
+   bool puntos=false, lineas=false, solido=true;
+   bool ajedrez = false;
    public:
 
     Escena();
