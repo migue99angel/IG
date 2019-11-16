@@ -29,10 +29,20 @@ class ObjRevolucion : public Malla3D
    ObjRevolucion();
    ObjRevolucion(const std::string & archivo, int num_instancias, bool tapas=true) ;
    ObjRevolucion(std::vector<Tupla3f> archivo, int num_instancias, bool tapas=true) ;
+   void draw(int modo,bool puntos,bool lineas,bool solido,bool tapas) ;
+   void draw_ModoInmediato(char L,bool tapas) ;
+   void draw_Chess(bool tapas) ;
+   void draw_ModoDiferido(char L,bool tapas) ;
+   int contador=0;
 private:
+    int num_instancias;
+    bool tapas = true;
+    void gestionDeTapas(std::vector<Tupla3f> &perfil_original, int num_instancias);
     bool existeTapaInf(std::vector<Tupla3f> perfil_original, int num_instancias);
     bool existeTapaSup(std::vector<Tupla3f> perfil_original, int num_instancias);
     std::vector<Tupla3f> generarOrdenInverso(std::vector<Tupla3f> perfil_original);
+
+    
 protected:
     void crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapas);
 } ;

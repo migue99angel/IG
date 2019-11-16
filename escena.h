@@ -57,6 +57,7 @@ class Escena
    bool Iluminacion = false;
    bool puntos=false, lineas=false, solido=true;
    bool ajedrez = false;
+   bool tapas=true;
    public:
 
     Escena();

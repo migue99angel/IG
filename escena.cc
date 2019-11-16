@@ -128,21 +128,21 @@ void Escena::dibujar()
           glPushMatrix();
             glScalef(2.5,2.5,2.5);
             glTranslatef(-20,0,-20);
-            cilindro->draw(modo,puntos,lineas,solido);
+            cilindro->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
           glPushMatrix();
             glScalef(50,50,50);
             glTranslatef(-2,0,0);
-            peon2->draw(modo,puntos,lineas,solido);
+            peon2->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
           glPushMatrix();
           glScalef(50,50,50);
             glTranslatef(2,0,0);
-            peon->draw(modo,puntos, lineas, solido);
+            peon->draw(modo,puntos, lineas, solido,tapas);
           glPopMatrix();
           glPushMatrix();
             glTranslatef(0,-100,20);
-            esfera->draw(modo,puntos,lineas,solido);
+            esfera->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
 
          break;
@@ -150,17 +150,17 @@ void Escena::dibujar()
           glPushMatrix();
             glTranslatef(50,0,50);
             glScalef(50,50,50);
-            peon->draw(modo,puntos,lineas,solido);
+            peon->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
           glPushMatrix();
             glTranslatef(50,50,100);
-            esfera->draw(modo,puntos,lineas,solido);
+            esfera->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
           glPushMatrix();
              glScalef(1,5,1);
              glTranslatef(-50,0,0);
             cilindro->aniadirColor(Tupla3f(1,0,0)); 
-            cilindro->draw(modo,puntos,lineas,solido);
+            cilindro->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
           glPushMatrix();
             glScalef(2,2,2);
@@ -174,19 +174,19 @@ void Escena::dibujar()
           glPushMatrix();
             glScalef(50,50,50);
             glTranslatef(2,0,0);
-            peon->draw(modo,puntos,lineas,solido);
+            peon->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
           glPushMatrix();
             glScalef(50,50,50);
             glTranslatef(-2,0,0);
-            peon2->draw(modo,puntos,lineas,solido);
+            peon2->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
           
          break;
        case 6:
           glPushMatrix();
             cilindro->aniadirColor(Tupla3f(1,0,0)); 
-            cilindro->draw(modo,puntos,lineas,solido);
+            cilindro->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
          break;
        default:
@@ -234,6 +234,10 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
        case 'T' :
          if(modoMenu == SELOBJETO){
             toDraw = 1;
+         }else{
+            if(modoMenu == SELVISUALIZACION){
+              tapas = !tapas;
+            }
          }  
          break;
        case 'C' : 

@@ -116,7 +116,7 @@ void Malla3D::draw_ModoDiferido(char L)
    glVertexPointer( 3, GL_FLOAT, 0, 0 ); //especifica formato y offset (=0)
    glBindBuffer( GL_ARRAY_BUFFER, 0 ); //desactivar VBO de vértices.
    glEnableClientState( GL_VERTEX_ARRAY ); //habilitar tabla de vértices
-   
+   glEnableClientState(GL_COLOR_ARRAY);
   switch (L)
   {
    case 'P':
