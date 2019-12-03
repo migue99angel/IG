@@ -1,7 +1,7 @@
 #include "pierna.h"
 
 Pierna::Pierna(Material m,Tupla3f color){
-    esfera_sup = new Esfera(20,20,5,color);
+    esfera_sup = new Esfera(20,20,5,Tupla3f(0,0,0));
     pie = new Cubo(25);
     cilindro = new Cilindro(5,50,40,5,color);
 

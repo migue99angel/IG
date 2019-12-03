@@ -21,9 +21,15 @@ class Bender{
         Brazo * brazo_der = nullptr;
         Cabeza * cabeza = nullptr;
         Cilindro * tronco = nullptr;
+        float anguloPiernaIzq,anguloPiernaDer,anguloBrazoIzq,anguloBrazoDer,anguloCuello;
     public:
         Bender(Material m);   
         void draw(int modo,bool puntos,bool lineas,bool solido,bool tapas); 
+        void moverPiernaIzq(float inc);
+        void moverPiernaDer(float inc);
+        void moverBrazoIzq(float inc);
+        void moverBrazoDer(float inc);
+        void moverCuello(float inc);
 };
 
 

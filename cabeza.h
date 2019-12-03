@@ -18,12 +18,14 @@ class Cabeza{
         Esfera * esfera=nullptr;
         Cilindro * cilindro=nullptr;
         Cilindro * little_cilindro=nullptr;
-        float angulo;
-        const int incremento = 1;
+        Esfera * ojo_izq = nullptr;
+        Esfera * ojo_der = nullptr;
+        Esfera * pupila_izq = nullptr;
+        Esfera * pupila_der = nullptr;
+
     public:
         Cabeza(Material m,Tupla3f color);    
         void draw(int modo,bool puntos,bool lineas,bool solido,bool tapas);
-        void moverCabeza();
 };
 
 

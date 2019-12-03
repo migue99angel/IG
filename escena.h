@@ -49,6 +49,7 @@ class Escena
    Tetraedro * tetraedro= nullptr ; // es importante inicializarlo a 'nullptr'
    Cilindro * cilindro=nullptr;
    Bender * bender = nullptr;
+   Brazo * brazo = nullptr;
    Cono * cono=nullptr;
    Esfera * esfera=nullptr;
    ObjPLY * ant=nullptr;

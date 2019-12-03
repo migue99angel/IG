@@ -38,7 +38,7 @@ Escena::Escena()
     Tupla4f difuso_gold(0.7038	,0.27048,	0.0828, 1.0);
 
     //Componentes luz
-    Tupla3f pos(0,0,0);
+    Tupla3f pos(200,0,200);
     Tupla2f dir(0,0);
     Tupla4f luz(1.0,1.0,1.0,1.0);
     Tupla4f luz2(1.0,1.0,1.0,1.0);
@@ -69,6 +69,8 @@ Escena::Escena()
     peon2->setMaterial(pearl);
     ant->setMaterial(esmerald);
     bender = new Bender(pearl);
+    brazo = new Brazo(pearl,Tupla3f(0,0,0));
+    
     //cono->setMaterial(material_ejemplo);
 }
 
@@ -127,7 +129,7 @@ void Escena::dibujar()
          bender->draw(modo,puntos,lineas,solido,tapas);
          break;
        case 2:
-         cubo->draw(modo,puntos,lineas,solido);
+         brazo->draw(modo,puntos,lineas,solido,tapas);
          break; 
        case 3:
           glPushMatrix();
@@ -308,8 +310,14 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
         case 'I' : 
          if(modoMenu == SELVISUALIZACION){
+           if(!Iluminacion)
             Iluminacion = true;
+            else
+              Iluminacion = false;
          }  
+         break;
+         case 'J' : 
+            this->bender->moverBrazoDer(1);
          break;
         case '<':
           if(modoMenu == SELVISUALIZACION){

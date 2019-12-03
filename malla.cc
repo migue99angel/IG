@@ -186,7 +186,7 @@ void Malla3D::draw(int modo,bool puntos,bool lineas,bool solido)
 //Esta función inicializar el vector de colores 
 void Malla3D::aniadirColor(Tupla3f cl)
 {
-   Tupla3f aux1=Tupla3f(0.5,0.5,0);
+   Tupla3f aux1=Tupla3f(0,0,0);
    Tupla3f aux2=Tupla3f(0,0.5,1);
    colorLinea.clear();
    colorPuntos.clear();
