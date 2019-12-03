@@ -22,7 +22,11 @@ class Luz
         Tupla4f colorAmbiente;    
         Tupla4f colorDifuso;
         Tupla4f colorEspecular;
-
+        //Si el booleano esta a true es posicional, si no, es direccional
+        bool tipo;
+            //Cambiar ángulo
+    virtual void variarAnguloAlpha(float incremento){};
+    virtual void variarAnguloBeta(float incremento){};
 };
 
 #endif

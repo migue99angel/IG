@@ -39,6 +39,7 @@ Escena::Escena()
 
     //Componentes luz
     Tupla3f pos(0,0,0);
+    Tupla2f dir(0,0);
     Tupla4f luz(1.0,1.0,1.0,1.0);
     Tupla4f luz2(1.0,1.0,1.0,1.0);
     Tupla4f luz3(0.0,0.0,0.0,1.0);
@@ -54,6 +55,8 @@ Escena::Escena()
     peon2 = new ObjRevolucion("plys/peon.ply",50,true);
     esfera = new Esfera();
     luz1 = new LuzPosicional(pos,GL_LIGHT0,luz,luz2,luz3);
+    luz_2 = new LuzDireccional(dir,GL_LIGHT1,luz,luz2,luz3);
+
     Material  esmerald = Material(ambiente_esmerald,especular_esmerald,difuso_esmerald, 128.0*0.6);
     Material obsidian = Material(ambiente_obsidian,especular_obsidian,difuso_obsidian,128*0.3);
     Material pearl = Material(ambiente_pearl,especular_pearl,difuso_pearl,0.088*128);
@@ -170,7 +173,7 @@ void Escena::dibujar()
           glPopMatrix();
          break;
        case 5:
-          luz1->activar();
+          luz_2->activar();
           glPushMatrix();
             glScalef(50,50,50);
             glTranslatef(2,0,0);
@@ -306,10 +309,31 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             Iluminacion = true;
          }  
          break;
-
-
-
-            
+        case '<':
+          if(modoMenu == SELVISUALIZACION){
+            if(Iluminacion){
+                if(luz_2->esDireccional()){
+                  if (angulo == 0) 
+                    luz_2->variarAnguloAlpha(1);
+                  else 
+                    luz_2->variarAnguloBeta(1);
+                }
+              }
+            }
+          break;
+        case '>':
+            if(modoMenu == SELVISUALIZACION){
+            if(Iluminacion){
+                if(luz_2->esDireccional()){
+                  if (angulo == 0) 
+                    luz_2->variarAnguloAlpha(-1);
+                  else 
+                    luz_2->variarAnguloBeta(-1);
+                }
+              }
+            }
+         break;   
+   
    }
    return salir;
 }

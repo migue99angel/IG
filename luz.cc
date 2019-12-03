@@ -13,5 +13,6 @@ void Luz::activar()
  glLightfv(this->id,GL_AMBIENT,this->colorAmbiente);
 
  glLightfv(this->id,GL_POSITION,this->posicion);
-    
+
+ this->tipo = (this->posicion[3] == 1);
 }

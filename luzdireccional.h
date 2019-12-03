@@ -21,6 +21,11 @@ class LuzDireccional : public Luz
         
     public:
         LuzDireccional(Tupla2f direccion,GLenum idLuzOpenGL,Tupla4f colorAmbiente,Tupla4f colorDifuso,Tupla4f colorEspecular);
+        //Cambiar ángulo
+        void variarAnguloAlpha(float incremento)override;
+        void variarAnguloBeta(float incremento)override;
+        void posUpdate();
+        inline bool esDireccional(){return true;}
 };
 
 #endif

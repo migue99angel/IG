@@ -12,6 +12,8 @@
 #include "cono.h"
 #include "esfera.h"
 #include "luzposicional.h"
+#include "luzdireccional.h"
+#include "luz.h"
 
 typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO} menu;
 class Escena
@@ -52,12 +54,14 @@ class Escena
    ObjRevolucion * peon=nullptr;
    ObjRevolucion * peon2=nullptr;
    LuzPosicional * luz1 = nullptr;
+   LuzDireccional * luz_2 = nullptr;
    int toDraw, modo=1;
    GLenum visual = GL_FILL;
    bool Iluminacion = false;
    bool puntos=false, lineas=false, solido=true;
    bool ajedrez = false;
    bool tapas=true;
+   int angulo = 0;
    public:
 
     Escena();

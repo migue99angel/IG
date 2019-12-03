@@ -17,9 +17,7 @@ class LuzPosicional : public Luz
 {
     public:
         LuzPosicional(Tupla3f pos,GLenum idLuzOpenGL,Tupla4f colorAmbiente,Tupla4f colorDifuso,Tupla4f colorEspecular);
-        //Cambiar ángulo
-        void variarAnguloAlpha(float incremento);
-        void variarAnguloBeta(float incremento);
+        inline bool esDireccional(){return false;}
 };
 
 #endif
