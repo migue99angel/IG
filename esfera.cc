@@ -1,5 +1,3 @@
-#include "aux.h"
-#include "malla.h"
 #include "esfera.h"
 
 Esfera::Esfera(int num_vert_perf,int num_instancias_perf,float r,Tupla3f c)

@@ -56,6 +56,7 @@ Escena::Escena()
     esfera = new Esfera();
     luz1 = new LuzPosicional(pos,GL_LIGHT0,luz,luz2,luz3);
     luz_2 = new LuzDireccional(dir,GL_LIGHT1,luz,luz2,luz3);
+    
 
     Material  esmerald = Material(ambiente_esmerald,especular_esmerald,difuso_esmerald, 128.0*0.6);
     Material obsidian = Material(ambiente_obsidian,especular_obsidian,difuso_obsidian,128*0.3);
@@ -67,6 +68,7 @@ Escena::Escena()
     esfera->setMaterial(gold);
     peon2->setMaterial(pearl);
     ant->setMaterial(esmerald);
+    bender = new Bender(pearl);
     //cono->setMaterial(material_ejemplo);
 }
 
@@ -122,7 +124,7 @@ void Escena::dibujar()
     switch(toDraw)
     { 
        case 1:
-         tetraedro->draw(modo,puntos,lineas,solido);
+         bender->draw(modo,puntos,lineas,solido,tapas);
          break;
        case 2:
          cubo->draw(modo,puntos,lineas,solido);

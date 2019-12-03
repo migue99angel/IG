@@ -14,6 +14,7 @@
 #include "luzposicional.h"
 #include "luzdireccional.h"
 #include "luz.h"
+#include "bender.h"
 
 typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO} menu;
 class Escena
@@ -47,6 +48,7 @@ class Escena
    Cubo * cubo = nullptr ; // es importante inicializarlo a 'nullptr'
    Tetraedro * tetraedro= nullptr ; // es importante inicializarlo a 'nullptr'
    Cilindro * cilindro=nullptr;
+   Bender * bender = nullptr;
    Cono * cono=nullptr;
    Esfera * esfera=nullptr;
    ObjPLY * ant=nullptr;

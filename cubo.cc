@@ -4,11 +4,11 @@
 
 Cubo::Cubo(float lado)
 {
-
+   this->lado = lado;
    // inicializar la tabla de vértices
    //a->0 b->1 c->2 d->3 e->4 x->5 g->6 h->7 
-   Tupla3f a(0,0,0), b(MAX/2,0,0),c(MAX/2,MAX/2,0),d(0,MAX/2,0),
-            e(0,0,-MAX/2), x(MAX/2,0,-MAX/2), g(MAX/2,MAX/2,-MAX/2),h(0,MAX/2,-MAX/2);         
+   Tupla3f a(0,0,0), b(lado/2,0,0),c(lado/2,lado/2,0),d(0,lado/2,0),
+            e(0,0,-lado/2), x(lado/2,0,-lado/2), g(lado/2,lado/2,-lado/2),h(0,lado/2,-lado/2);         
 
    
    v.push_back(a);
@@ -43,9 +43,9 @@ Cubo::Cubo(float lado)
    f.push_back(ver12);
      
     // inicializar la tabla de colores
-    Tupla3f a1(0,1.0,0), b1(0,1.0,0),c1(0,1.0,0), 
-            d1(0,1.0,0), e1(0,1.0,0), f1(0,1.0,0), 
-            g1(0,1.0,0),h1(0,1.0,0);
+    Tupla3f a1(0.7,0.7,0.7), b1(0.7,0.7,0.7),c1(0.7,0.7,0.7), 
+            d1(0.7,0.7,0.7), e1(0.7,0.7,0.7), f1(0.7,0.7,0.7), 
+            g1(0.7,0.7,0.7),h1(0.7,0.7,0.7);
 
     color.push_back(a1);
     color.push_back(b1);
