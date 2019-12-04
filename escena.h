@@ -16,7 +16,7 @@
 #include "luz.h"
 #include "bender.h"
 
-typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO} menu;
+typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO,SELANIMACION} menu;
 class Escena
 {
 
@@ -58,12 +58,14 @@ class Escena
    ObjRevolucion * peon2=nullptr;
    LuzPosicional * luz1 = nullptr;
    LuzDireccional * luz_2 = nullptr;
-   int toDraw, modo=1;
+   int toDraw = 1, modo=1,n_animacion=0;
    GLenum visual = GL_FILL;
    bool Iluminacion = false;
    bool puntos=false, lineas=false, solido=true;
    bool ajedrez = false;
    bool tapas=true;
+   bool animacion = false;
+   bool pause = true;
    int angulo = 0;
    public:
 
@@ -77,6 +79,7 @@ class Escena
 	// Interacción con la escena
 	bool teclaPulsada( unsigned char Tecla1, int x, int y ) ;
 	void teclaEspecial( int Tecla1, int x, int y );
-
+    void animarModeloJerarquico();
+    inline bool getPause(){return this->pause;}
 };
 #endif

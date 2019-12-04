@@ -8,8 +8,17 @@ Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf, con
     this->altura = altura;
     this->radio = radio;
     
-    perfil.push_back(Tupla3f(radio,altura,0));
     perfil.push_back(Tupla3f(radio,0,0));
+    perfil.push_back(Tupla3f(radio,altura,0));
+    /*float altura_original=altura, aux=altura/num_vert_perfil;
+
+    for(int i = 0; i < num_vert_perfil; ++i){
+        perfil.push_back(Tupla3f(radio,altura_original,0));
+        altura_original-=aux;
+    }
+
+     perfil.push_back(Tupla3f(radio,0,0));*/
+   
 
     this->crearMalla(perfil,num_instancias_perf,true);
     this->aniadirColor(Tupla3f(c));

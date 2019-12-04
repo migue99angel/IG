@@ -22,14 +22,22 @@ class Bender{
         Cabeza * cabeza = nullptr;
         Cilindro * tronco = nullptr;
         float anguloPiernaIzq,anguloPiernaDer,anguloBrazoIzq,anguloBrazoDer,anguloCuello;
+        int v_animacion;
+        bool hacia_delante_pierna_der;
+        bool hacia_delante_pierna_izq;
+        bool paso;
+        int n_pasos;
     public:
-        Bender(Material m);   
+        Bender(Material m,int v_animacion);   
         void draw(int modo,bool puntos,bool lineas,bool solido,bool tapas); 
-        void moverPiernaIzq(float inc);
-        void moverPiernaDer(float inc);
-        void moverBrazoIzq(float inc);
-        void moverBrazoDer(float inc);
-        void moverCuello(float inc);
+        void moverPiernaIzq();
+        void moverPiernaDer();
+        void moverBrazoIzq();
+        void moverBrazoDer();
+        void moverCuello();
+        void mover(int animacion);
+        void andar();
+        void setVelocidad(float v);
 };
 
 

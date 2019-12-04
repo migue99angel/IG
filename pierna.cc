@@ -9,16 +9,11 @@ Pierna::Pierna(Material m,Tupla3f color){
     this->pie->setMaterial(m);
     this->cilindro->setMaterial(m);
 
-    this->angulo = 0; 
 }
 
-void Pierna::moverPierna(){
-    this->angulo += incremento;
-}
 
 void Pierna::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas){
-    glPushMatrix();
-                glRotatef(angulo,0,0,1);
+    glPushMatrix();               
                 glPushMatrix();
                     this->esfera_sup->draw(modo,puntos,lineas,solido,tapas);
                 glPopMatrix();

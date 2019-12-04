@@ -38,7 +38,7 @@ Escena::Escena()
     Tupla4f difuso_gold(0.7038	,0.27048,	0.0828, 1.0);
 
     //Componentes luz
-    Tupla3f pos(200,0,200);
+    Tupla3f pos(200,2,200);
     Tupla2f dir(0,0);
     Tupla4f luz(1.0,1.0,1.0,1.0);
     Tupla4f luz2(1.0,1.0,1.0,1.0);
@@ -46,7 +46,7 @@ Escena::Escena()
 
     // crear los objetos de la escena....
     //cono = new Cono();
-    cilindro = new Cilindro();
+    cilindro = new Cilindro(5,50,10,10);
     cubo = new Cubo;
     tetraedro = new Tetraedro;
     ant = new ObjPLY("plys/ant.ply");
@@ -68,8 +68,7 @@ Escena::Escena()
     esfera->setMaterial(gold);
     peon2->setMaterial(pearl);
     ant->setMaterial(esmerald);
-    bender = new Bender(pearl);
-    brazo = new Brazo(pearl,Tupla3f(0,0,0));
+    bender = new Bender(pearl,10);
     
     //cono->setMaterial(material_ejemplo);
 }
@@ -133,11 +132,11 @@ void Escena::dibujar()
          break; 
        case 3:
           glPushMatrix();
-            glScalef(2.5,2.5,2.5);
-            glTranslatef(-20,0,-20);
+            //glTranslatef(-20,0,-20);
+            glScalef(5,5,5);
             cilindro->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
-          glPushMatrix();
+          /*glPushMatrix();
             glScalef(50,50,50);
             glTranslatef(-2,0,0);
             peon2->draw(modo,puntos,lineas,solido,tapas);
@@ -150,56 +149,8 @@ void Escena::dibujar()
           glPushMatrix();
             glTranslatef(0,-100,20);
             esfera->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
-
+          glPopMatrix();*/
          break;
-       case 4:
-          glPushMatrix();
-            glTranslatef(50,0,50);
-            glScalef(50,50,50);
-            peon->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
-          glPushMatrix();
-            glTranslatef(50,50,100);
-            esfera->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
-          glPushMatrix();
-             glScalef(1,5,1);
-             glTranslatef(-50,0,0);
-            cilindro->aniadirColor(Tupla3f(1,0,0)); 
-            cilindro->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
-          glPushMatrix();
-            glScalef(2,2,2);
-            glTranslatef(-50,0,0);
-            ant->aniadirColor(Tupla3f(1,0,0)); 
-            ant->draw(modo,puntos,lineas,solido);
-          glPopMatrix();
-         break;
-       case 5:
-          luz_2->activar();
-          glPushMatrix();
-            glScalef(50,50,50);
-            glTranslatef(2,0,0);
-            peon->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
-          glPushMatrix();
-            glScalef(50,50,50);
-            glTranslatef(-2,0,0);
-            peon2->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
-          
-         break;
-       case 6:
-          glPushMatrix();
-            cilindro->aniadirColor(Tupla3f(1,0,0)); 
-            cilindro->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
-         break;
-       default:
-         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-         ejes.draw();
-         break;    
     }
     
 }
@@ -233,6 +184,9 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
        case 'V' :
          // ESTAMOS EN MODO SELECCION DE MODO DE VISUALIZACION
          modoMenu=SELVISUALIZACION;
+         if(SELANIMACION){
+           this->bender->mover(n_animacion);
+         }
          break ;
        case 'D' :
          // ESTAMOS EN MODO SELECCION DE DIBUJADO
@@ -259,7 +213,6 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
        case 'W' : 
          if(modoMenu == SELOBJETO){
-            toDraw = 4;
          }  
          break;
        case 'P' : 
@@ -268,7 +221,6 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             Iluminacion = false;
          }  
          else if (modoMenu == SELOBJETO){
-            toDraw = 5;
          }
          break;
        case 'L' : 
@@ -286,12 +238,22 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
        case '1' : 
          if(modoMenu == SELDIBUJADO){
             modo = 1;
+         }
+         else{
+           if(modoMenu == SELANIMACION && animacion){
+             n_animacion = 1;
+           }
          }  
          break;  
        case '2' : 
          if(modoMenu == SELDIBUJADO){
             modo = 2;
-         }  
+         } 
+         else{
+           if(modoMenu == SELANIMACION && animacion){
+             n_animacion = 2;
+           }
+         }   
          break;
        case 'A' : 
          if(modoMenu == SELVISUALIZACION){
@@ -301,11 +263,15 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             modo = 3;
           else 
             modo = 1;
+         }
+         else{
+            modoMenu = SELANIMACION;
+            animacion = true;
          }  
          break;
        case '6' : 
-         if(modoMenu == SELOBJETO){
-            toDraw = 6;
+         if(modoMenu == SELANIMACION){
+           n_animacion = 6;
          }  
          break;
         case 'I' : 
@@ -317,7 +283,8 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          }  
          break;
          case 'J' : 
-            this->bender->moverBrazoDer(1);
+            if(modoMenu == SELANIMACION)
+              this->pause = !this->pause;
          break;
         case '<':
           if(modoMenu == SELVISUALIZACION){
@@ -342,8 +309,32 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
                 }
               }
             }
-         break;   
-   
+         break;
+         case '3':
+           if(modoMenu == SELANIMACION ){
+             n_animacion = 3;
+           }     
+          break;
+          case '4':
+           if(modoMenu == SELANIMACION && animacion){
+             n_animacion = 4;
+           }     
+          break;
+          case '5':
+           if(modoMenu == SELANIMACION && animacion){
+             n_animacion = 5;
+           }     
+          break;
+          case '+':
+           if(modoMenu == SELANIMACION && animacion){
+             bender->setVelocidad(1.25);
+           }     
+          break;
+          case '-':
+           if(modoMenu == SELANIMACION && animacion){
+             bender->setVelocidad(0.75);
+           }     
+          break;
    }
    return salir;
 }
@@ -414,4 +405,14 @@ void Escena::change_observer()
    glTranslatef( 0.0, 0.0, -Observer_distance );
    glRotatef( Observer_angle_y, 0.0 ,1.0, 0.0 );
    glRotatef( Observer_angle_x, 1.0, 0.0, 0.0 );
+}
+
+void Escena::animarModeloJerarquico(){
+  if(!pause){
+    this->bender->moverBrazoDer();
+    this->bender->moverBrazoIzq();
+    this->bender->moverCuello();
+    this->bender->moverPiernaDer();
+    this->bender->moverPiernaIzq();
+  }
 }
