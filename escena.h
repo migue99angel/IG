@@ -15,6 +15,7 @@
 #include "luzdireccional.h"
 #include "luz.h"
 #include "bender.h"
+#include "cuadro.h"
 
 typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO,SELANIMACION} menu;
 class Escena
@@ -51,6 +52,7 @@ class Escena
    Bender * bender = nullptr;
    Brazo * brazo = nullptr;
    Cono * cono=nullptr;
+   Cuadro * cuadro = nullptr;
    Esfera * esfera=nullptr;
    ObjPLY * ant=nullptr;
    ObjPLY * bet=nullptr;
@@ -58,6 +60,7 @@ class Escena
    ObjRevolucion * peon2=nullptr;
    LuzPosicional * luz1 = nullptr;
    LuzDireccional * luz_2 = nullptr;
+
    int toDraw = 1, modo=1,n_animacion=0;
    GLenum visual = GL_FILL;
    bool Iluminacion = false;

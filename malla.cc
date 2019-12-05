@@ -39,6 +39,9 @@ void Malla3D::draw_ModoInmediato(char L)
   glEnableClientState(GL_NORMAL_ARRAY);
   glNormalPointer(GL_FLOAT, 0, nv.data());
 
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  glTexCoordPointer(2,GL_FLOAT,0,ct.data());
+
 
   //Sirve para que no se vea difuminado
   //glShadeModel(GL_FLAT);
@@ -49,6 +52,7 @@ void Malla3D::draw_ModoInmediato(char L)
   //Deshabilitar el array de vértices
   glDisableClientState(GL_COLOR_ARRAY);
   glDisableClientState(GL_VERTEX_ARRAY);
+  glDisableClientState(GL_NORMAL_ARRAY);
 
 
 }
@@ -87,6 +91,7 @@ void Malla3D::draw_Chess()
 
       glDisableClientState(GL_COLOR_ARRAY);
       glDisableClientState( GL_VERTEX_ARRAY );
+      glDisableClientState(GL_NORMAL_ARRAY);
 
 
 }
@@ -137,8 +142,9 @@ void Malla3D::draw_ModoDiferido(char L)
    glDrawElements( GL_TRIANGLES, 3* f.size(), GL_UNSIGNED_INT, 0 ) ;
    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 ); //desactivar VBO de triángulos
 
-   //desactivar uso de array de vértices
+   //desactivar uso de array de vértices y el de normales
    glDisableClientState(GL_VERTEX_ARRAY);
+   glDisableClientState(GL_NORMAL_ARRAY);
 }
 // -----------------------------------------------------------------------------
 // Función de visualización de la malla,
@@ -150,6 +156,7 @@ void Malla3D::draw(int modo,bool puntos,bool lineas,bool solido)
       calcular_normales();
       
    mat->aplicar();
+   //text->activar();
    if(puntos){
       glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
       switch (modo)
@@ -255,3 +262,8 @@ void Malla3D::setMaterial(Material m)
 {
    mat = new Material(m);
 }
+/*
+void Malla3D::setTextura(Textura text)
+{
+   this->text = new Textura(text);
+}*/

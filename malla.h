@@ -12,6 +12,7 @@
 
 #include "aux.h"
 #include "material.h"
+#include "textura.h"
 
 // *****************************************************************************
 //
@@ -42,6 +43,7 @@ class Malla3D
    void aniadirColor(Tupla3f cl);
    //Añade un material
    void setMaterial(Material m);
+   //void setTextura(Textura text);
    protected:
    
    void calcular_normales() ; // calcula tabla de normales de las caras (práctica 3)
@@ -52,7 +54,9 @@ class Malla3D
    std::vector<Tupla3i> f, fimpar, fpar ; // una terna de 3 enteros por cada cara o triángulo
    std::vector<Tupla3f> nv; //tabla de normales de vértices
    std::vector<Tupla3f> nc; //tabla de normales de caras;
+   std::vector<Tupla2f> ct; //tabla de coordenadas de textura
    Material * mat = nullptr;
+   //Textura * text = nullptr;
    bool ajedrez = false;
    const int MAX=100;
    GLuint id_vbo_ver=0,id_vbo_tri=0;

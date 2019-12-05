@@ -37,6 +37,10 @@ Escena::Escena()
     Tupla4f especular_gold(0.256777,0.137622,	0.086014, 1.0);
     Tupla4f difuso_gold(0.7038	,0.27048,	0.0828, 1.0);
 
+    Tupla4f ambiente_brass(	0.329412, 0.223529, 0.027451, 1.0);
+    Tupla4f especular_brass(0.992157,	0.941176,	0.807843, 1.0);
+    Tupla4f difuso_brass(0.780392,	0.568627,	0.113725, 1.0);
+
     //Componentes luz
     Tupla3f pos(200,2,200);
     Tupla2f dir(0,0);
@@ -45,7 +49,7 @@ Escena::Escena()
     Tupla4f luz3(0.0,0.0,0.0,1.0);
 
     // crear los objetos de la escena....
-    //cono = new Cono();
+    cono = new Cono();
     cilindro = new Cilindro(5,50,10,1);
     cubo = new Cubo;
     tetraedro = new Tetraedro;
@@ -56,21 +60,27 @@ Escena::Escena()
     esfera = new Esfera();
     luz1 = new LuzPosicional(pos,GL_LIGHT0,luz,luz2,luz3);
     luz_2 = new LuzDireccional(dir,GL_LIGHT1,luz,luz2,luz3);
+    cuadro = new Cuadro(100);
     
 
     Material  esmerald = Material(ambiente_esmerald,especular_esmerald,difuso_esmerald, 128.0*0.6);
     Material obsidian = Material(ambiente_obsidian,especular_obsidian,difuso_obsidian,128*0.3);
     Material pearl = Material(ambiente_pearl,especular_pearl,difuso_pearl,0.088*128);
     Material gold = Material(ambiente_gold,especular_gold,difuso_gold,0.1*128);
+    Material brass = Material(ambiente_brass,especular_brass,difuso_brass,128*0.21794872);
+
+    Textura text = Textura("jpgs/text-madera.jpg",0);
+    
     cubo->setMaterial(esmerald);
     peon->setMaterial(esmerald);
     cilindro->setMaterial(gold);
     esfera->setMaterial(gold);
     peon2->setMaterial(pearl);
     ant->setMaterial(esmerald);
-    bender = new Bender(pearl,10);
-    
-    //cono->setMaterial(material_ejemplo);
+    bender = new Bender(brass,10);
+    cono->setMaterial(pearl);
+    cuadro->setMaterial(pearl);
+    cuadro->setTextura(text);
 }
 
 //**************************************************************************
@@ -114,18 +124,28 @@ void Escena::dibujar()
       glEnable(GL_LIGHTING);
       glEnable(GL_NORMALIZE);
       glShadeModel(GL_SMOOTH);
+      glEnable(GL_TEXTURE_2D);
       luz1->activar();
       
     }
     else{
       if(glIsEnabled(GL_LIGHTING))
         glDisable(GL_LIGHTING);
+      if(glIsEnabled(GL_TEXTURE_2D))
+        glDisable(GL_TEXTURE_2D);  
     }
 
     switch(toDraw)
     { 
        case 1:
-         bender->draw(modo,puntos,lineas,solido,tapas);
+          glPushMatrix();
+            //bender->draw(modo,puntos,lineas,solido,tapas);
+          glPopMatrix();
+          glPushMatrix();
+            glTranslatef(-20,0,-20);
+            cuadro->draw(modo,puntos,lineas,solido);
+          glPopMatrix();
+         
          break;
        case 2:
          brazo->draw(modo,puntos,lineas,solido,tapas);
