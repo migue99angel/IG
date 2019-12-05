@@ -132,11 +132,10 @@ void Escena::dibujar()
          break; 
        case 3:
           glPushMatrix();
-            //glTranslatef(-20,0,-20);
-            glScalef(50,50,50);
+            glTranslatef(-20,0,-20);
             cilindro->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
-          /*glPushMatrix();
+          glPushMatrix();
             glScalef(50,50,50);
             glTranslatef(-2,0,0);
             peon2->draw(modo,puntos,lineas,solido,tapas);
@@ -149,7 +148,7 @@ void Escena::dibujar()
           glPushMatrix();
             glTranslatef(0,-100,20);
             esfera->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();*/
+          glPopMatrix();
          break;
     }
     
@@ -409,17 +408,15 @@ void Escena::change_observer()
 
 void Escena::animarModeloJerarquico(){
   if(!pause){
-    if(bender->getNPasos()<50){
-      this->bender->moverBrazoDer();
-      this->bender->moverBrazoIzq();
+    if(bender->getNPasos()<100)
       this->bender->andar();
-    }
+    
     else{
-      this->bender->moverBrazoDer();
-      this->bender->moverBrazoIzq();
-      this->bender->moverPiernaDer();
-      this->bender->moverPiernaIzq();
+      if(bender->anguloBrazoDer > -180)
+        this->bender->moverBrazoDer();
     }
+    if(bender->getNPasos() == 100 && bender->anguloBrazoDer == -180)
+      this->bender->moverCuello();
   }
   
 }

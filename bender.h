@@ -21,7 +21,6 @@ class Bender{
         Brazo * brazo_der = nullptr;
         Cabeza * cabeza = nullptr;
         Cilindro * tronco = nullptr;
-        float anguloPiernaIzq,anguloPiernaDer,anguloBrazoIzq,anguloBrazoDer,anguloCuello;
         int v_animacion;
         bool hacia_delante_pierna_der;
         bool hacia_delante_pierna_izq;
@@ -41,9 +40,9 @@ class Bender{
         void andarHaciaAtras();
         void setVelocidad(float v);
         inline int getNPasos(){return n_pasos;}
-        inline float getAnguloCuello(){return this->anguloCuello;}
         inline bool getAtras(){return this->haciaAtras;}
         inline void setAtras(bool atras){this->haciaAtras = atras;}
+        float anguloPiernaIzq,anguloPiernaDer,anguloBrazoIzq,anguloBrazoDer,anguloCuello;
 };
 
 

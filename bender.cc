@@ -64,10 +64,12 @@ void Bender::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas){
 
 void Bender::moverBrazoDer(){
     this->anguloBrazoDer -= v_animacion;
+    this->anguloBrazoDer = static_cast<int>(this->anguloBrazoDer)%(360);
 }
 
 void Bender::moverBrazoIzq(){
     this->anguloBrazoIzq -= v_animacion;
+    this->anguloBrazoIzq = static_cast<int>(this->anguloBrazoIzq)%(360);
 }
 
 void Bender::moverPiernaDer(){
@@ -94,6 +96,7 @@ void Bender::moverPiernaIzq(){
 
 void Bender::moverCuello(){
     this->anguloCuello += v_animacion;
+    this->anguloCuello = static_cast<int>(this->anguloCuello)%(360);
 }
 
 void Bender::mover(int animacion){
