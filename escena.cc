@@ -46,7 +46,7 @@ Escena::Escena()
 
     // crear los objetos de la escena....
     //cono = new Cono();
-    cilindro = new Cilindro(5,50,10,10);
+    cilindro = new Cilindro(5,50,10,1);
     cubo = new Cubo;
     tetraedro = new Tetraedro;
     ant = new ObjPLY("plys/ant.ply");
@@ -133,7 +133,7 @@ void Escena::dibujar()
        case 3:
           glPushMatrix();
             //glTranslatef(-20,0,-20);
-            glScalef(5,5,5);
+            glScalef(50,50,50);
             cilindro->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
           /*glPushMatrix();
@@ -409,10 +409,17 @@ void Escena::change_observer()
 
 void Escena::animarModeloJerarquico(){
   if(!pause){
-    this->bender->moverBrazoDer();
-    this->bender->moverBrazoIzq();
-    this->bender->moverCuello();
-    this->bender->moverPiernaDer();
-    this->bender->moverPiernaIzq();
+    if(bender->getNPasos()<50){
+      this->bender->moverBrazoDer();
+      this->bender->moverBrazoIzq();
+      this->bender->andar();
+    }
+    else{
+      this->bender->moverBrazoDer();
+      this->bender->moverBrazoIzq();
+      this->bender->moverPiernaDer();
+      this->bender->moverPiernaIzq();
+    }
   }
+  
 }

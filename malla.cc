@@ -239,12 +239,17 @@ void Malla3D::calcular_normales_vertices(){
    nv = std::vector<Tupla3f>(v.size(), {0, 0, 0});
    //Ahora obtenemos las normales de los vértices, que se define como la sumatoria de las normales de todas las caras adyacentes
    for(int i=0;i<f.size();i++){
-      nv[f[i][0]] = (nv[f[i][0]] + nc[i]).normalized();
-      nv[f[i][1]] = (nv[f[i][1]] + nc[i]).normalized();
-      nv[f[i][2]] = (nv[f[i][2]] + nc[i]).normalized();
-      
+      nv[f[i][0]] = (nv[f[i][0]] + nc[i]);
+      nv[f[i][1]] = (nv[f[i][1]] + nc[i]);
+      nv[f[i][2]] = (nv[f[i][2]] + nc[i]); 
    }
+   //Finalmente normalizamos las normales de los vertices
+   for(int i=0;i<nv.size();++i)
+      nv[i] = nv[i].normalized();
+   
+
 }
+
 
 void Malla3D::setMaterial(Material m)
 {

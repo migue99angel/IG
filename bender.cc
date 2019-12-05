@@ -20,6 +20,7 @@ Bender::Bender(Material m,int v_animacion){
 void Bender::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas){
         glPushMatrix();
                 glTranslatef(0,0,n_pasos);
+                
                 glPushMatrix();
                     this->tronco->draw(modo,puntos,lineas,solido,tapas);
                 glPopMatrix();
@@ -32,7 +33,6 @@ void Bender::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas){
                 glPopMatrix();
 
                 glPushMatrix();
-                    
                     glScalef(0.75,0.75,0.75);
                     glTranslatef(tronco->getRadio()+brazo_der->getHombro(),0.95*tronco->getAltura(),0);
                     glRotatef(this->anguloBrazoDer,1,0,0);
@@ -141,6 +141,32 @@ void Bender::andar(){
         }
         else{
             this->anguloPiernaIzq -= v_animacion;
+            paso =true;
+        }
+    }
+}
+
+void Bender::andarHaciaAtras(){
+    if(this->anguloPiernaDer > v_animacion)
+        this->anguloPiernaDer = 0;
+    if(this->anguloPiernaIzq > v_animacion)
+        this->anguloPiernaIzq = 0;   
+    this->n_pasos--;
+    if(paso){
+        if(this->n_pasos % 2 == 0){
+            this->anguloPiernaDer -= v_animacion;
+        }
+        else{
+            this->anguloPiernaDer += v_animacion;
+            paso =false;
+        }
+    }
+    else{
+        if(this->n_pasos % 2 == 0){
+            this->anguloPiernaIzq -= v_animacion;
+        }
+        else{
+            this->anguloPiernaIzq += v_animacion;
             paso =true;
         }
     }

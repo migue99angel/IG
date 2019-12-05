@@ -25,6 +25,7 @@ class Bender{
         int v_animacion;
         bool hacia_delante_pierna_der;
         bool hacia_delante_pierna_izq;
+        bool haciaAtras = false;
         bool paso;
         int n_pasos;
     public:
@@ -37,7 +38,12 @@ class Bender{
         void moverCuello();
         void mover(int animacion);
         void andar();
+        void andarHaciaAtras();
         void setVelocidad(float v);
+        inline int getNPasos(){return n_pasos;}
+        inline float getAnguloCuello(){return this->anguloCuello;}
+        inline bool getAtras(){return this->haciaAtras;}
+        inline void setAtras(bool atras){this->haciaAtras = atras;}
 };
 
 
