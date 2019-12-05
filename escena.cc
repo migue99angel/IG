@@ -69,7 +69,7 @@ Escena::Escena()
     Material gold = Material(ambiente_gold,especular_gold,difuso_gold,0.1*128);
     Material brass = Material(ambiente_brass,especular_brass,difuso_brass,128*0.21794872);
 
-    Textura text = Textura("jpgs/text-madera.jpg",0);
+    text = Textura("jpgs/text-madera.jpg",0);
     
     cubo->setMaterial(esmerald);
     peon->setMaterial(esmerald);
@@ -126,7 +126,7 @@ void Escena::dibujar()
       glShadeModel(GL_SMOOTH);
       glEnable(GL_TEXTURE_2D);
       luz1->activar();
-      
+      text.activar();
     }
     else{
       if(glIsEnabled(GL_LIGHTING))
@@ -134,12 +134,13 @@ void Escena::dibujar()
       if(glIsEnabled(GL_TEXTURE_2D))
         glDisable(GL_TEXTURE_2D);  
     }
-
+     
+      
     switch(toDraw)
     { 
        case 1:
           glPushMatrix();
-            //bender->draw(modo,puntos,lineas,solido,tapas);
+            bender->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
           glPushMatrix();
             glTranslatef(-20,0,-20);

@@ -23,7 +23,7 @@ Cuadro::Cuadro(float lado)
 
      
     // inicializar la tabla de colores
-    Tupla3f a1(0.7,0.7,0.7);
+    Tupla3f a1(0,0,0.7);
 
     color.push_back(a1);
     color.push_back(a1);
@@ -44,57 +44,4 @@ Cuadro::Cuadro(float lado)
 
 }
 
-void Cuadro::setTextura(Textura &text)
-{
-    this->text = text;
-    obtenerPuntosCoordenadas();
-}
 
-void Cuadro::obtenerPuntosCoordenadas()
-{
-   this->ct.push_back({0,0});
-   this->ct.push_back({text.width,0});
-   this->ct.push_back({0,text.height});
-   this->ct.push_back({text.width,text.height});
-}
-
-void Cuadro::draw(int modo,bool puntos,bool lineas,bool solido)
-{
-   if(nv.empty())
-      calcular_normales();
-      
-   mat->aplicar();
-   text.activar();
-   setTextura(text);
-   if(puntos){
-      glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
-      switch (modo)
-      {
-         case 1: draw_ModoInmediato('P'); break;
-         case 2: draw_ModoDiferido('P'); break;
-         case 3: draw_Chess(); break;
-         
-      }
-   }
-   if(lineas){
-      glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-      switch (modo)
-      {
-         case 1: draw_ModoInmediato('L'); break;
-         case 2: draw_ModoDiferido('L'); break;
-         case 3: draw_Chess(); break;
-         
-      }
-   }
-   if(solido){
-      glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-      switch (modo)
-      {
-         case 1: draw_ModoInmediato('F'); break;
-         case 2: draw_ModoDiferido('F'); break;
-         case 3: draw_Chess(); break;
-         
-      }
-   }   
-
-}

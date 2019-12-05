@@ -60,7 +60,7 @@ class Escena
    ObjRevolucion * peon2=nullptr;
    LuzPosicional * luz1 = nullptr;
    LuzDireccional * luz_2 = nullptr;
-
+   Textura text;
    int toDraw = 1, modo=1,n_animacion=0;
    GLenum visual = GL_FILL;
    bool Iluminacion = false;

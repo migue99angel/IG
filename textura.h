@@ -14,14 +14,16 @@ class Textura{
     private:
         GLuint textura_id = 0;
         std::vector<unsigned char*> texels;
-        
-       
+        jpg::Imagen * pimg = nullptr;
+        unsigned int width,height;
     public:
         Textura();
         Textura(std::string archivo,GLuint textura);
+        Textura(const Textura &t);
         void activar();
-        jpg::Imagen * pimg = nullptr;
         inline std::vector<unsigned char*> getCoordenadas(){return texels;}
-        unsigned int width,height;
+        inline unsigned int getAncho(){return width;}
+        inline unsigned int getAlto(){return height;}
+        Textura& operator = (const Textura &t);
 };
 #endif

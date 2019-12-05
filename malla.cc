@@ -38,9 +38,12 @@ void Malla3D::draw_ModoInmediato(char L)
 
   glEnableClientState(GL_NORMAL_ARRAY);
   glNormalPointer(GL_FLOAT, 0, nv.data());
-
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glTexCoordPointer(2,GL_FLOAT,0,ct.data());
+   
+   if(!ct.empty()){
+      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+      glTexCoordPointer(2,GL_FLOAT,0,ct.data());
+   }
+   
 
 
   //Sirve para que no se vea difuminado
@@ -53,7 +56,7 @@ void Malla3D::draw_ModoInmediato(char L)
   glDisableClientState(GL_COLOR_ARRAY);
   glDisableClientState(GL_VERTEX_ARRAY);
   glDisableClientState(GL_NORMAL_ARRAY);
-
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 }
 // -----------------------------------------------------------------------------
@@ -156,7 +159,10 @@ void Malla3D::draw(int modo,bool puntos,bool lineas,bool solido)
       calcular_normales();
       
    mat->aplicar();
-   //text->activar();
+
+   if(ct.empty())
+      obtenerPuntosCoordenadas();
+
    if(puntos){
       glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
       switch (modo)
@@ -262,8 +268,17 @@ void Malla3D::setMaterial(Material m)
 {
    mat = new Material(m);
 }
-/*
+
 void Malla3D::setTextura(Textura text)
 {
-   this->text = new Textura(text);
-}*/
+    this->text =new Textura(text);
+    obtenerPuntosCoordenadas();
+}
+
+void Malla3D::obtenerPuntosCoordenadas()
+{
+   this->ct.push_back({0,0});
+   this->ct.push_back({text->getAncho(),0});
+   this->ct.push_back({0,text->getAlto()});
+   this->ct.push_back({text->getAncho(),text->getAlto()});
+}

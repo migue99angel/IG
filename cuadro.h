@@ -18,13 +18,9 @@ class Cuadro : public Malla3D
 {
    private:
       float lado;
-      Textura text;
    public:
+      Cuadro();
       Cuadro(float l);
-      inline float getLado(){return this->lado;}
-      void setTextura(Textura &t);
-      void draw(int modo,bool puntos,bool lineas,bool solido);
-      void obtenerPuntosCoordenadas();
 } ;
 
 #endif
