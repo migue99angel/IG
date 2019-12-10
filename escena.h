@@ -70,6 +70,7 @@ class Escena
    bool animacion = false;
    bool pause = true;
    int angulo = 0;
+   bool arriba = true;
    public:
 
     Escena();
@@ -83,6 +84,7 @@ class Escena
 	bool teclaPulsada( unsigned char Tecla1, int x, int y ) ;
 	void teclaEspecial( int Tecla1, int x, int y );
     void animarModeloJerarquico();
+    void animarLuces();
     inline bool getPause(){return this->pause;}
 };
 #endif

@@ -27,6 +27,7 @@ class Luz
             //Cambiar ángulo
     virtual void variarAnguloAlpha(float incremento){};
     virtual void variarAnguloBeta(float incremento){};
+    
 };
 
 #endif

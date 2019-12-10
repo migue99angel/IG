@@ -18,6 +18,8 @@ class LuzPosicional : public Luz
     public:
         LuzPosicional(Tupla3f pos,GLenum idLuzOpenGL,Tupla4f colorAmbiente,Tupla4f colorDifuso,Tupla4f colorEspecular);
         inline bool esDireccional(){return false;}
+        void changePos(Tupla3f incr);
+        Tupla3f getPos();
 };
 
 #endif

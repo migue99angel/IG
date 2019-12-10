@@ -19,3 +19,14 @@ LuzPosicional::LuzPosicional(Tupla3f pos,GLenum idLuzOpenGL,Tupla4f colorAmbient
 
 }
 
+void LuzPosicional::changePos(Tupla3f incr)
+{
+    this->posicion(0) += incr(0);
+    this->posicion(1) += incr(1);
+    this->posicion(2) += incr(2);
+}
+
+Tupla3f LuzPosicional::getPos()
+{
+    return {this->posicion(0),this->posicion(1),this->posicion(2)};
+}

@@ -42,7 +42,7 @@ Escena::Escena()
     Tupla4f difuso_brass(0.780392,	0.568627,	0.113725, 1.0);
 
     //Componentes luz
-    Tupla3f pos(200,2,200);
+    Tupla3f pos(0,0,100);
     Tupla2f dir(0,0);
     Tupla4f luz(1.0,1.0,1.0,1.0);
     Tupla4f luz2(1.0,1.0,1.0,1.0);
@@ -58,7 +58,7 @@ Escena::Escena()
     peon = new ObjRevolucion("plys/peon.ply",50,true);
     peon2 = new ObjRevolucion("plys/peon.ply",50,true);
     esfera = new Esfera();
-    luz1 = new LuzPosicional(pos,GL_LIGHT0,luz,luz2,luz3);
+    luz1 = new LuzPosicional(pos,GL_LIGHT2,luz,luz2,luz3);
     luz_2 = new LuzDireccional(dir,GL_LIGHT1,luz,luz2,luz3);
     cuadro = new Cuadro(100);
     
@@ -133,6 +133,7 @@ void Escena::dibujar()
     else{
       if(glIsEnabled(GL_LIGHTING))
         glDisable(GL_LIGHTING);
+
       if(glIsEnabled(GL_TEXTURE_2D))
         glDisable(GL_TEXTURE_2D);  
     }
@@ -141,24 +142,21 @@ void Escena::dibujar()
     switch(toDraw)
     { 
        case 1:
-          /*glPushMatrix();
-            //bender->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
           glPushMatrix();
-            //glTranslatef(0,0,-20);
+            glTranslatef(0,0,-20);
             cuadro->draw(modo,puntos,lineas,solido);
-          glPopMatrix();*/
+          glPopMatrix();
+
+          glPushMatrix();
+            bender->draw(modo,puntos,lineas,solido,tapas);
+          glPopMatrix();
+
+         break;
+       case 2:
           glPushMatrix();
             glScalef(200,200,200);
             cubo->draw(modo,puntos,lineas,solido);
           glPopMatrix();
-          glPushMatrix();
-            glTranslatef(-200,0,0);
-            cuadro->draw(modo,puntos,lineas,solido);
-          glPopMatrix();
-         break;
-       case 2:
-         brazo->draw(modo,puntos,lineas,solido,tapas);
          break; 
        case 3:
           glPushMatrix();
@@ -182,8 +180,7 @@ void Escena::dibujar()
          break;
     }
 
-      if(glIsEnabled(GL_TEXTURE_2D))
-        glDisable(GL_TEXTURE_2D); 
+
 }
 
 //**************************************************************************
@@ -438,7 +435,8 @@ void Escena::change_observer()
    glRotatef( Observer_angle_x, 1.0, 0.0, 0.0 );
 }
 
-void Escena::animarModeloJerarquico(){
+void Escena::animarModeloJerarquico()
+{
   if(!pause){
     if(bender->getNPasos()<100)
       this->bender->andar();
@@ -451,4 +449,22 @@ void Escena::animarModeloJerarquico(){
       this->bender->moverCuello();
   }
   
+}
+
+void Escena::animarLuces()
+{
+  if( Iluminacion)
+  {
+    if((luz1)->getPos()(1) < 30 && arriba)
+      this->luz1->changePos({0,5,0});
+
+    if(luz1->getPos()(1) == 30)
+      arriba = false;  
+
+    if((luz1)->getPos()(1) >-30  && !arriba)
+      this->luz1->changePos({0,-5,0});  
+
+    if(luz1->getPos()(1) == -30 && !arriba)
+      arriba = true;    
+  }
 }

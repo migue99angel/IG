@@ -164,6 +164,9 @@ void Malla3D::draw(int modo,bool puntos,bool lineas,bool solido)
       obtenerPuntosCoordenadas();
       this->text->activar();
    }
+   
+   if(glIsEnabled(GL_TEXTURE_2D) && this->text == nullptr)
+      glDisable(GL_TEXTURE_2D); 
 
    if(puntos){
       glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);

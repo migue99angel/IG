@@ -277,6 +277,10 @@ void ObjRevolucion::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas
       calcular_normales();
       
    mat->aplicar();
+
+   if(glIsEnabled(GL_TEXTURE_2D) && this->text == nullptr)
+      glDisable(GL_TEXTURE_2D); 
+      
    if(puntos){
       glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
       switch (modo)
