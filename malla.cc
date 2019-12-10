@@ -160,8 +160,10 @@ void Malla3D::draw(int modo,bool puntos,bool lineas,bool solido)
       
    mat->aplicar();
 
-   if(ct.empty())
+   if(this->text != nullptr){
       obtenerPuntosCoordenadas();
+      this->text->activar();
+   }
 
    if(puntos){
       glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
@@ -192,6 +194,7 @@ void Malla3D::draw(int modo,bool puntos,bool lineas,bool solido)
          case 3: draw_Chess(); break;
          
       }
+
    }   
 
 }
@@ -272,13 +275,8 @@ void Malla3D::setMaterial(Material m)
 void Malla3D::setTextura(Textura text)
 {
     this->text =new Textura(text);
-    obtenerPuntosCoordenadas();
 }
 
-void Malla3D::obtenerPuntosCoordenadas()
-{
-   this->ct.push_back({0,0});
-   this->ct.push_back({text->getAncho(),0});
-   this->ct.push_back({0,text->getAlto()});
-   this->ct.push_back({text->getAncho(),text->getAlto()});
+void Malla3D::obtenerPuntosCoordenadas(){
+   this->ct.clear();
 }

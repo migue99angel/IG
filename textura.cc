@@ -7,12 +7,12 @@ Textura::Textura(const Textura &t)
 }
 Textura::Textura(std::string archivo,GLuint id)
 {  
-    glGenTextures(1, &textura_id);     
+    
     if(pimg == nullptr){
         this->textura_id = id;
         
         pimg = new jpg::Imagen(archivo);
-        
+           
         this->width = pimg->tamX();
         this->height = pimg->tamY();
 
@@ -20,7 +20,7 @@ Textura::Textura(std::string archivo,GLuint id)
             for(int j = 0; j < this->width; ++j)
                 this->texels.push_back( pimg->leerPixel(i,j));
 
-        
+        glGenTextures(1, &textura_id);  
     }
 
 }

@@ -21,6 +21,7 @@ class Cuadro : public Malla3D
    public:
       Cuadro();
       Cuadro(float l);
+      void obtenerPuntosCoordenadas();
 } ;
 
 #endif

@@ -29,6 +29,7 @@ class Cubo : public Malla3D
    public:
       Cubo(float l=1) ;
       inline float getLado(){return this->lado;}
+      void obtenerPuntosCoordenadas();
 
 } ;
 

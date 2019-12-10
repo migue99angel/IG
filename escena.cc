@@ -81,6 +81,9 @@ Escena::Escena()
     cono->setMaterial(pearl);
     cuadro->setMaterial(pearl);
     cuadro->setTextura(text);
+    cuadro->obtenerPuntosCoordenadas();
+    cubo->setTextura(text);
+    cubo->obtenerPuntosCoordenadas();
 }
 
 //**************************************************************************
@@ -126,7 +129,6 @@ void Escena::dibujar()
       glShadeModel(GL_SMOOTH);
       glEnable(GL_TEXTURE_2D);
       luz1->activar();
-      text.activar();
     }
     else{
       if(glIsEnabled(GL_LIGHTING))
@@ -139,14 +141,21 @@ void Escena::dibujar()
     switch(toDraw)
     { 
        case 1:
-          glPushMatrix();
-            bender->draw(modo,puntos,lineas,solido,tapas);
+          /*glPushMatrix();
+            //bender->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
           glPushMatrix();
-            glTranslatef(-20,0,-20);
+            //glTranslatef(0,0,-20);
+            cuadro->draw(modo,puntos,lineas,solido);
+          glPopMatrix();*/
+          glPushMatrix();
+            glScalef(200,200,200);
+            cubo->draw(modo,puntos,lineas,solido);
+          glPopMatrix();
+          glPushMatrix();
+            glTranslatef(-200,0,0);
             cuadro->draw(modo,puntos,lineas,solido);
           glPopMatrix();
-         
          break;
        case 2:
          brazo->draw(modo,puntos,lineas,solido,tapas);
@@ -172,7 +181,9 @@ void Escena::dibujar()
           glPopMatrix();
          break;
     }
-    
+
+      if(glIsEnabled(GL_TEXTURE_2D))
+        glDisable(GL_TEXTURE_2D); 
 }
 
 //**************************************************************************
