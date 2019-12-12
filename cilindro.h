@@ -28,7 +28,7 @@ class Cilindro : public ObjRevolucion
       float altura;
       float radio;
    public:
-   Cilindro( int num_vert_perfil=5,  int num_instancias_perf=50,  float altura=40,  float radio=5,Tupla3f c=Tupla3f(0,0,1.0)) ;
+   Cilindro( int num_vert_perfil=2,  int num_instancias_perf=20,  float altura=40,  float radio=5,Tupla3f c=Tupla3f(0,0,1.0)) ;
    inline float getAltura() {return altura;}
    inline float getRadio() {return radio;}
 } ;

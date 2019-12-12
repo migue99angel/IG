@@ -87,11 +87,37 @@ void special_keys( int tecla, int x, int y )
 	glutPostRedisplay();
 }
 
-void funcion_idle(){
+void funcion_idle()
+{
    if(escena != 0){
       escena->animarModeloJerarquico();
       escena->animarLuces();
    }
+   glutPostRedisplay();   
+}
+/*******************************************************
+ * Funcion que se ejecuta cuand se actúa sobre algún botón del ratón
+ * variable boton 0 para botón izquierdo 1 para el derecho
+ * variable estado 0 para no pulsado, 1 para estado pulsado
+ *******************************************************/
+void clickRaton(int boton, int estado,int x, int y)
+{
+   if(boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && escena != nullptr) 
+   {
+      escena->setEstadoRaton(true);
+      glutPostRedisplay();
+
+   }
+   else
+   {
+      escena->setEstadoRaton(false);
+   }
+}
+
+void ratonMovido(int x, int y)
+{
+   if(escena != nullptr)
+      escena->ratonMovido(x,y);
    glutPostRedisplay();   
 }
 
@@ -160,8 +186,8 @@ int main( int argc, char **argv )
 
    // funcion de inicialización de la escena (necesita que esté la ventana creada)
    escena->inicializar( UI_window_width, UI_window_height );
-
-
+   glutMouseFunc(clickRaton);
+   glutMotionFunc(ratonMovido);
 
    // ejecutar del bucle de eventos
    glutMainLoop();

@@ -16,6 +16,7 @@
 #include "luz.h"
 #include "bender.h"
 #include "cuadro.h"
+#include "camara.h"
 
 typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO,SELANIMACION} menu;
 class Escena
@@ -61,6 +62,8 @@ class Escena
    LuzPosicional * luz1 = nullptr;
    LuzDireccional * luz_2 = nullptr;
    Textura text;
+   Textura lata;
+   std::vector<Camara> camaras;
    int toDraw = 1, modo=1,n_animacion=0;
    GLenum visual = GL_FILL;
    bool Iluminacion = false;
@@ -71,6 +74,8 @@ class Escena
    bool pause = true;
    int angulo = 0;
    bool arriba = true;
+   bool estadoRaton = false; //variable de estado para controlar el movimiento del ratón
+   int camaraActiva; //Variable que controla cual es la camara activa en cada instante
    public:
 
     Escena();
@@ -86,5 +91,7 @@ class Escena
     void animarModeloJerarquico();
     void animarLuces();
     inline bool getPause(){return this->pause;}
+    void ratonMovido(int x,int y);
+    inline void setEstadoRaton(bool mov){this->estadoRaton = mov;}
 };
 #endif

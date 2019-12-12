@@ -22,6 +22,8 @@ ObjRevolucion::ObjRevolucion(){}
 
 ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bool tapas)
 {
+   this->M = archivo.size();
+   this->N  =num_instancias;
    std::vector<Tupla3f> perfil;
    ply::read_vertices(archivo,perfil);
    crearMalla(perfil,num_instancias, tapas);
@@ -38,11 +40,12 @@ ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bo
  
 ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> archivo, int num_instancias, bool tapas)
 {
-    crearMalla(archivo,num_instancias, tapas);
-    aniadirColor(Tupla3f(0,0,1.0));
+   this->perf_original = archivo;
+   crearMalla(archivo,num_instancias, tapas);
+   aniadirColor(Tupla3f(0,0,1.0));
 
    //Como ya he creado las caras y el objeto revolución ya puedo calcular las normales
-    if(nv.empty())
+   if(nv.empty())
       calcular_normales();
       
 }
@@ -51,6 +54,8 @@ ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> archivo, int num_instancias, b
 //Se debe añadir un bool para las tapas
 void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapas)
 {
+   this->perf_original = perfil_original;
+
    if(perfil_original[0](1) > perfil_original[perfil_original.size()-1](1))
      perfil_original=generarOrdenInverso(perfil_original);
 
@@ -179,16 +184,22 @@ void ObjRevolucion::draw_ModoInmediato(char L,bool tapas)
   default:
       glColorPointer(3,GL_FLOAT,0,color.data()); break;
   }
-
+   if(!ct.empty()){
+      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+      glTexCoordPointer(2,GL_FLOAT,0,ct.data());
+   }  
    if(tapas)
       glDrawElements( GL_TRIANGLES, 3* f.size(), GL_UNSIGNED_INT, f.data() ) ;
    else
       glDrawElements( GL_TRIANGLES, 3*f.size()-contador*3, GL_UNSIGNED_INT, f.data() ) ;
+
+ 
   
   //Deshabilitar el array de vértices
   glDisableClientState(GL_COLOR_ARRAY);
   glDisableClientState(GL_VERTEX_ARRAY);
-
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  glDisableClientState(GL_NORMAL_ARRAY);
 
 }
 // -----------------------------------------------------------------------------
@@ -256,6 +267,11 @@ void ObjRevolucion::draw_ModoDiferido(char L,bool tapas)
      break;
   }
 
+   if(!ct.empty()){
+      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+      glTexCoordPointer(2,GL_FLOAT,0,ct.data());
+   }   
+
    glEnableClientState(GL_NORMAL_ARRAY);
    glNormalPointer(GL_FLOAT, 0, nv.data());
    //visualizar triángulos con glDrawElements (puntero a tabla == 0)
@@ -269,6 +285,7 @@ void ObjRevolucion::draw_ModoDiferido(char L,bool tapas)
 
    //desactivar uso de array de vértices
    glDisableClientState(GL_VERTEX_ARRAY);
+   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void ObjRevolucion::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas)
@@ -277,6 +294,10 @@ void ObjRevolucion::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas
       calcular_normales();
       
    mat->aplicar();
+      if(this->text != nullptr){
+      obtenerPuntosCoordenadas();
+      this->text->activar();
+   }
 
    if(glIsEnabled(GL_TEXTURE_2D) && this->text == nullptr)
       glDisable(GL_TEXTURE_2D); 
@@ -312,4 +333,42 @@ void ObjRevolucion::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas
       }
    }   
 
+}
+
+void ObjRevolucion::obtenerPuntosCoordenadas()
+{
+   if(ct.empty())
+   {
+      CalcularDistanciasPerfil();
+      std::vector<Tupla2f> aux;
+
+      for( float i = 0; i < this->num_instancias; ++i ){
+         for (float j = 0; j < M; ++j)
+               aux.push_back({i / this->num_instancias , (float)this->distancias_perfil[j]/this->distancias_perfil[M-1]});
+      }
+
+      for(int i = aux.size()-1; i > 0; --i)
+         ct.push_back(aux[i]);
+   }
+}
+
+void ObjRevolucion::CalcularDistanciasPerfil()
+{
+   this->distancias_perfil.clear();
+   this->distancias_perfil.push_back(0);
+
+   for(int i = 1; i < this->perf_original.size(); ++i )
+      distancias_perfil[i] = distancias_perfil[i-1] + calcularDistanciaVertices(perf_original[i-1],perf_original[i]);
+
+}
+/*
+* Función que calcula la distancia entre dos vertices
+*/
+double ObjRevolucion::calcularDistanciaVertices(Tupla3f anterior, Tupla3f siguiente)
+{
+   double x = pow(anterior(0)-siguiente(0),2);
+   double y = pow(anterior(1)-siguiente(1),2);
+   double z = pow(anterior(2)-siguiente(2),2);
+
+   return sqrt(x+y+z);
 }

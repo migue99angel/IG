@@ -50,11 +50,10 @@ Escena::Escena()
 
     // crear los objetos de la escena....
     cono = new Cono();
-    cilindro = new Cilindro(5,50,10,1);
+    cilindro = new Cilindro(2,20,4,1);
     cubo = new Cubo;
     tetraedro = new Tetraedro;
     ant = new ObjPLY("plys/ant.ply");
-    //bet = new ObjPLY("plys/beethoven.ply");
     peon = new ObjRevolucion("plys/peon.ply",50,true);
     peon2 = new ObjRevolucion("plys/peon.ply",50,true);
     esfera = new Esfera();
@@ -70,6 +69,7 @@ Escena::Escena()
     Material brass = Material(ambiente_brass,especular_brass,difuso_brass,128*0.21794872);
 
     text = Textura("jpgs/text-madera.jpg",0);
+    lata = Textura("jpgs/text-lata-1.jpg",0);
     
     cubo->setMaterial(esmerald);
     peon->setMaterial(esmerald);
@@ -84,6 +84,7 @@ Escena::Escena()
     cuadro->obtenerPuntosCoordenadas();
     cubo->setTextura(text);
     cubo->obtenerPuntosCoordenadas();
+    cilindro->setTextura(lata);
 }
 
 //**************************************************************************
@@ -151,6 +152,12 @@ void Escena::dibujar()
             bender->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
 
+          // glPushMatrix();
+          //    glTranslatef(50,0,0);
+          //    glScalef(20,20,20);
+          //   cilindro->draw(modo,puntos,lineas,solido,tapas);
+          // glPopMatrix();
+
          break;
        case 2:
           glPushMatrix();
@@ -160,23 +167,24 @@ void Escena::dibujar()
          break; 
        case 3:
           glPushMatrix();
-            glTranslatef(-20,0,-20);
+            //glTranslatef(-20,0,-20);
+             glScalef(20,20,20);
             cilindro->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
-          glPushMatrix();
-            glScalef(50,50,50);
-            glTranslatef(-2,0,0);
-            peon2->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
-          glPushMatrix();
-          glScalef(50,50,50);
-            glTranslatef(2,0,0);
-            peon->draw(modo,puntos, lineas, solido,tapas);
-          glPopMatrix();
-          glPushMatrix();
-            glTranslatef(0,-100,20);
-            esfera->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
+          // glPushMatrix();
+          //   glScalef(50,50,50);
+          //   glTranslatef(-2,0,0);
+          //   peon2->draw(modo,puntos,lineas,solido,tapas);
+          // glPopMatrix();
+          // glPushMatrix();
+          // glScalef(50,50,50);
+          //   glTranslatef(2,0,0);
+          //   peon->draw(modo,puntos, lineas, solido,tapas);
+          // glPopMatrix();
+          // glPushMatrix();
+          //   glTranslatef(0,-100,20);
+          //   esfera->draw(modo,puntos,lineas,solido,tapas);
+          // glPopMatrix();
          break;
     }
 
@@ -435,6 +443,14 @@ void Escena::change_observer()
    glRotatef( Observer_angle_x, 1.0, 0.0, 0.0 );
 }
 
+/*void Escena::change_observer()
+{
+   // posicion del observador
+   glMatrixMode(GL_MODELVIEW);
+   glLoadIdentity();
+   camaras[camaraActiva].setObserver();
+}*/
+
 void Escena::animarModeloJerarquico()
 {
   if(!pause){
@@ -466,5 +482,17 @@ void Escena::animarLuces()
 
     if(luz1->getPos()(1) == -30 && !arriba)
       arriba = true;    
+  }
+}
+/***************************************************************
+ *En esta funcion comprobaremos si el botón derecho está pulsado
+*en ese caso actualizaremos la posición de la cámara en función
+*del desplazamiento del cursor 
+****************************************************************/
+void Escena::ratonMovido(int x, int y)
+{
+  if(estadoRaton)
+  {
+    camaras[camaraActiva].girar(x,y);
   }
 }

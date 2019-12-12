@@ -16,9 +16,11 @@ Textura::Textura(std::string archivo,GLuint id)
         this->width = pimg->tamX();
         this->height = pimg->tamY();
 
-        for(int i=0; i < this->height; ++i)
-            for(int j = 0; j < this->width; ++j)
+        for(int i=0; i < this->width; ++i)
+            for(int j = 0; j < this->height; ++j){
                 this->texels.push_back( pimg->leerPixel(i,j));
+                //std::cout<<"Leemos el pixel: "<< (pimg->leerPixel(i,j))[3]<<"\n";
+            }
 
         glGenTextures(1, &textura_id);  
     }

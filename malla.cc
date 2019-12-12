@@ -119,7 +119,7 @@ void Malla3D::draw_ModoDiferido(char L)
       id_vbo_tri=CrearVBO(GL_ELEMENT_ARRAY_BUFFER,f.size()*3*sizeof(int),f.data());
    }
    // (la primera vez, se deben crear los VBOs y guardar sus identificadores en el objeto)
-   //especificar localización y formato de la tabla de vértices, habilitar tabla
+   //especificar localización y formato de la tabla de vértices, haux.push_back({0,0});abilitar tabla
    glBindBuffer( GL_ARRAY_BUFFER, id_vbo_ver ); //activar VBO de vértices
    glVertexPointer( 3, GL_FLOAT, 0, 0 ); //especifica formato y offset (=0)
    glBindBuffer( GL_ARRAY_BUFFER, 0 ); //desactivar VBO de vértices.

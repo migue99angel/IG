@@ -19,9 +19,6 @@
 //
 // *****************************************************************************
 
-// *****************************************************************************
-// Cubo con centro en el origen y lado unidad por defecto
-// (tiene 9 vertices y 6 caras)
 
 class ObjRevolucion : public Malla3D
 {
@@ -37,14 +34,18 @@ class ObjRevolucion : public Malla3D
 private:
     int num_instancias;
     bool tapas = true;
+    std::vector<float> distancias_perfil;
     void gestionDeTapas(std::vector<Tupla3f> &perfil_original, int num_instancias);
     bool existeTapaInf(std::vector<Tupla3f> perfil_original, int num_instancias);
     bool existeTapaSup(std::vector<Tupla3f> perfil_original, int num_instancias);
     std::vector<Tupla3f> generarOrdenInverso(std::vector<Tupla3f> perfil_original);
-
-    
+    void obtenerPuntosCoordenadas();
+    void CalcularDistanciasPerfil();
+    double calcularDistanciaVertices(Tupla3f anterior, Tupla3f siguiente);
+    std::vector<Tupla3f> perf_original;
 protected:
     void crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapas);
+    int N,M;
 } ;
 
 
