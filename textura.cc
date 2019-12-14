@@ -16,11 +16,7 @@ Textura::Textura(std::string archivo,GLuint id)
         this->width = pimg->tamX();
         this->height = pimg->tamY();
 
-        for(int i=0; i < this->width; ++i)
-            for(int j = 0; j < this->height; ++j){
-                this->texels.push_back( pimg->leerPixel(i,j));
-                //std::cout<<"Leemos el pixel: "<< (pimg->leerPixel(i,j))[3]<<"\n";
-            }
+        texels = pimg->leerPixels();
 
         glGenTextures(1, &textura_id);  
     }
@@ -29,7 +25,6 @@ Textura::Textura(std::string archivo,GLuint id)
 
 void Textura::activar()
 {
-    
     // Se activa esta textura en concreto
     glBindTexture(GL_TEXTURE_2D, textura_id);
 
@@ -46,16 +41,15 @@ void Textura::activar()
     // Cuando las coordenadas de textura no están en el rango [0,1][0,1]
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
     // Se construye la textura
     gluBuild2DMipmaps(GL_TEXTURE_2D,
                         GL_RGB,
-                        pimg->tamX(),
-                        pimg->tamY(),
+                        getAncho(),
+                        getAlto(),
                         GL_RGB,
                         GL_UNSIGNED_BYTE,
-                        pimg->leerPixels());
-
+                        texels); 
+                   
 }
 
 Textura& Textura::operator = (const Textura &t)

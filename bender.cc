@@ -40,16 +40,18 @@ void Bender::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas){
                 glPopMatrix();
 
                 glPushMatrix();
-                    glRotatef(this->anguloPiernaDer,1,0,0);
+                    
                     glScalef(0.5,0.5,0.5);
                     glTranslatef(-tronco->getRadio()/2,0,0);
+                    glRotatef(this->anguloPiernaDer,1,0,0);
                     this->pierna_der->draw(modo,puntos,lineas,solido,tapas);
                 glPopMatrix();
 
                 glPushMatrix();
-                    glRotatef(this->anguloPiernaIzq,1,0,0);
+                    
                     glScalef(0.5,0.5,0.5);
                     glTranslatef(tronco->getRadio()/2,0,0);
+                    glRotatef(this->anguloPiernaIzq,1,0,0);
                     this->pierna_izq->draw(modo,puntos,lineas,solido,tapas);
                 glPopMatrix();
 
@@ -118,6 +120,8 @@ void Bender::mover(int animacion){
             this->moverCuello();
         break;
         case 6:
+            this->anguloPiernaDer = 0;
+            this->anguloBrazoIzq  = 0;
             this->andar();
         break;
     }

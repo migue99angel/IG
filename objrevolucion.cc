@@ -184,7 +184,7 @@ void ObjRevolucion::draw_ModoInmediato(char L,bool tapas)
   default:
       glColorPointer(3,GL_FLOAT,0,color.data()); break;
   }
-   if(!ct.empty()){
+   if(!ct.empty() && this->text != nullptr){
       glEnableClientState(GL_TEXTURE_COORD_ARRAY);
       glTexCoordPointer(2,GL_FLOAT,0,ct.data());
    }  
@@ -294,10 +294,12 @@ void ObjRevolucion::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas
       calcular_normales();
       
    mat->aplicar();
-      if(this->text != nullptr){
+
+   if(ct.empty() && this->text != nullptr)
       obtenerPuntosCoordenadas();
+
+   if(this->text != nullptr && !ct.empty())
       this->text->activar();
-   }
 
    if(glIsEnabled(GL_TEXTURE_2D) && this->text == nullptr)
       glDisable(GL_TEXTURE_2D); 

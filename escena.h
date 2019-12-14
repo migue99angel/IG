@@ -63,6 +63,7 @@ class Escena
    LuzDireccional * luz_2 = nullptr;
    Textura text;
    Textura lata;
+   Textura monaLisa;
    std::vector<Camara> camaras;
    int toDraw = 1, modo=1,n_animacion=0;
    GLenum visual = GL_FILL;
@@ -74,6 +75,7 @@ class Escena
    bool pause = true;
    int angulo = 0;
    bool arriba = true;
+   bool variaAlpha; //Controla si varia alpha o beta
    bool estadoRaton = false; //variable de estado para controlar el movimiento del ratón
    int camaraActiva; //Variable que controla cual es la camara activa en cada instante
    public:

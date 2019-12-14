@@ -13,7 +13,7 @@
 class Textura{
     private:
         GLuint textura_id = 0;
-        std::vector<unsigned char*> texels;
+        unsigned char* texels;
         jpg::Imagen * pimg = nullptr;
         unsigned int width,height;
     public:
@@ -21,7 +21,8 @@ class Textura{
         Textura(std::string archivo,GLuint textura);
         Textura(const Textura &t);
         void activar();
-        inline std::vector<unsigned char*> getCoordenadas(){return texels;}
+        inline GLuint getID(){return this->textura_id;}
+        inline unsigned char* getCoordenadas(){return texels;}
         inline unsigned int getAncho(){return width;}
         inline unsigned int getAlto(){return height;}
         Textura& operator = (const Textura &t);

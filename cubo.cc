@@ -19,6 +19,8 @@ Cubo::Cubo(float lado)
    v.push_back(x);
    v.push_back(g);
    v.push_back(h);
+
+
     
    // inicializar la tabla de caras o triángulos:
  
@@ -28,6 +30,7 @@ Cubo::Cubo(float lado)
            ver7(1,6,2),ver8(1,5,6),  //Lat der
            ver9(2,6,7),ver10(2,7,3),  //Arriba
            ver11(5,1,0),ver12(5,0,4); //Abajo
+        
 
    f.push_back(ver1);
    f.push_back(ver2);
@@ -41,6 +44,7 @@ Cubo::Cubo(float lado)
    f.push_back(ver10);
    f.push_back(ver11);
    f.push_back(ver12);
+
      
     // inicializar la tabla de colores
     Tupla3f a1(0.7,0.7,0.7), b1(0.7,0.7,0.7),c1(0.7,0.7,0.7), 
@@ -54,7 +58,8 @@ Cubo::Cubo(float lado)
     color.push_back(e1);
     color.push_back(f1);
     color.push_back(g1);
-    color.push_back(h1);  
+    color.push_back(h1);
+  
 
     colorLinea.push_back(Tupla3f(1.0,0,0));   
     colorLinea.push_back(Tupla3f(1.0,0,0));   
@@ -72,7 +77,8 @@ Cubo::Cubo(float lado)
     colorPuntos.push_back(Tupla3f(0,0,1.0));
     colorPuntos.push_back(Tupla3f(0,0,1.0));
     colorPuntos.push_back(Tupla3f(0,0,1.0));
-    colorPuntos.push_back(Tupla3f(0,0,1.0));        
+    colorPuntos.push_back(Tupla3f(0,0,1.0));
+       
 
 }
 
@@ -84,9 +90,9 @@ void Cubo::obtenerPuntosCoordenadas()
         this->ct.push_back({0,1});
         this->ct.push_back({1,0});
         this->ct.push_back({1,1});
-        this->ct.push_back({0,0});
-        this->ct.push_back({0,1});
-        this->ct.push_back({1,0});
         this->ct.push_back({1,1});
+        this->ct.push_back({1,0});
+        this->ct.push_back({0,1});
+        this->ct.push_back({0,0});
 
 }

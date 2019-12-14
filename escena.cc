@@ -69,8 +69,9 @@ Escena::Escena()
     Material brass = Material(ambiente_brass,especular_brass,difuso_brass,128*0.21794872);
 
     text = Textura("jpgs/text-madera.jpg",0);
-    lata = Textura("jpgs/text-lata-1.jpg",0);
-    
+    lata = Textura("jpgs/text-lata-1.jpg",1);
+    monaLisa = Textura("jpgs/prueba.jpg",2);
+
     cubo->setMaterial(esmerald);
     peon->setMaterial(esmerald);
     cilindro->setMaterial(gold);
@@ -80,10 +81,8 @@ Escena::Escena()
     bender = new Bender(brass,10);
     cono->setMaterial(pearl);
     cuadro->setMaterial(pearl);
-    cuadro->setTextura(text);
-    cuadro->obtenerPuntosCoordenadas();
+    cuadro->setTextura(monaLisa);
     cubo->setTextura(text);
-    cubo->obtenerPuntosCoordenadas();
     cilindro->setTextura(lata);
 }
 
@@ -130,6 +129,7 @@ void Escena::dibujar()
       glShadeModel(GL_SMOOTH);
       glEnable(GL_TEXTURE_2D);
       luz1->activar();
+      luz_2->activar();
     }
     else{
       if(glIsEnabled(GL_LIGHTING))
@@ -144,19 +144,34 @@ void Escena::dibujar()
     { 
        case 1:
           glPushMatrix();
+            glTranslatef(0,100,0);
+            glScalef(200,200,200);
+            cubo->draw(modo,puntos,lineas,solido);
+          glPopMatrix();
+
+          glPushMatrix();
             glTranslatef(0,0,-20);
             cuadro->draw(modo,puntos,lineas,solido);
           glPopMatrix();
 
           glPushMatrix();
+             glTranslatef(150,0,0);
+             glScalef(20,20,20);
+            cilindro->draw(modo,puntos,lineas,solido,tapas);
+          glPopMatrix();
+
+
+          
+          glPushMatrix();
             bender->draw(modo,puntos,lineas,solido,tapas);
           glPopMatrix();
 
-          // glPushMatrix();
-          //    glTranslatef(50,0,0);
-          //    glScalef(20,20,20);
-          //   cilindro->draw(modo,puntos,lineas,solido,tapas);
-          // glPopMatrix();
+          glPushMatrix();
+          glScalef(50,50,50);
+            glTranslatef(-2,0,0);
+            peon->draw(modo,puntos, lineas, solido,tapas);
+          glPopMatrix();
+        
 
          break;
        case 2:
@@ -292,18 +307,19 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          }   
          break;
        case 'A' : 
-         if(modoMenu == SELVISUALIZACION){
-          Iluminacion = false;
+         if(modoMenu == SELVISUALIZACION && !Iluminacion){
           ajedrez = !ajedrez;
           if(ajedrez)  
             modo = 3;
           else 
             modo = 1;
          }
-         else{
+         if(modoMenu == NADA ){
             modoMenu = SELANIMACION;
             animacion = true;
-         }  
+         }
+         if(modoMenu == SELVISUALIZACION && Iluminacion)
+            variaAlpha = true;  
          break;
        case '6' : 
          if(modoMenu == SELANIMACION){
@@ -326,7 +342,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
           if(modoMenu == SELVISUALIZACION){
             if(Iluminacion){
                 if(luz_2->esDireccional()){
-                  if (angulo == 0) 
+                  if (variaAlpha) 
                     luz_2->variarAnguloAlpha(1);
                   else 
                     luz_2->variarAnguloBeta(1);
@@ -338,7 +354,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             if(modoMenu == SELVISUALIZACION){
             if(Iluminacion){
                 if(luz_2->esDireccional()){
-                  if (angulo == 0) 
+                  if (variaAlpha) 
                     luz_2->variarAnguloAlpha(-1);
                   else 
                     luz_2->variarAnguloBeta(-1);
@@ -352,12 +368,12 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
            }     
           break;
           case '4':
-           if(modoMenu == SELANIMACION && animacion){
+           if(modoMenu == SELANIMACION /*&& animacion*/){
              n_animacion = 4;
            }     
           break;
           case '5':
-           if(modoMenu == SELANIMACION && animacion){
+           if(modoMenu == SELANIMACION /*&& animacion*/){
              n_animacion = 5;
            }     
           break;
@@ -369,6 +385,11 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
           case '-':
            if(modoMenu == SELANIMACION && animacion){
              bender->setVelocidad(0.75);
+           }     
+          break;
+          case 'B':
+           if(modoMenu == SELVISUALIZACION && Iluminacion){
+             variaAlpha = false;
            }     
           break;
    }
@@ -454,15 +475,23 @@ void Escena::change_observer()
 void Escena::animarModeloJerarquico()
 {
   if(!pause){
-    if(bender->getNPasos()<100)
-      this->bender->andar();
+    // if(bender->getNPasos()<100)
+    //   this->bender->andar();
     
-    else{
-      if(bender->anguloBrazoDer > -180)
-        this->bender->moverBrazoDer();
-    }
-    if(bender->getNPasos() == 100 && bender->anguloBrazoDer == -180)
-      this->bender->moverCuello();
+    // else{
+    //   if(bender->anguloBrazoDer > -180)
+    //     this->bender->moverBrazoDer();
+    // }
+    // if(bender->getNPasos() == 100 && bender->anguloBrazoDer == -180)
+    //   this->bender->moverCuello();
+    
+    if(bender->getNPasos()<100)
+       this->bender->andar();
+    this->bender->moverCuello();
+    this->bender->moverBrazoDer();
+    this->bender->moverBrazoIzq();
+    this->bender->moverPiernaDer();
+    this->bender->moverPiernaIzq();
   }
   
 }

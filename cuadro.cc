@@ -48,9 +48,9 @@ Cuadro::Cuadro(float lado)
 void Cuadro::obtenerPuntosCoordenadas()
 {
     this->ct.clear();
-
-    this->ct.push_back({0,0});
-    this->ct.push_back({1,0});
-    this->ct.push_back({0,1});
+    
     this->ct.push_back({1,1});
+    this->ct.push_back({0,1});
+    this->ct.push_back({1,0});
+    this->ct.push_back({0,0});
 }

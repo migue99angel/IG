@@ -39,7 +39,7 @@ void Malla3D::draw_ModoInmediato(char L)
   glEnableClientState(GL_NORMAL_ARRAY);
   glNormalPointer(GL_FLOAT, 0, nv.data());
    
-   if(!ct.empty()){
+   if(!ct.empty() && this->text != nullptr){
       glEnableClientState(GL_TEXTURE_COORD_ARRAY);
       glTexCoordPointer(2,GL_FLOAT,0,ct.data());
    }
@@ -95,6 +95,7 @@ void Malla3D::draw_Chess()
       glDisableClientState(GL_COLOR_ARRAY);
       glDisableClientState( GL_VERTEX_ARRAY );
       glDisableClientState(GL_NORMAL_ARRAY);
+      glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 
 }
@@ -137,6 +138,10 @@ void Malla3D::draw_ModoDiferido(char L)
       glColorPointer(3,GL_FLOAT,0,color.data());
      break;
   }
+   if(!ct.empty()){
+      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+      glTexCoordPointer(2,GL_FLOAT,0,ct.data());
+   }
 
    glEnableClientState(GL_NORMAL_ARRAY);
    glNormalPointer(GL_FLOAT, 0, nv.data());
@@ -160,10 +165,12 @@ void Malla3D::draw(int modo,bool puntos,bool lineas,bool solido)
       
    mat->aplicar();
 
-   if(this->text != nullptr){
+   if(ct.empty())
       obtenerPuntosCoordenadas();
+
+   if(this->text != nullptr && !ct.empty())
       this->text->activar();
-   }
+   
    
    if(glIsEnabled(GL_TEXTURE_2D) && this->text == nullptr)
       glDisable(GL_TEXTURE_2D); 
