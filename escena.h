@@ -64,7 +64,7 @@ class Escena
    Textura text;
    Textura lata;
    Textura monaLisa;
-   std::vector<Camara> camaras;
+   Camara * camaras[5];
    int toDraw = 1, modo=1,n_animacion=0;
    GLenum visual = GL_FILL;
    bool Iluminacion = false;

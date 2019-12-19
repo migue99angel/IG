@@ -84,6 +84,12 @@ Escena::Escena()
     cuadro->setTextura(monaLisa);
     cubo->setTextura(text);
     cilindro->setTextura(lata);
+
+    camaras[0] = new  Camara( Tupla3f{0,0,600}, Tupla3f{0,0,0}, Tupla3f{0,1,0},1,(float)50, (float)50, (float)50,(float)2000);
+    camaras[1] = new  Camara( Tupla3f{0,0,600}, Tupla3f{0,0,0}, Tupla3f{0,1,0},0,(float)500, (float)500, (float)50,(float)2000);
+    camaras[2] = new  Camara( Tupla3f{600,0,0}, Tupla3f{0,0,0}, Tupla3f{0,1,0},0,(float)500, (float)500, (float)50,(float)2000);
+    camaraActiva = 0;
+
 }
 
 //**************************************************************************
@@ -402,16 +408,24 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
    switch ( Tecla1 )
    {
 	   case GLUT_KEY_LEFT:
-         Observer_angle_y-- ;
+         //Observer_angle_y-- ;
+         if(camaras[camaraActiva] != nullptr)
+          camaras[camaraActiva]->rotarXExaminar(-0.001);
          break;
 	   case GLUT_KEY_RIGHT:
-         Observer_angle_y++ ;
+         //Observer_angle_y++ ;
+         if(camaras[camaraActiva] != nullptr)
+          camaras[camaraActiva]->rotarXExaminar(+0.001);
          break;
 	   case GLUT_KEY_UP:
-         Observer_angle_x-- ;
+         //Observer_angle_x-- ;
+         if(camaras[camaraActiva] != nullptr)
+          camaras[camaraActiva]->rotarYExaminar(-0.001);
          break;
 	   case GLUT_KEY_DOWN:
-         Observer_angle_x++ ;
+         //Observer_angle_x++ ;
+         if(camaras[camaraActiva] != nullptr)
+          camaras[camaraActiva]->rotarYExaminar(+0.001);
          break;
 	   case GLUT_KEY_PAGE_UP:
          Observer_distance *=1.2 ;
@@ -436,7 +450,11 @@ void Escena::change_projection( const float ratio_xy )
    glMatrixMode( GL_PROJECTION );
    glLoadIdentity();
    const float wx = float(Height)*ratio_xy ;
-   glFrustum( -wx, wx, -Height, Height, Front_plane, Back_plane );
+
+   //glFrustum( -wx, wx, -Height, Height, Front_plane, Back_plane );
+
+   if(camaras[camaraActiva] != nullptr)
+    camaras[camaraActiva]->setProyeccion();
 }
 //**************************************************************************
 // Funcion que se invoca cuando cambia el tamaño de la ventana
@@ -454,7 +472,7 @@ void Escena::redimensionar( int newWidth, int newHeight )
 // Funcion para definir la transformación de vista (posicionar la camara)
 //***************************************************************************
 
-void Escena::change_observer()
+/*void Escena::change_observer()
 {
    // posicion del observador
    glMatrixMode(GL_MODELVIEW);
@@ -462,15 +480,15 @@ void Escena::change_observer()
    glTranslatef( 0.0, 0.0, -Observer_distance );
    glRotatef( Observer_angle_y, 0.0 ,1.0, 0.0 );
    glRotatef( Observer_angle_x, 1.0, 0.0, 0.0 );
-}
+}*/
 
-/*void Escena::change_observer()
+void Escena::change_observer()
 {
    // posicion del observador
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
-   camaras[camaraActiva].setObserver();
-}*/
+   camaras[camaraActiva]->setObserver();
+}
 
 void Escena::animarModeloJerarquico()
 {
@@ -522,6 +540,6 @@ void Escena::ratonMovido(int x, int y)
 {
   if(estadoRaton)
   {
-    camaras[camaraActiva].girar(x,y);
+    camaras[camaraActiva]->girar(x,y);
   }
 }
