@@ -111,6 +111,7 @@ void clickRaton(int boton, int estado,int x, int y)
    else
    {
       escena->setEstadoRaton(false);
+      glutPostRedisplay();
    }
 }
 

@@ -15,21 +15,24 @@ class Camara{
         float aspect; //Relacion entre el ancho y el alto
         float  top;
 
+
     public:
         Camara(Tupla3f eye, Tupla3f at, Tupla3f up , int tipo, float width, float high,float near,float far);
         void rotarXExaminar(float angle);
         void rotarYExaminar(float angle);
-        void rotarZExaminar(float angle);
         void rotarXFirstPerson(float angle);
         void rotarYFirstPerson(float angle);
-        void rotarZFirstPerson(float angle);
         void mover(float x, float y, float z);
         void zoom(float factor);    
         void setObserver();
         void setProyeccion();
         void girar(int x, int y);
+        void girarPrimeraPersona(int x, int y);
         void examinar(int eje,float angulo);
+        void rotarFirstPerson(int eje,float angulo);
         Tupla3f RotarEjeArbitrario(Tupla3f eje,Tupla3f vector,float angulo);
+        inline float getAncho() {return this->left*2;}
+        inline float getAlto() {return this->top*2;}
 };
 
 

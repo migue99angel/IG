@@ -41,25 +41,19 @@ void Camara::rotarYExaminar(float angle)
     examinar(1,angle);
 }
 
-void Camara::rotarZExaminar(float angle)
-{
-    examinar(2,angle);
-}
+
 
 void Camara::rotarXFirstPerson(float angle)
 {
-    
+    rotarFirstPerson(0,angle);
 }
 
 void Camara::rotarYFirstPerson(float angle)
 {
-
+    rotarFirstPerson(1,angle);
 }
 
-void Camara::rotarZFirstPerson(float angle)
-{
 
-}
 /*******************************************
  * Función que reasigna las coordenadas de eye
 ********************************************/
@@ -69,8 +63,16 @@ void Camara::mover(float x, float y, float z)
 }
 
 void Camara::zoom(float factor)
-{
+{  
+    //Resto para que se acerque 
+    if(this->tipo == 1 && fovY - factor >= 1 && fovY - factor <= 140)
+        this->fovY -= factor;
 
+    if(this->tipo == 0)
+    {
+        this->left -= factor;
+        this->top -= factor; 
+    }    
 }
 /***********************************************
  * Función que realiza la llamada a gluLookAt
@@ -94,11 +96,16 @@ void Camara::girar(int x, int y)
     this->rotarXExaminar(x);
     this->rotarYExaminar(y);
 }
+
+void Camara::girarPrimeraPersona(int x, int y)
+{
+    this->rotarXFirstPerson(x);
+    this->rotarYFirstPerson(y);
+}
 /**********************************************************************
 * Funcion que rota un vector(el vector director) sobre un eje definido
 * 0 para el eje x
 * 1 para el eje y
-* 2 para el eje z
 * angulo: el angulo que se va a rotar
 ***********************************************************************/
 void Camara::examinar(int eje,float angulo)
@@ -124,15 +131,44 @@ void Camara::examinar(int eje,float angulo)
         Up_recal = RotarEjeArbitrario(Vx,up,angulo);
         this->Vy = RotarEjeArbitrario(Vx,Vy,angulo); 
         break;
-    case 2:
-
-        break;
     }        
     //Actualizamos el up
     this->up = Up_recal;
 
     //Recalculo el eye
     mover( V_ex(0) + at(0) , V_ex(1) + at(1) , V_ex(2) + at(2) );
+    
+}
+void Camara::rotarFirstPerson(int eje,float angulo)
+{
+    Tupla3f Up_recal,At_recal;
+    //Actualizamos el vector director 
+
+    Vd(0) = at(0) - eye(0) ;
+    Vd(1) = at(1) - eye(1) ;
+    Vd(2) = at(2) - eye(2) ;
+
+    angulo = (angulo * 180/M_PI) ;
+    
+    switch (eje)
+    {
+    case 0:
+        At_recal = RotarEjeArbitrario(Vy,Vd,angulo);
+        Up_recal = RotarEjeArbitrario(Vy,up,angulo);
+        this->Vx = RotarEjeArbitrario(Vy,Vx,angulo); 
+        break;
+    case 1:
+        At_recal = RotarEjeArbitrario(Vx,Vd,angulo);
+        Up_recal = RotarEjeArbitrario(Vx,up,angulo);
+        this->Vy = RotarEjeArbitrario(Vx,Vy,angulo); 
+        break;
+
+    }        
+    //Actualizamos el up
+    this->up = Up_recal;
+
+    //Recalculo el at
+    at = {At_recal(0)+eye(0),At_recal(1)+eye(1),At_recal(2)+eye(2)};
     
 }
 /***************************************************************************

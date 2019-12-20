@@ -18,7 +18,7 @@
 #include "cuadro.h"
 #include "camara.h"
 
-typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO,SELANIMACION} menu;
+typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO,SELANIMACION,SELCAMARA} menu;
 class Escena
 {
 
@@ -54,6 +54,9 @@ class Escena
    Brazo * brazo = nullptr;
    Cono * cono=nullptr;
    Cuadro * cuadro = nullptr;
+   Cuadro * pared_izq = nullptr;
+   Cuadro * cartel;
+   Cuadro * fondo;
    Esfera * esfera=nullptr;
    ObjPLY * ant=nullptr;
    ObjPLY * bet=nullptr;
@@ -64,6 +67,9 @@ class Escena
    Textura text;
    Textura lata;
    Textura monaLisa;
+   Textura pared;
+   Textura publi;
+   Textura ladrillos;
    Camara * camaras[5];
    int toDraw = 1, modo=1,n_animacion=0;
    GLenum visual = GL_FILL;
@@ -78,6 +84,7 @@ class Escena
    bool variaAlpha; //Controla si varia alpha o beta
    bool estadoRaton = false; //variable de estado para controlar el movimiento del ratón
    int camaraActiva; //Variable que controla cual es la camara activa en cada instante
+   int xant = 0, yant = 0; //Variables para controlar el movimiento del raton
    public:
 
     Escena();
@@ -95,5 +102,6 @@ class Escena
     inline bool getPause(){return this->pause;}
     void ratonMovido(int x,int y);
     inline void setEstadoRaton(bool mov){this->estadoRaton = mov;}
+    inline Camara* getCamaraActiva(){return camaras[camaraActiva];}
 };
 #endif

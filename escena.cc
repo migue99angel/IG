@@ -60,7 +60,9 @@ Escena::Escena()
     luz1 = new LuzPosicional(pos,GL_LIGHT2,luz,luz2,luz3);
     luz_2 = new LuzDireccional(dir,GL_LIGHT1,luz,luz2,luz3);
     cuadro = new Cuadro(100);
-    
+    pared_izq = new Cuadro(100);
+    cartel = new Cuadro(100);
+    fondo = new Cuadro(100);
 
     Material  esmerald = Material(ambiente_esmerald,especular_esmerald,difuso_esmerald, 128.0*0.6);
     Material obsidian = Material(ambiente_obsidian,especular_obsidian,difuso_obsidian,128*0.3);
@@ -71,6 +73,9 @@ Escena::Escena()
     text = Textura("jpgs/text-madera.jpg",0);
     lata = Textura("jpgs/text-lata-1.jpg",1);
     monaLisa = Textura("jpgs/prueba.jpg",2);
+    pared = Textura("jpgs/pared.jpg",3);
+    publi = Textura("jpgs/publi.jpg",4);
+    ladrillos = Textura("jpgs/ladrillos.jpg",5);
 
     cubo->setMaterial(esmerald);
     peon->setMaterial(esmerald);
@@ -80,14 +85,24 @@ Escena::Escena()
     ant->setMaterial(esmerald);
     bender = new Bender(brass,10);
     cono->setMaterial(pearl);
+    cartel->setMaterial(pearl);
+    pared_izq->setMaterial(pearl);
     cuadro->setMaterial(pearl);
-    cuadro->setTextura(monaLisa);
+    fondo->setMaterial(pearl);
+
+
+    cuadro->setTextura(text);
     cubo->setTextura(text);
     cilindro->setTextura(lata);
+    pared_izq->setTextura(pared);
+    cartel->setTextura(publi);
+    fondo->setTextura(ladrillos);
+    
 
-    camaras[0] = new  Camara( Tupla3f{0,0,600}, Tupla3f{0,0,0}, Tupla3f{0,1,0},1,(float)50, (float)50, (float)50,(float)2000);
+    camaras[0] = new  Camara( Tupla3f{600,100,1000}, Tupla3f{0,0,0}, Tupla3f{0,1,0},1,(float)50, (float)50, (float)50,(float)2000);
     camaras[1] = new  Camara( Tupla3f{0,0,600}, Tupla3f{0,0,0}, Tupla3f{0,1,0},0,(float)500, (float)500, (float)50,(float)2000);
-    camaras[2] = new  Camara( Tupla3f{600,0,0}, Tupla3f{0,0,0}, Tupla3f{0,1,0},0,(float)500, (float)500, (float)50,(float)2000);
+    camaras[2] = new  Camara( Tupla3f{0,50,-100}, Tupla3f{0,0,0}, Tupla3f{0,1,0},0,(float)500, (float)500, (float)50,(float)2000);
+
     camaraActiva = 0;
 
 }
@@ -122,8 +137,11 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 
 void Escena::dibujar()
 {
+  change_projection(1);
+  change_observer();
+  
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Limpiar la pantalla
-	change_observer();
+
   if(glIsEnabled(GL_LIGHTING))
     glDisable(GL_LIGHTING);
 
@@ -144,70 +162,92 @@ void Escena::dibujar()
       if(glIsEnabled(GL_TEXTURE_2D))
         glDisable(GL_TEXTURE_2D);  
     }
-     
-      
-    switch(toDraw)
-    { 
-       case 1:
-          glPushMatrix();
-            glTranslatef(0,100,0);
-            glScalef(200,200,200);
-            cubo->draw(modo,puntos,lineas,solido);
-          glPopMatrix();
+    glPushMatrix();
 
-          glPushMatrix();
-            glTranslatef(0,0,-20);
-            cuadro->draw(modo,puntos,lineas,solido);
-          glPopMatrix();
+    glPushMatrix();
+      glScalef(10,10,10);
+      glTranslatef(-50,-1.5,50);
+      glRotatef(90,0,1,0);
+      pared_izq->draw(modo,puntos,lineas,solido);
+    glPopMatrix();
 
-          glPushMatrix();
-             glTranslatef(150,0,0);
-             glScalef(20,20,20);
-            cilindro->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
+    glPushMatrix();
+      glScalef(10,10,10);
+      glTranslatef(-50,-1.5,-50);
+      glRotatef(0,0,1,0);
+      fondo->draw(modo,puntos,lineas,solido);
+    glPopMatrix();
+
+      glPushMatrix();
+      //glScalef(12,12,12);
+      glTranslatef(-450,-1.5,200);
+      glRotatef(90,0,1,0);
+      cartel->draw(modo,puntos,lineas,solido); 
+       glPopMatrix();
+
+    glPushMatrix();
+      glScalef(12,12,12);
+      glTranslatef(-50,-1.5,50);
+      glRotatef(270,1,0,0);
+      cuadro->draw(modo,puntos,lineas,solido);
+    glPopMatrix();
+
+  
+
+    glPushMatrix();
+    glScalef(15,15,15);
+      glTranslatef(-2.5,0,0);
+      peon->draw(modo,puntos, lineas, solido,tapas);
+    glPopMatrix();
+
+    glPushMatrix();
+    glScalef(15,15,15);
+      peon->draw(modo,puntos, lineas, solido,tapas);
+    glPopMatrix();
+
+    glPushMatrix();
+    glScalef(15,15,15);
+    glTranslatef(2.5,0,0);
+      peon->draw(modo,puntos, lineas, solido,tapas);
+    glPopMatrix();
+
+    glPushMatrix();
+    glScalef(15,15,15);
+    glTranslatef(-1.25,0,2);
+      peon->draw(modo,puntos, lineas, solido,tapas);
+    glPopMatrix();
+
+    glPushMatrix();
+    glScalef(15,15,15);
+    glTranslatef(1.25,0,2);
+      peon->draw(modo,puntos, lineas, solido,tapas);
+    glPopMatrix();
+
+    glPushMatrix();
+    glScalef(15,15,15);
+    glTranslatef(0,0,4);
+      peon->draw(modo,puntos, lineas, solido,tapas);
+    glPopMatrix();
 
 
-          
-          glPushMatrix();
-            bender->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
 
-          glPushMatrix();
-          glScalef(50,50,50);
-            glTranslatef(-2,0,0);
-            peon->draw(modo,puntos, lineas, solido,tapas);
-          glPopMatrix();
-        
 
-         break;
-       case 2:
-          glPushMatrix();
-            glScalef(200,200,200);
-            cubo->draw(modo,puntos,lineas,solido);
-          glPopMatrix();
-         break; 
-       case 3:
-          glPushMatrix();
-            //glTranslatef(-20,0,-20);
-             glScalef(20,20,20);
-            cilindro->draw(modo,puntos,lineas,solido,tapas);
-          glPopMatrix();
-          // glPushMatrix();
-          //   glScalef(50,50,50);
-          //   glTranslatef(-2,0,0);
-          //   peon2->draw(modo,puntos,lineas,solido,tapas);
-          // glPopMatrix();
-          // glPushMatrix();
-          // glScalef(50,50,50);
-          //   glTranslatef(2,0,0);
-          //   peon->draw(modo,puntos, lineas, solido,tapas);
-          // glPopMatrix();
-          // glPushMatrix();
-          //   glTranslatef(0,-100,20);
-          //   esfera->draw(modo,puntos,lineas,solido,tapas);
-          // glPopMatrix();
-         break;
-    }
+    /*glPushMatrix();
+        glTranslatef(150,0,0);
+        glScalef(20,20,20);
+      cilindro->draw(modo,puntos,lineas,solido,tapas);
+    glPopMatrix();*/
+    
+    glPushMatrix();
+      glTranslatef(0,0,500);
+      glRotatef(180,0,1,0);
+      bender->draw(modo,puntos,lineas,solido,tapas);
+    glPopMatrix();
+
+glPopMatrix();
+
+
+         
 
 
 }
@@ -261,7 +301,10 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
        case 'C' : 
          if(modoMenu == SELOBJETO){
             toDraw = 2;
-         }  
+         }else
+         {
+            modoMenu = SELCAMARA;
+         }
          break;
        case 'E' : 
          if(modoMenu == SELOBJETO){
@@ -300,6 +343,12 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
            if(modoMenu == SELANIMACION && animacion){
              n_animacion = 1;
            }
+           else
+           {
+             if(modoMenu == SELCAMARA)
+              camaraActiva = 1;
+           }
+           
          }  
          break;  
        case '2' : 
@@ -309,6 +358,11 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          else{
            if(modoMenu == SELANIMACION && animacion){
              n_animacion = 2;
+           }
+          else
+           {
+             if(modoMenu == SELCAMARA)
+              camaraActiva = 2;
            }
          }   
          break;
@@ -371,7 +425,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          case '3':
            if(modoMenu == SELANIMACION ){
              n_animacion = 3;
-           }     
+           }  
           break;
           case '4':
            if(modoMenu == SELANIMACION /*&& animacion*/){
@@ -398,6 +452,11 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
              variaAlpha = false;
            }     
           break;
+          case '0':
+           if(modoMenu == SELCAMARA ){
+             camaraActiva = 0;
+           }     
+          break;
    }
    return salir;
 }
@@ -410,28 +469,30 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
 	   case GLUT_KEY_LEFT:
          //Observer_angle_y-- ;
          if(camaras[camaraActiva] != nullptr)
-          camaras[camaraActiva]->rotarXExaminar(-0.001);
+          camaras[camaraActiva]->rotarXFirstPerson(-0.001);
          break;
 	   case GLUT_KEY_RIGHT:
          //Observer_angle_y++ ;
          if(camaras[camaraActiva] != nullptr)
-          camaras[camaraActiva]->rotarXExaminar(+0.001);
+          camaras[camaraActiva]->rotarXFirstPerson(0.001);
          break;
 	   case GLUT_KEY_UP:
          //Observer_angle_x-- ;
          if(camaras[camaraActiva] != nullptr)
-          camaras[camaraActiva]->rotarYExaminar(-0.001);
+          camaras[camaraActiva]->rotarYFirstPerson(-0.001);
          break;
 	   case GLUT_KEY_DOWN:
          //Observer_angle_x++ ;
          if(camaras[camaraActiva] != nullptr)
-          camaras[camaraActiva]->rotarYExaminar(+0.001);
+          camaras[camaraActiva]->rotarYFirstPerson(0.001);
          break;
 	   case GLUT_KEY_PAGE_UP:
-         Observer_distance *=1.2 ;
+        if(camaras[camaraActiva] != nullptr)
+         camaras[camaraActiva]->zoom(1);
          break;
 	   case GLUT_KEY_PAGE_DOWN:
-         Observer_distance /= 1.2 ;
+        if(camaras[camaraActiva] != nullptr)
+         camaras[camaraActiva]->zoom(-1);
          break;
 	}
 
@@ -462,8 +523,8 @@ void Escena::change_projection( const float ratio_xy )
 
 void Escena::redimensionar( int newWidth, int newHeight )
 {
-   Width  = newWidth/10;
-   Height = newHeight/10;
+   Width  = (newWidth/10)/**camaras[camaraActiva]->getAlto()/camaras[camaraActiva]->getAncho()*/;
+   Height = (newHeight/10)/**camaras[camaraActiva]->getAlto()/camaras[camaraActiva]->getAncho()*/;
    change_projection( float(newHeight)/float(newWidth) );
    glViewport( 0, 0, newWidth, newHeight );
 }
@@ -493,23 +554,23 @@ void Escena::change_observer()
 void Escena::animarModeloJerarquico()
 {
   if(!pause){
-    // if(bender->getNPasos()<100)
-    //   this->bender->andar();
-    
-    // else{
-    //   if(bender->anguloBrazoDer > -180)
-    //     this->bender->moverBrazoDer();
-    // }
-    // if(bender->getNPasos() == 100 && bender->anguloBrazoDer == -180)
-    //   this->bender->moverCuello();
-    
     if(bender->getNPasos()<100)
-       this->bender->andar();
-    this->bender->moverCuello();
-    this->bender->moverBrazoDer();
-    this->bender->moverBrazoIzq();
-    this->bender->moverPiernaDer();
-    this->bender->moverPiernaIzq();
+      this->bender->andar();
+    
+    else{
+      if(bender->anguloBrazoDer > -180)
+        this->bender->moverBrazoDer();
+    }
+    if(bender->getNPasos() == 100 && bender->anguloBrazoDer == -180)
+      this->bender->moverCuello();
+    
+    // if(bender->getNPasos()<100)
+    //    this->bender->andar();
+    // this->bender->moverCuello();
+    // this->bender->moverBrazoDer();
+    // this->bender->moverBrazoIzq();
+    // this->bender->moverPiernaDer();
+    // this->bender->moverPiernaIzq();
   }
   
 }
@@ -540,6 +601,9 @@ void Escena::ratonMovido(int x, int y)
 {
   if(estadoRaton)
   {
-    camaras[camaraActiva]->girar(x,y);
+    camaras[camaraActiva]->rotarXExaminar((x - xant)*0.0001);
+    camaras[camaraActiva]->rotarYExaminar((y - yant)*0.0001);
+    xant = x;
+    yant = y;
   }
 }
