@@ -82,11 +82,10 @@ class Escena
    int angulo = 0;
    bool arriba = true;
    bool variaAlpha; //Controla si varia alpha o beta
-   bool estadoRaton = false; //variable de estado para controlar el movimiento del ratón
    int camaraActiva; //Variable que controla cual es la camara activa en cada instante
-   int xant = 0, yant = 0; //Variables para controlar el movimiento del raton
+   
    public:
-
+    int xant = 0, yant = 0; //Variables para controlar el movimiento del raton
     Escena();
 	void inicializar( int UI_window_width, int UI_window_height );
 	void redimensionar( int newWidth, int newHeight ) ;
@@ -101,7 +100,6 @@ class Escena
     void animarLuces();
     inline bool getPause(){return this->pause;}
     void ratonMovido(int x,int y);
-    inline void setEstadoRaton(bool mov){this->estadoRaton = mov;}
     inline Camara* getCamaraActiva(){return camaras[camaraActiva];}
 };
 #endif

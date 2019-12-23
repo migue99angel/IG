@@ -53,7 +53,7 @@ Escena::Escena()
     cilindro = new Cilindro(2,20,4,1);
     cubo = new Cubo;
     tetraedro = new Tetraedro;
-    ant = new ObjPLY("plys/ant.ply");
+    ant = new ObjPLY("plys/big_dodge.ply");
     peon = new ObjRevolucion("plys/peon.ply",50,true);
     peon2 = new ObjRevolucion("plys/peon.ply",50,true);
     esfera = new Esfera();
@@ -179,7 +179,6 @@ void Escena::dibujar()
     glPopMatrix();
 
       glPushMatrix();
-      //glScalef(12,12,12);
       glTranslatef(-450,-1.5,200);
       glRotatef(90,0,1,0);
       cartel->draw(modo,puntos,lineas,solido); 
@@ -192,7 +191,11 @@ void Escena::dibujar()
       cuadro->draw(modo,puntos,lineas,solido);
     glPopMatrix();
 
-  
+    glPushMatrix();
+        glTranslatef(-300,0,150);
+        glScalef(10,10,10);
+      cilindro->draw(modo,puntos,lineas,solido,tapas);
+    glPopMatrix();
 
     glPushMatrix();
     glScalef(15,15,15);
@@ -229,19 +232,16 @@ void Escena::dibujar()
       peon->draw(modo,puntos, lineas, solido,tapas);
     glPopMatrix();
 
-
-
-
-    /*glPushMatrix();
-        glTranslatef(150,0,0);
-        glScalef(20,20,20);
-      cilindro->draw(modo,puntos,lineas,solido,tapas);
-    glPopMatrix();*/
-    
     glPushMatrix();
       glTranslatef(0,0,500);
       glRotatef(180,0,1,0);
       bender->draw(modo,puntos,lineas,solido,tapas);
+    glPopMatrix();
+
+    glPushMatrix();
+      glTranslatef(500,15,5);
+      glScalef(10,10,10);
+      ant->draw(modo,puntos,lineas,solido);
     glPopMatrix();
 
 glPopMatrix();
@@ -599,11 +599,12 @@ void Escena::animarLuces()
 ****************************************************************/
 void Escena::ratonMovido(int x, int y)
 {
-  if(estadoRaton)
-  {
+  //if(estadoRaton)
+  //{
     camaras[camaraActiva]->rotarXExaminar((x - xant)*0.0001);
     camaras[camaraActiva]->rotarYExaminar((y - yant)*0.0001);
+
     xant = x;
     yant = y;
-  }
+ // }
 }

@@ -104,13 +104,13 @@ void clickRaton(int boton, int estado,int x, int y)
 {
    if(boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && escena != nullptr) 
    {
-      escena->setEstadoRaton(true);
+      escena->xant = x;
+      escena->yant = y;
       glutPostRedisplay();
 
    }
    else
    {
-      escena->setEstadoRaton(false);
       glutPostRedisplay();
    }
 }
