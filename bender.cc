@@ -174,11 +174,14 @@ void Bender::andarHaciaAtras(){
         }
         else{
             this->anguloPiernaIzq += v_animacion;
-            paso =true;
+            paso = true;
         }
     }
 }
 
 void Bender::setVelocidad(float v){
-    this->v_animacion *= v;
+    if(v > 0 && v_animacion < 100)
+        this->v_animacion += v;
+    if(v < 0 && v_animacion > 0)
+        this->v_animacion += v;    
 }

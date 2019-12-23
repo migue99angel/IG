@@ -439,12 +439,12 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
           break;
           case '+':
            if(modoMenu == SELANIMACION && animacion){
-             bender->setVelocidad(1.25);
+             bender->setVelocidad(1);
            }     
           break;
           case '-':
            if(modoMenu == SELANIMACION && animacion){
-             bender->setVelocidad(0.75);
+             bender->setVelocidad(-1);
            }     
           break;
           case 'B':
@@ -553,25 +553,25 @@ void Escena::change_observer()
 
 void Escena::animarModeloJerarquico()
 {
-  if(!pause){
-    if(bender->getNPasos()<100)
-      this->bender->andar();
+  // if(!pause){
+  //   if(bender->getNPasos()<100)
+  //     this->bender->andar();
     
-    else{
-      if(bender->anguloBrazoDer > -180)
-        this->bender->moverBrazoDer();
-    }
-    if(bender->getNPasos() == 100 && bender->anguloBrazoDer == -180)
-      this->bender->moverCuello();
+  //   else{
+  //     if(bender->anguloBrazoDer > -180)
+  //       this->bender->moverBrazoDer();
+  //   }
+  //   if(bender->getNPasos() == 100 && bender->anguloBrazoDer == -180)
+  //     this->bender->moverCuello();
     
     // if(bender->getNPasos()<100)
     //    this->bender->andar();
-    // this->bender->moverCuello();
-    // this->bender->moverBrazoDer();
-    // this->bender->moverBrazoIzq();
-    // this->bender->moverPiernaDer();
-    // this->bender->moverPiernaIzq();
-  }
+    this->bender->moverCuello();
+    this->bender->moverBrazoDer();
+    this->bender->moverBrazoIzq();
+    this->bender->moverPiernaDer();
+    this->bender->moverPiernaIzq();
+  // }
   
 }
 
