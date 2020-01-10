@@ -5,17 +5,16 @@ Cuadro::Cuadro(float lado)
 {
    this->lado = lado;
 
-   Tupla3f a(0,0,0), b(lado,0,0), c(0,lado,0), d(lado,lado,0);        
+   Tupla3f a(0,0,0), b(1.25*lado,0,0), c(0,lado,0), d(1.25*lado,lado,0);        
 
-   
+   v.push_back(c);
    v.push_back(a);
    v.push_back(b);
-   v.push_back(c);
    v.push_back(d);
 
    // inicializar la tabla de caras o triángulos:
  
-   Tupla3i ver1(2,0,1),ver2(1,3,2);
+   Tupla3i ver1(0,1,3),ver2(1,2,3);
 
 
    f.push_back(ver1);
@@ -49,8 +48,8 @@ void Cuadro::obtenerPuntosCoordenadas()
 {
     this->ct.clear();
     
-    this->ct.push_back({1,1});
-    this->ct.push_back({0,1});
-    this->ct.push_back({1,0});
     this->ct.push_back({0,0});
+    this->ct.push_back({0,1});
+    this->ct.push_back({1,1});
+    this->ct.push_back({1,0});
 }

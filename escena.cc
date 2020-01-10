@@ -164,24 +164,24 @@ void Escena::dibujar()
     }
     glPushMatrix();
 
-    glPushMatrix();
-      glScalef(10,10,10);
-      glTranslatef(-50,-1.5,50);
-      glRotatef(90,0,1,0);
-      pared_izq->draw(modo,puntos,lineas,solido);
-    glPopMatrix();
+    // glPushMatrix();
+      // glScalef(10,8,10);
+      // glTranslatef(-50,-1.5,50);
+      // glRotatef(90,0,1,0);
+      // pared_izq->draw(modo,puntos,lineas,solido);
+    // glPopMatrix();
 
     glPushMatrix();
       glScalef(10,10,10);
       glTranslatef(-50,-1.5,-50);
       glRotatef(0,0,1,0);
-      fondo->draw(modo,puntos,lineas,solido);
+      pared_izq->draw(modo,puntos,lineas,solido);
     glPopMatrix();
 
       glPushMatrix();
-      glTranslatef(-450,-1.5,200);
-      glRotatef(90,0,1,0);
-      cartel->draw(modo,puntos,lineas,solido); 
+        glTranslatef(-450,-1.5,200);
+        glRotatef(90,0,1,0);
+        cartel->draw(modo,puntos,lineas,solido); 
        glPopMatrix();
 
     glPushMatrix();
