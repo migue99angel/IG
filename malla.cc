@@ -115,17 +115,30 @@ GLuint Malla3D::CrearVBO( GLuint tipo_vbo,GLuint tamanio_bytes, GLvoid * puntero
 
 void Malla3D::draw_ModoDiferido(char L)
 {
-   if(id_vbo_ver==0 && id_vbo_tri==0){
-      id_vbo_ver=CrearVBO(GL_ARRAY_BUFFER,v.size()*3*sizeof(float),v.data());
-      id_vbo_tri=CrearVBO(GL_ELEMENT_ARRAY_BUFFER,f.size()*3*sizeof(int),f.data());
+   if(id_vbo_ver == 0 && id_vbo_tri==0 && id_vbo_col == 0 && id_vbo_nor == 0 && id_vbo_ct == 0){
+      id_vbo_ver = CrearVBO(GL_ARRAY_BUFFER,v.size()*3*sizeof(float),v.data());
+      id_vbo_tri = CrearVBO(GL_ELEMENT_ARRAY_BUFFER,f.size()*3*sizeof(int),f.data());
+      id_vbo_col = CrearVBO(GL_ARRAY_BUFFER,color.size()*3*sizeof(float),color.data());
+      id_vbo_nor = CrearVBO(GL_ARRAY_BUFFER,nv.size()*3*sizeof(float),nv.data());
+      id_vbo_ct = CrearVBO(GL_ARRAY_BUFFER,ct.size()*3*sizeof(float),ct.data());
    }
    // (la primera vez, se deben crear los VBOs y guardar sus identificadores en el objeto)
    //especificar localización y formato de la tabla de vértices, haux.push_back({0,0});abilitar tabla
    glBindBuffer( GL_ARRAY_BUFFER, id_vbo_ver ); //activar VBO de vértices
    glVertexPointer( 3, GL_FLOAT, 0, 0 ); //especifica formato y offset (=0)
    glBindBuffer( GL_ARRAY_BUFFER, 0 ); //desactivar VBO de vértices.
+
+   glBindBuffer( GL_ARRAY_BUFFER, id_vbo_col ); 
+   glColorPointer( 3, GL_FLOAT, 0, 0 ); 
+   glBindBuffer( GL_ARRAY_BUFFER, 0 ); 
+
+   glBindBuffer( GL_ARRAY_BUFFER, id_vbo_nor );
+   glNormalPointer( GL_FLOAT, 0, 0 ); 
+   glBindBuffer( GL_ARRAY_BUFFER, 0 ); 
+
    glEnableClientState( GL_VERTEX_ARRAY ); //habilitar tabla de vértices
    glEnableClientState(GL_COLOR_ARRAY);
+   glEnableClientState(GL_NORMAL_ARRAY);
   switch (L)
   {
    case 'P':
@@ -152,7 +165,9 @@ void Malla3D::draw_ModoDiferido(char L)
 
    //desactivar uso de array de vértices y el de normales
    glDisableClientState(GL_VERTEX_ARRAY);
+   glDisableClientState(GL_COLOR_ARRAY);
    glDisableClientState(GL_NORMAL_ARRAY);
+   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 // -----------------------------------------------------------------------------
 // Función de visualización de la malla,

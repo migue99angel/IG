@@ -60,7 +60,7 @@ class Malla3D
    Textura * text = nullptr;
    bool ajedrez = false;
    const int MAX=100;
-   GLuint id_vbo_ver=0,id_vbo_tri=0;
+   GLuint id_vbo_ver = 0,id_vbo_tri = 0, id_vbo_col = 0, id_vbo_nor = 0,id_vbo_ct = 0;
 } ;
 
 
