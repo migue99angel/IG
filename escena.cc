@@ -281,9 +281,6 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
        case 'V' :
          // ESTAMOS EN MODO SELECCION DE MODO DE VISUALIZACION
          modoMenu=SELVISUALIZACION;
-         if(SELANIMACION){
-           this->bender->mover(n_animacion);
-         }
          break ;
        case 'D' :
          // ESTAMOS EN MODO SELECCION DE DIBUJADO
@@ -340,7 +337,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             modo = 1;
          }
          else{
-           if(modoMenu == SELANIMACION && animacion){
+           if(modoMenu == SELANIMACION){
              n_animacion = 1;
            }
            else
@@ -356,7 +353,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             modo = 2;
          } 
          else{
-           if(modoMenu == SELANIMACION && animacion){
+           if(modoMenu == SELANIMACION){
              n_animacion = 2;
            }
           else
@@ -368,15 +365,14 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
        case 'A' : 
          if(modoMenu == SELVISUALIZACION && !Iluminacion){
-          ajedrez = !ajedrez;
-          if(ajedrez)  
-            modo = 3;
-          else 
-            modo = 1;
+            ajedrez = !ajedrez;
+            if(ajedrez)  
+              modo = 3;
+            else 
+              modo = 1;
          }
-         if(modoMenu == NADA ){
-            modoMenu = SELANIMACION;
-            animacion = true;
+         if(modoMenu == NADA || modoMenu == SELANIMACION){
+            this->pause = !this->pause;
          }
          if(modoMenu == SELVISUALIZACION && Iluminacion)
             variaAlpha = true;  
@@ -394,10 +390,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
               Iluminacion = false;
          }  
          break;
-         case 'J' : 
-            if(modoMenu == SELANIMACION)
-              this->pause = !this->pause;
-         break;
+
         case '<':
           if(modoMenu == SELVISUALIZACION){
             if(Iluminacion){
@@ -428,22 +421,22 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
            }  
           break;
           case '4':
-           if(modoMenu == SELANIMACION /*&& animacion*/){
+           if(modoMenu == SELANIMACION){
              n_animacion = 4;
            }     
           break;
           case '5':
-           if(modoMenu == SELANIMACION /*&& animacion*/){
+           if(modoMenu == SELANIMACION){
              n_animacion = 5;
            }     
           break;
           case '+':
-           if(modoMenu == SELANIMACION && animacion){
+           if(modoMenu == SELANIMACION && !pause){
              bender->setVelocidad(1);
            }     
           break;
           case '-':
-           if(modoMenu == SELANIMACION && animacion){
+           if(modoMenu == SELANIMACION && !pause){
              bender->setVelocidad(-1);
            }     
           break;
@@ -456,6 +449,14 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
            if(modoMenu == SELCAMARA ){
              camaraActiva = 0;
            }     
+          break;
+          case 'M':
+            if(modoMenu == NADA){
+              modoMenu = SELANIMACION;
+            }
+            if(SELANIMACION && pause){
+              this->bender->mover(n_animacion);
+            }
           break;
    }
    return salir;
@@ -566,11 +567,13 @@ void Escena::animarModeloJerarquico()
     
     // if(bender->getNPasos()<100)
     //    this->bender->andar();
-    this->bender->moverCuello();
-    this->bender->moverBrazoDer();
-    this->bender->moverBrazoIzq();
-    this->bender->moverPiernaDer();
-    this->bender->moverPiernaIzq();
+    if(!pause){
+      this->bender->moverCuello();
+      this->bender->moverBrazoDer();
+      this->bender->moverBrazoIzq();
+      this->bender->moverPiernaDer();
+      this->bender->moverPiernaIzq();
+    }
   // }
   
 }
