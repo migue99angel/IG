@@ -40,7 +40,6 @@ void Bender::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas){
                 glPopMatrix();
 
                 glPushMatrix();
-                    
                     glScalef(0.5,0.5,0.5);
                     glTranslatef(-tronco->getRadio()/2,0,0);
                     glRotatef(this->anguloPiernaDer,1,0,0);
@@ -48,7 +47,6 @@ void Bender::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas){
                 glPopMatrix();
 
                 glPushMatrix();
-                    
                     glScalef(0.5,0.5,0.5);
                     glTranslatef(tronco->getRadio()/2,0,0);
                     glRotatef(this->anguloPiernaIzq,1,0,0);
@@ -61,7 +59,27 @@ void Bender::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas){
                     this->cabeza->draw(modo,puntos,lineas,solido,tapas);
                 glPopMatrix();
 
+
     glPopMatrix();
+}
+
+void Bender::moverAntena()
+{
+    if(this->cabeza->getAlturaAntena() <= 50 && !baja)
+    {
+        this->cabeza->setAlturaAntena(1);
+    }
+
+    if(this->cabeza->getAlturaAntena() == 50)
+        baja = true;
+
+    if(this->cabeza->getAlturaAntena() >= 0 && baja)
+    {
+        this->cabeza->setAlturaAntena(-1); 
+    }
+
+    if(this->cabeza->getAlturaAntena() == 0)
+        baja = false;    
 }
 
 void Bender::moverBrazoDer(){

@@ -26,6 +26,7 @@ Cabeza::Cabeza(Material m,Tupla3f color){
 
 void Cabeza::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas){
     glPushMatrix();
+
                 glPushMatrix();
                     this->cilindro->draw(modo,puntos,lineas,solido,tapas);
                 glPopMatrix();
@@ -41,7 +42,7 @@ void Cabeza::draw(int modo,bool puntos,bool lineas,bool solido,bool tapas){
                 glPopMatrix();
 
                 glPushMatrix();
-                    glTranslatef(0,cilindro->getAltura()+(esfera->getRadio())/2 + little_cilindro->getAltura(),0);
+                    glTranslatef(0,cilindro->getAltura()+(esfera->getRadio())/2 + little_cilindro->getAltura() + this->x,0);
                     this->little_esfera->draw(modo,puntos,lineas,solido,tapas);
                 glPopMatrix();
 

@@ -367,6 +367,7 @@ void ObjRevolucion::obtenerPuntosCoordenadas()
 
       for(int i = aux.size()-1; i > 0; --i)
          ct.push_back(aux[i]);
+
    }
 }
 

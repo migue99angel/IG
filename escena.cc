@@ -458,6 +458,10 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
               this->bender->mover(n_animacion);
             }
           break;
+          case 'F':
+            if(modoMenu == SELCAMARA)
+              firstPerson = !firstPerson;
+          break;
    }
    return salir;
 }
@@ -495,6 +499,7 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
         if(camaras[camaraActiva] != nullptr)
          camaras[camaraActiva]->zoom(-1);
          break;
+   
 	}
 
 	//std::cout << Observer_distance << std::endl;
@@ -568,6 +573,7 @@ void Escena::animarModeloJerarquico()
     // if(bender->getNPasos()<100)
     //    this->bender->andar();
     if(!pause){
+      this->bender->moverAntena();
       this->bender->moverCuello();
       this->bender->moverBrazoDer();
       this->bender->moverBrazoIzq();
@@ -602,12 +608,19 @@ void Escena::animarLuces()
 ****************************************************************/
 void Escena::ratonMovido(int x, int y)
 {
-  //if(estadoRaton)
-  //{
+  if(firstPerson) 
+  {
     camaras[camaraActiva]->rotarXExaminar((x - xant)*0.0001);
     camaras[camaraActiva]->rotarYExaminar((y - yant)*0.0001);
 
     xant = x;
     yant = y;
- // }
+  }else
+  {
+    camaras[camaraActiva]->rotarXFirstPerson((x - xant)*0.0001);
+    camaras[camaraActiva]->rotarYFirstPerson((y - yant)*0.0001);
+
+    xant = x;
+    yant = y;
+  }
 }

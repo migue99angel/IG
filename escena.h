@@ -83,6 +83,7 @@ class Escena
    bool arriba = true;
    bool variaAlpha; //Controla si varia alpha o beta
    int camaraActiva; //Variable que controla cual es la camara activa en cada instante
+   bool firstPerson = false;
    
    public:
     int xant = 0, yant = 0; //Variables para controlar el movimiento del raton

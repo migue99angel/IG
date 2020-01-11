@@ -25,8 +25,10 @@ class Bender{
         bool hacia_delante_pierna_der;
         bool hacia_delante_pierna_izq;
         bool haciaAtras = false;
+        bool baja = false;
         bool paso;
         int n_pasos;
+
     public:
         Bender(Material m,int v_animacion);   
         void draw(int modo,bool puntos,bool lineas,bool solido,bool tapas); 
@@ -35,6 +37,7 @@ class Bender{
         void moverBrazoIzq();
         void moverBrazoDer();
         void moverCuello();
+        void moverAntena();
         void mover(int animacion);
         void andar();
         void andarHaciaAtras();
