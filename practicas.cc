@@ -104,17 +104,14 @@ void clickRaton(int boton, int estado,int x, int y)
 {
    if(boton == GLUT_RIGHT_BUTTON && estado == GLUT_DOWN && escena != nullptr) 
    {
-      std::cout<<"Hola\n";
       escena->xant = x;
       escena->yant = y;
       glutPostRedisplay();
-
    }
    else
    {
       if(boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && escena != nullptr) 
       {
-         std::cout<<"Hola\n";
          escena->xsel = x;
          escena->ysel = y;
          escena->dibujarSeleccion();

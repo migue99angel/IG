@@ -27,7 +27,7 @@ ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bo
    std::vector<Tupla3f> perfil;
    ply::read_vertices(archivo,perfil);
    crearMalla(perfil,num_instancias, tapas);
-   aniadirColor(Tupla3f(0,0,1.0));
+   aniadirColor(Tupla3f(1.0,0,0.0));
 
    //Como ya he creado las caras y el objeto revolución ya puedo calcular las normales
    if(nv.empty())
