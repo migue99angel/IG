@@ -30,6 +30,7 @@ class Camara{
         void girarPrimeraPersona(int x, int y);
         void examinar(int eje,float angulo);
         void rotarFirstPerson(int eje,float angulo);
+        void setAt(Tupla3f seleccion);
         Tupla3f RotarEjeArbitrario(Tupla3f eje,Tupla3f vector,float angulo);
         inline float getAncho() {return this->left*2;}
         inline float getAlto() {return this->top*2;}

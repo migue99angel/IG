@@ -102,8 +102,9 @@ void funcion_idle()
  *******************************************************/
 void clickRaton(int boton, int estado,int x, int y)
 {
-   if(boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && escena != nullptr) 
+   if(boton == GLUT_RIGHT_BUTTON && estado == GLUT_DOWN && escena != nullptr) 
    {
+      std::cout<<"Hola\n";
       escena->xant = x;
       escena->yant = y;
       glutPostRedisplay();
@@ -111,7 +112,15 @@ void clickRaton(int boton, int estado,int x, int y)
    }
    else
    {
-      glutPostRedisplay();
+      if(boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && escena != nullptr) 
+      {
+         std::cout<<"Hola\n";
+         escena->xsel = x;
+         escena->ysel = y;
+         escena->dibujarSeleccion();
+
+         glutPostRedisplay();
+      }
    }
 }
 

@@ -31,6 +31,12 @@ Camara::Camara(Tupla3f eye, Tupla3f at, Tupla3f up , int tipo, float width, floa
     this->fovY = (atan(near/high) * 180/M_PI);
 }
 
+void Camara::setAt(Tupla3f seleccion)
+{
+    this->at = seleccion;
+    std::cout<<"El at actual ha cambiado\n";
+}
+
 void Camara::rotarXExaminar(float angle)
 {
     examinar(0,angle);

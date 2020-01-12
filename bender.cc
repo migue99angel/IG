@@ -67,7 +67,7 @@ void Bender::moverAntena()
 {
     if(this->cabeza->getAlturaAntena() <= 50 && !baja)
     {
-        this->cabeza->setAlturaAntena(1);
+        this->cabeza->setAlturaAntena(v_animacion);
     }
 
     if(this->cabeza->getAlturaAntena() == 50)
@@ -75,7 +75,7 @@ void Bender::moverAntena()
 
     if(this->cabeza->getAlturaAntena() >= 0 && baja)
     {
-        this->cabeza->setAlturaAntena(-1); 
+        this->cabeza->setAlturaAntena(-v_animacion); 
     }
 
     if(this->cabeza->getAlturaAntena() == 0)
@@ -141,6 +141,9 @@ void Bender::mover(int animacion){
             this->anguloPiernaDer = 0;
             this->anguloBrazoIzq  = 0;
             this->andar();
+        break;
+        case 7:
+            this->moverAntena();
         break;
     }
 }

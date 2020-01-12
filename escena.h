@@ -87,20 +87,27 @@ class Escena
    
    public:
     int xant = 0, yant = 0; //Variables para controlar el movimiento del raton
+    int xsel = 0, ysel = 0; //Variables para controlar la selección
     Escena();
 	void inicializar( int UI_window_width, int UI_window_height );
 	void redimensionar( int newWidth, int newHeight ) ;
-
+    inline Camara* getCamaraActiva(){return camaras[camaraActiva];}
 	// Dibujar
 	void dibujar() ;
 
-	// Interacción con la escena
+	// Interacción con la escena mediante teclado o raton
 	bool teclaPulsada( unsigned char Tecla1, int x, int y ) ;
 	void teclaEspecial( int Tecla1, int x, int y );
+    void ratonMovido(int x,int y);
+
+    //Funciones respectivas a las animaciones 
     void animarModeloJerarquico();
     void animarLuces();
     inline bool getPause(){return this->pause;}
-    void ratonMovido(int x,int y);
-    inline Camara* getCamaraActiva(){return camaras[camaraActiva];}
+
+    //Funciones necesarias para la selección
+    void dibujarSeleccion();
+    void asignarColoresSeleccion();
+    void restaurarColoresSeleccion();
 };
 #endif
