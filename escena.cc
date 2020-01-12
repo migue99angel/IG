@@ -62,7 +62,6 @@ Escena::Escena()
     cuadro = new Cuadro(100);
     pared_izq = new Cuadro(100);
     cartel = new Cuadro(100);
-    fondo = new Cuadro(100);
 
     Material  esmerald = Material(ambiente_esmerald,especular_esmerald,difuso_esmerald, 128.0*0.6);
     Material obsidian = Material(ambiente_obsidian,especular_obsidian,difuso_obsidian,128*0.3);
@@ -72,10 +71,8 @@ Escena::Escena()
 
     text = Textura("jpgs/text-madera.jpg",0);
     lata = Textura("jpgs/text-lata-1.jpg",1);
-    monaLisa = Textura("jpgs/prueba.jpg",2);
     pared = Textura("jpgs/pared.jpg",3);
     publi = Textura("jpgs/publi.jpg",4);
-    ladrillos = Textura("jpgs/ladrillos.jpg",5);
 
     cubo->setMaterial(esmerald);
     peon->setMaterial(esmerald);
@@ -88,7 +85,6 @@ Escena::Escena()
     cartel->setMaterial(pearl);
     pared_izq->setMaterial(pearl);
     cuadro->setMaterial(pearl);
-    fondo->setMaterial(pearl);
 
 
     cuadro->setTextura(text);
@@ -96,7 +92,6 @@ Escena::Escena()
     cilindro->setTextura(lata);
     pared_izq->setTextura(pared);
     cartel->setTextura(publi);
-    fondo->setTextura(ladrillos);
 
     cuadro->aniadirColor({1.0,1.0,0});
     pared_izq->aniadirColor({0.5,1.0,0.5});
@@ -193,7 +188,9 @@ void Escena::dibujar()
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(-300,0,150);
+        Tupla3f p(-300,0,150);
+        cilindro->setPosicion(p);
+        glTranslatef(p(0),p(1),p(2));
         glScalef(30,30,30);
       cilindro->draw(modo,puntos,lineas,solido,tapas);
     glPopMatrix();
@@ -240,7 +237,9 @@ void Escena::dibujar()
     glPopMatrix();
 
     glPushMatrix();
-      glTranslatef(500,15,5);
+      Tupla3f p2(500,15,5);
+      ant->setPosicion(p2);
+      glTranslatef(p2(0),p2(1),p2(2));
       glScalef(10,10,10);
       ant->draw(modo,puntos,lineas,solido);
     glPopMatrix();
@@ -459,10 +458,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
               this->bender->mover(n_animacion);
             }
           break;
-          case 'F':
-            if(modoMenu == SELCAMARA)
-              firstPerson = !firstPerson;
-          break;
+
           case '7':
            if(modoMenu == SELANIMACION){
              n_animacion = 7;
@@ -589,6 +585,12 @@ void Escena::animarModeloJerarquico()
       this->bender->moverPiernaDer();
       this->bender->moverPiernaIzq();
     }
+
+
+    
+
+
+
   // }
   
 }
@@ -610,6 +612,37 @@ void Escena::animarLuces()
       arriba = true;    
   }
 }
+
+void Escena::objetosSeleccionables()
+{
+  if(!Iluminacion)
+  {
+    Tupla3f c_cil = cilindro->getColor();
+    Tupla3f c_ant = ant->getColor();
+
+    if(c_cil(0) < 1.0)
+      c_cil(0) = (c_cil(0) + 0.1);
+    else
+      c_cil(0) = 0.0;
+      
+    if(c_ant(0) < 1.0)
+      c_ant(0) = (c_ant(0) + 0.1);
+    else
+      c_ant(0) = 0.0;
+
+    cilindro->aniadirColor(c_cil);
+    ant->aniadirColor(c_ant);
+  }else
+  {
+    Material* m_ant = ant->getMaterial();
+    if(m_ant->getAmbiente()(0) < 1.0)
+        m_ant->setAmbiente({(float)(m_ant->getAmbiente()((float)0) + 0.1),0,0,0});
+    else
+      m_ant->setAmbiente({0,0,0,0});
+
+    ant->setMaterial(*m_ant);  
+  }
+}
 /***************************************************************
  *En esta funcion comprobaremos si el botón derecho está pulsado
 *en ese caso actualizaremos la posición de la cámara en función
@@ -617,7 +650,7 @@ void Escena::animarLuces()
 ****************************************************************/
 void Escena::ratonMovido(int x, int y)
 {
-  if(firstPerson) 
+  if(seleccion) 
   {
     camaras[camaraActiva]->rotarXExaminar((x - xant)*0.0001);
     camaras[camaraActiva]->rotarYExaminar((y - yant)*0.0001);
@@ -663,9 +696,11 @@ void Escena::dibujarSeleccion()
   //Dibujamos la escena con los colores de seleccion
   dibujar();
   
+  GLint viewport[4];
+	glGetIntegerv(GL_VIEWPORT,viewport);
   float  buffer_seleccion[4];
-  glReadPixels(xsel,ysel,1,1,GL_RGB,GL_FLOAT,(void*)buffer_seleccion);
-  std::cout<<"Leidos:"<<"["<<round(buffer_seleccion[0]*10)/10<<"]["<<round(buffer_seleccion[1]*10)/10<<"]["<<round(buffer_seleccion[2]*10)/10<<"]\n";
+  glReadPixels(xsel,viewport[3]-ysel,1,1,GL_RGB,GL_FLOAT,(void*)buffer_seleccion);
+
 
   //Restauramos los colores anteriores a la seleccion
   restaurarColoresSeleccion();
@@ -673,16 +708,28 @@ void Escena::dibujarSeleccion()
   //Vemos cual ha sido el objeto seleccionado
   if(round(buffer_seleccion[0]*10)/10 == 0.0 && round(buffer_seleccion[1]*10)/10 == 0.0 && round(buffer_seleccion[2]*10)/10 == 0.0)
   {
-    std::cout<<"Coche:"<<"["<<buffer_seleccion[0]<<"]["<<buffer_seleccion[1]<<"]["<<buffer_seleccion[2]<<"]\n";
+    std::cout<<"Ha seleccionado el coche:\n";
     for(int i = 0; i < 5; ++i)
       if(this->camaras[i] != nullptr)
-        this->camaras[i]->setAt({500,0,0});  //Falta sacar la posicion del objeto seleccionado
+        this->camaras[i]->setAt(ant->getPosicion());  //Falta sacar la posicion del objeto seleccionado
+    seleccion = true;
   }else
     {
-      std::cout<<"Nada\n";
-      for(int i = 0; i < 5; ++i)
-        if(this->camaras[i] != nullptr)
-          this->camaras[i]->setAt({0,0,0});  //Si no se selecciona ningún objeto seleccionable fijamos el at en el origen
+      if(round(buffer_seleccion[0]*10)/10 == 0.1 && round(buffer_seleccion[1]*10)/10 == 0.1 && round(buffer_seleccion[2]*10)/10 == 0.1)
+      {
+        seleccion = true;
+        std::cout<<"Ha seleccionado la lata:\n";
+        for(int i = 0; i < 5; ++i)
+          if(this->camaras[i] != nullptr)
+            this->camaras[i]->setAt(cilindro->getPosicion());  //Falta sacar la posicion del objeto seleccionado
+      }else
+      {
+        seleccion = false;
+        std::cout<<"No ha seleccionado ningún objeto seleccionable\n";
+        for(int i = 0; i < 5; ++i)
+          if(this->camaras[i] != nullptr)
+            this->camaras[i]->setAt({0,0,0});  //Si no se selecciona ningún objeto seleccionable fijamos el at en el origen
+      }
     }
     
 
@@ -706,9 +753,11 @@ void Escena::dibujarSeleccion()
 void Escena::asignarColoresSeleccion()
 {
   this->ant->aniadirColor({0.0,0.0,0.0});
+  this->cilindro->aniadirColor({0.1,0.1,0.1});
 }
 
 void Escena::restaurarColoresSeleccion()
 {
   this->ant->aniadirColor({0.5,0.2,1.0});
+  this->cilindro->aniadirColor({0.0,0.5,0.5});
 }

@@ -45,6 +45,11 @@ class Malla3D
    void setMaterial(Material m);
    virtual void setTextura(Textura text);
    virtual void obtenerPuntosCoordenadas();
+   //Funciones relacionadas con posicion utilizadas en la seleccion de objetos
+   inline void setPosicion(Tupla3f p){this->posicion = p;}
+   inline Tupla3f getPosicion(){return this->posicion;}
+   inline Tupla3f getColor(){return color[0];}
+   inline Material* getMaterial(){return this->mat;}
    protected:
    
    void calcular_normales() ; // calcula tabla de normales de las caras (práctica 3)
@@ -58,6 +63,7 @@ class Malla3D
    std::vector<Tupla2f> ct; //tabla de coordenadas de textura
    Material * mat = nullptr;
    Textura * text = nullptr;
+   Tupla3f posicion; //Tupla que usaremos con los objetos seleccionables
    bool ajedrez = false;
    const int MAX=100;
    GLuint id_vbo_ver = 0,id_vbo_tri = 0, id_vbo_col = 0, id_vbo_nor = 0,id_vbo_ct = 0;

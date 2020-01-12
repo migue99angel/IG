@@ -34,7 +34,6 @@ Camara::Camara(Tupla3f eye, Tupla3f at, Tupla3f up , int tipo, float width, floa
 void Camara::setAt(Tupla3f seleccion)
 {
     this->at = seleccion;
-    std::cout<<"El at actual ha cambiado\n";
 }
 
 void Camara::rotarXExaminar(float angle)
