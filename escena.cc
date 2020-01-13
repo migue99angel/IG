@@ -53,7 +53,7 @@ Escena::Escena()
     cilindro = new Cilindro(2,20,4,1);
     cubo = new Cubo;
     tetraedro = new Tetraedro;
-    ant = new ObjPLY("plys/big_dodge.ply");
+    coche = new ObjPLY("plys/big_dodge.ply");
     peon = new ObjRevolucion("plys/peon.ply",50,true);
     peon2 = new ObjRevolucion("plys/peon.ply",50,true);
     esfera = new Esfera();
@@ -79,7 +79,7 @@ Escena::Escena()
     cilindro->setMaterial(gold);
     esfera->setMaterial(gold);
     peon2->setMaterial(pearl);
-    ant->setMaterial(esmerald);
+    coche->setMaterial(esmerald);
     bender = new Bender(brass,10);
     cono->setMaterial(pearl);
     cartel->setMaterial(pearl);
@@ -162,10 +162,11 @@ void Escena::dibujar()
     }
     glPushMatrix();
 
-    // glPushMatrix();
-    //   glTranslatef(0,50,0);
-    //   cubo->draw(modo,puntos,lineas,solido);
-    // glPopMatrix();
+    glPushMatrix();
+      glTranslatef(300,0,0);
+      glScalef(70,70,70);
+      cubo->draw(modo,puntos,lineas,solido);
+    glPopMatrix();
 
     glPushMatrix();
       glScalef(10,10,10);
@@ -193,6 +194,14 @@ void Escena::dibujar()
         glTranslatef(p(0),p(1),p(2));
         glScalef(30,30,30);
       cilindro->draw(modo,puntos,lineas,solido,tapas);
+    glPopMatrix();
+
+    glPushMatrix();
+      Tupla3f p3(-100,2,150);
+      esfera->setPosicion(p3);
+      glTranslatef(p3(0),p3(1),p3(2));
+      glScalef(5,5,5);
+      esfera->draw(modo,puntos,lineas,solido,tapas);
     glPopMatrix();
 
     glPushMatrix();
@@ -238,10 +247,10 @@ void Escena::dibujar()
 
     glPushMatrix();
       Tupla3f p2(500,15,5);
-      ant->setPosicion(p2);
+      coche->setPosicion(p2);
       glTranslatef(p2(0),p2(1),p2(2));
       glScalef(10,10,10);
-      ant->draw(modo,puntos,lineas,solido);
+      coche->draw(modo,puntos,lineas,solido);
     glPopMatrix();
 
 glPopMatrix();
@@ -477,13 +486,6 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
          if(camaras[camaraActiva] != nullptr)
           camaras[camaraActiva]->rotarXFirstPerson(-0.001);
          break;
-     /*case GLUT_LEFT_BUTTON:
-         if(camaras[camaraActiva] != nullptr)
-         {
-           xsel = x;
-           ysel = y;
-         }
-         break;*/
 	   case GLUT_KEY_RIGHT:
          if(camaras[camaraActiva] != nullptr)
           camaras[camaraActiva]->rotarXFirstPerson(0.001);
@@ -617,30 +619,30 @@ void Escena::objetosSeleccionables()
 {
   if(!Iluminacion)
   {
-    Tupla3f c_cil = cilindro->getColor();
-    Tupla3f c_ant = ant->getColor();
+    Tupla3f c_esf = esfera->getColor();
+    Tupla3f c_coche = coche->getColor();
 
-    if(c_cil(0) < 1.0)
-      c_cil(0) = (c_cil(0) + 0.1);
+    if(c_esf(0) < 1.0)
+      c_esf(0) = (c_esf(0) + 0.1);
     else
-      c_cil(0) = 0.0;
+      c_esf(0) = 0.0;
       
-    if(c_ant(0) < 1.0)
-      c_ant(0) = (c_ant(0) + 0.1);
+    if(c_coche(0) < 1.0)
+      c_coche(0) = (c_coche(0) + 0.1);
     else
-      c_ant(0) = 0.0;
+      c_coche(0) = 0.0;
 
-    cilindro->aniadirColor(c_cil);
-    ant->aniadirColor(c_ant);
+    esfera->aniadirColor(c_esf);
+    coche->aniadirColor(c_coche);
   }else
   {
-    Material* m_ant = ant->getMaterial();
-    if(m_ant->getAmbiente()(0) < 1.0)
-        m_ant->setAmbiente({(float)(m_ant->getAmbiente()((float)0) + 0.1),0,0,0});
+    Material* m_coche = coche->getMaterial();
+    if(m_coche->getAmbiente()(0) < 1.0)
+        m_coche->setAmbiente({(float)(m_coche->getAmbiente()((float)0) + 0.1),0,0,0});
     else
-      m_ant->setAmbiente({0,0,0,0});
+      m_coche->setAmbiente({0,0,0,0});
 
-    ant->setMaterial(*m_ant);  
+    coche->setMaterial(*m_coche);  
   }
 }
 /***************************************************************
@@ -650,7 +652,7 @@ void Escena::objetosSeleccionables()
 ****************************************************************/
 void Escena::ratonMovido(int x, int y)
 {
-  if(seleccion) 
+  if(camaras[camaraActiva]->getSeleccion() && click) 
   {
     camaras[camaraActiva]->rotarXExaminar((x - xant)*0.0001);
     camaras[camaraActiva]->rotarYExaminar((y - yant)*0.0001);
@@ -659,12 +661,51 @@ void Escena::ratonMovido(int x, int y)
     yant = y;
   }else
   {
-    camaras[camaraActiva]->rotarXFirstPerson((x - xant)*0.0001);
-    camaras[camaraActiva]->rotarYFirstPerson((y - yant)*0.0001);
+    if(click)
+    {
+      camaras[camaraActiva]->rotarXFirstPerson((x - xant)*0.0001);
+      camaras[camaraActiva]->rotarYFirstPerson((y - yant)*0.0001);
 
-    xant = x;
-    yant = y;
+      xant = x;
+      yant = y;
+    }
   }
+}
+
+void Escena::clickRaton(int boton, int estado,int x, int y)
+{
+   if(boton == GLUT_RIGHT_BUTTON && estado == GLUT_DOWN ) 
+   {
+      click = 1;
+      xant = x;
+      yant = y;
+   }
+   else
+   {
+      if(boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN ) 
+      {
+        xsel = x;
+        ysel = y;
+        dibujarSeleccion();
+      }else
+      {
+        if(boton == 3 && estado == GLUT_UP)
+        {
+          if(camaras[camaraActiva] != nullptr)
+            camaras[camaraActiva]->zoom(1);
+        }else
+        {
+          if(boton == 4 && estado == GLUT_UP)
+          {
+            if(camaras[camaraActiva] != nullptr)
+              camaras[camaraActiva]->zoom(-1);
+          }else
+          {
+            click = false;
+          }
+        }
+      }
+   }
 }
 
 void Escena::dibujarSeleccion()
@@ -709,26 +750,20 @@ void Escena::dibujarSeleccion()
   if(round(buffer_seleccion[0]*10)/10 == 0.0 && round(buffer_seleccion[1]*10)/10 == 0.0 && round(buffer_seleccion[2]*10)/10 == 0.0)
   {
     std::cout<<"Ha seleccionado el coche:\n";
-    for(int i = 0; i < 5; ++i)
-      if(this->camaras[i] != nullptr)
-        this->camaras[i]->setAt(ant->getPosicion());  //Falta sacar la posicion del objeto seleccionado
-    seleccion = true;
+    this->camaras[camaraActiva]->setAt(coche->getPosicion());
+    this->camaras[camaraActiva]->setSeleccion(true);
   }else
     {
       if(round(buffer_seleccion[0]*10)/10 == 0.1 && round(buffer_seleccion[1]*10)/10 == 0.1 && round(buffer_seleccion[2]*10)/10 == 0.1)
       {
-        seleccion = true;
-        std::cout<<"Ha seleccionado la lata:\n";
-        for(int i = 0; i < 5; ++i)
-          if(this->camaras[i] != nullptr)
-            this->camaras[i]->setAt(cilindro->getPosicion());  //Falta sacar la posicion del objeto seleccionado
+        this->camaras[camaraActiva]->setSeleccion(true);
+        std::cout<<"Ha seleccionado la esfera:\n";
+        this->camaras[camaraActiva]->setAt(esfera->getPosicion());
       }else
       {
-        seleccion = false;
+        this->camaras[camaraActiva]->setSeleccion(false);
         std::cout<<"No ha seleccionado ningún objeto seleccionable\n";
-        for(int i = 0; i < 5; ++i)
-          if(this->camaras[i] != nullptr)
-            this->camaras[i]->setAt({0,0,0});  //Si no se selecciona ningún objeto seleccionable fijamos el at en el origen
+        this->camaras[camaraActiva]->setAt({0,0,0});  //Si no se selecciona ningún objeto seleccionable fijamos el at en el origen
       }
     }
     
@@ -752,12 +787,12 @@ void Escena::dibujarSeleccion()
 
 void Escena::asignarColoresSeleccion()
 {
-  this->ant->aniadirColor({0.0,0.0,0.0});
-  this->cilindro->aniadirColor({0.1,0.1,0.1});
+  this->coche->aniadirColor({0.0,0.0,0.0});
+  this->esfera->aniadirColor({0.1,0.1,0.1});
 }
 
 void Escena::restaurarColoresSeleccion()
 {
-  this->ant->aniadirColor({0.5,0.2,1.0});
-  this->cilindro->aniadirColor({0.0,0.5,0.5});
+  this->coche->aniadirColor({0.5,0.2,1.0});
+  this->esfera->aniadirColor({0.0,0.5,0.5});
 }

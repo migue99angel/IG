@@ -14,7 +14,7 @@ class Camara{
         float fovY;//Field of view en el eje Y
         float aspect; //Relacion entre el ancho y el alto
         float  top;
-
+        bool seleccion = false;
 
     public:
         Camara(Tupla3f eye, Tupla3f at, Tupla3f up , int tipo, float width, float high,float near,float far);
@@ -34,6 +34,8 @@ class Camara{
         Tupla3f RotarEjeArbitrario(Tupla3f eje,Tupla3f vector,float angulo);
         inline float getAncho() {return this->left*2;}
         inline float getAlto() {return this->top*2;}
+        inline bool getSeleccion(){return seleccion;}
+        inline void setSeleccion(bool s){seleccion = s;}
 };
 
 

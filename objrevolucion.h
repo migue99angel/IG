@@ -43,6 +43,7 @@ private:
     void CalcularDistanciasPerfil();
     double calcularDistanciaVertices(Tupla3f anterior, Tupla3f siguiente);
     std::vector<Tupla3f> perf_original;
+    GLuint id_vbo_con_tapas = 0, id_vbo_sin_tapas = 0;
 protected:
     void crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapas);
     int N,M;

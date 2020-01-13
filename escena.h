@@ -58,7 +58,7 @@ class Escena
    Cuadro * cartel;
    Cuadro * fondo;
    Esfera * esfera=nullptr;
-   ObjPLY * ant=nullptr;
+   ObjPLY * coche=nullptr;
    ObjPLY * bet=nullptr;
    ObjRevolucion * peon=nullptr;
    ObjRevolucion * peon2=nullptr;
@@ -83,7 +83,7 @@ class Escena
    bool arriba = true;
    bool variaAlpha; //Controla si varia alpha o beta
    int camaraActiva; //Variable que controla cual es la camara activa en cada instante
-   bool seleccion = false;
+   bool click = false;
    
    public:
     int xant = 0, yant = 0; //Variables para controlar el movimiento del raton
@@ -99,6 +99,7 @@ class Escena
 	bool teclaPulsada( unsigned char Tecla1, int x, int y ) ;
 	void teclaEspecial( int Tecla1, int x, int y );
     void ratonMovido(int x,int y);
+    void clickRaton(int boton, int estado,int x, int y);
 
     //Funciones respectivas a las animaciones 
     void animarModeloJerarquico();

@@ -101,27 +101,13 @@ void funcion_idle()
  * variable boton 0 para botón izquierdo 1 para el derecho
  * variable estado 0 para no pulsado, 1 para estado pulsado
  *******************************************************/
+
 void clickRaton(int boton, int estado,int x, int y)
 {
-   if(boton == GLUT_RIGHT_BUTTON && estado == GLUT_DOWN && escena != nullptr) 
-   {
-      escena->xant = x;
-      escena->yant = y;
-      glutPostRedisplay();
-   }
-   else
-   {
-      if(boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && escena != nullptr) 
-      {
-         escena->xsel = x;
-         escena->ysel = y;
-         escena->dibujarSeleccion();
-
-         glutPostRedisplay();
-      }
-   }
+   if(escena!=nullptr)
+      escena->clickRaton(boton, estado, x, y);
+   glutPostRedisplay();
 }
-
 void ratonMovido(int x, int y)
 {
    if(escena != nullptr)

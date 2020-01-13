@@ -293,7 +293,7 @@ void ObjRevolucion::draw_ModoDiferido(char L,bool tapas)
    if(tapas)
       glDrawElements( GL_TRIANGLES, 3* f.size(), GL_UNSIGNED_INT, 0 ) ;
    else
-      glDrawElements( GL_TRIANGLES, 3* f.size() - num_instancias*3, GL_UNSIGNED_INT, 0 ) ;
+      glDrawElements( GL_TRIANGLES, 3*f.size()-contador*3, GL_UNSIGNED_INT,0 ) ;
 
    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 ); //desactivar VBO de triángulos
 
