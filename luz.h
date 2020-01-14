@@ -16,6 +16,7 @@ class Luz
     public:
         Luz();
         void activar();
+        inline GLenum getID(){return id;}
     protected:
         Tupla4f posicion;
         GLenum id;

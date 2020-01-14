@@ -100,6 +100,7 @@ Escena::Escena()
     camaras[0] = new  Camara( Tupla3f{600,100,1000}, Tupla3f{0,0,0}, Tupla3f{0,1,0},1,(float)50, (float)50, (float)50,(float)2000);
     camaras[1] = new  Camara( Tupla3f{0,0,600}, Tupla3f{0,0,0}, Tupla3f{0,1,0},0,(float)500, (float)500, (float)50,(float)2000);
     camaras[2] = new  Camara( Tupla3f{0,50,-100}, Tupla3f{0,0,0}, Tupla3f{0,1,0},0,(float)500, (float)500, (float)50,(float)2000);
+    camaras[3] = new  Camara( Tupla3f{-600,100,1000}, Tupla3f{0,0,0}, Tupla3f{0,1,0},1,(float)50, (float)50, (float)50,(float)2000);
 
     camaraActiva = 0;
 
@@ -352,7 +353,9 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
            else
            {
              if(modoMenu == SELCAMARA)
+             {
               camaraActiva = 1;
+             }
            }
            
          }  
@@ -427,12 +430,16 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          case '3':
            if(modoMenu == SELANIMACION ){
              n_animacion = 3;
-           }  
+           }else
+           {
+            if(modoMenu == SELCAMARA)
+              camaraActiva = 3;
+           }
           break;
           case '4':
            if(modoMenu == SELANIMACION){
              n_animacion = 4;
-           }     
+           }  
           break;
           case '5':
            if(modoMenu == SELANIMACION){
@@ -457,7 +464,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
           case '0':
            if(modoMenu == SELCAMARA ){
              camaraActiva = 0;
-           }     
+           }    
           break;
           case 'M':
             if(modoMenu == NADA){
@@ -622,27 +629,37 @@ void Escena::objetosSeleccionables()
     Tupla3f c_esf = esfera->getColor();
     Tupla3f c_coche = coche->getColor();
 
-    if(c_esf(0) < 1.0)
-      c_esf(0) = (c_esf(0) + 0.1);
+    if(c_esf(0) < 1.0 && c_esf(1) < 1.0 && c_esf(2) < 1.0)
+      c_esf = {(float)(c_esf(0) + 0.1),(float)(c_esf(1) + 0.1),(float)(c_esf(2) + 0.1)};
     else
-      c_esf(0) = 0.0;
+      c_esf = {0.0,0,0};
       
-    if(c_coche(0) < 1.0)
-      c_coche(0) = (c_coche(0) + 0.1);
+    if(c_coche(0) < 1.0 && c_coche(1) < 1.0 && c_coche(2) < 1.0)
+      c_coche = {(float)(c_coche(0) + 0.1),((float)c_coche(1) + 0.1),(float)(c_coche(2) + 0.1)};
     else
-      c_coche(0) = 0.0;
+      c_coche = {0.0,0,0};
 
     esfera->aniadirColor(c_esf);
     coche->aniadirColor(c_coche);
   }else
   {
     Material* m_coche = coche->getMaterial();
-    if(m_coche->getAmbiente()(0) < 1.0)
-        m_coche->setAmbiente({(float)(m_coche->getAmbiente()((float)0) + 0.1),0,0,0});
+    Material* m_esfera = esfera->getMaterial();
+    Tupla4f c_amb = m_coche->getAmbiente();
+    Tupla4f e_amb = m_esfera->getAmbiente();
+
+    if(c_amb(0) < 0.5 && c_amb(1) < 0.5 && c_amb(2) < 0.5 && c_amb(3) < 0.5)
+        m_coche->setAmbiente({(float)(c_amb(0) + 0.1),(float)(c_amb(1) + 0.1),(float)(c_amb(2) + 0.1),(float)(c_amb(3) + 0.1)});
     else
       m_coche->setAmbiente({0,0,0,0});
 
+    if(e_amb(0) < 1.0 && e_amb(1) < 1.0 && e_amb(2) < 1.0 && e_amb(3) < 1.0)
+        m_esfera->setAmbiente({(float)(e_amb(0) + 0.1),(float)(e_amb(1) + 0.1),(float)(e_amb(2) + 0.1),(float)(e_amb(3) + 0.1)});
+    else
+      m_esfera->setAmbiente({0,0,0,0});  
+
     coche->setMaterial(*m_coche);  
+    esfera->setMaterial(*m_esfera);
   }
 }
 /***************************************************************

@@ -71,6 +71,7 @@ class Escena
    Textura publi;
    Textura ladrillos;
    Camara * camaras[5];
+   Luz * luces[5];
    int toDraw = 1, modo=1,n_animacion=0;
    GLenum visual = GL_FILL;
    bool Iluminacion = false;
